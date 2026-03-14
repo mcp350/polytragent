@@ -74,7 +74,7 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
 .section-label{font-family:var(--font-mono);font-size:10px;color:var(--gray2);letter-spacing:2px;text-transform:uppercase;margin:48px 0 20px;padding-top:32px;border-top:1px solid var(--border);}
 .section-label:first-child{border-top:none;padding-top:0;margin-top:0;}
 
-.resource-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:var(--border);margin-bottom:48px;}
+.resource-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-bottom:48px;}
 .resource-card{background:#000;padding:28px;display:flex;flex-direction:column;gap:12px;transition:background .15s;}
 .resource-card:hover{background:#050505;}
 .resource-card .card-vol{font-family:var(--font-mono);font-size:10px;color:var(--gray2);letter-spacing:1px;}
@@ -82,6 +82,19 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
 .resource-card p{font-size:13px;color:var(--gray);margin:0;line-height:1.65;font-weight:300;}
 .resource-card a{display:inline-flex;align-items:center;gap:6px;margin-top:auto;color:var(--white);font-size:13px;font-weight:500;padding-top:8px;transition:opacity .15s;}
 .resource-card a:hover{opacity:.7;}
+
+.code-cell{background:#000;padding:0;position:relative;overflow:hidden;min-height:200px;}
+.code-cell .code-scroll{position:absolute;top:0;left:0;right:0;bottom:0;overflow:hidden;padding:16px;display:flex;flex-direction:column;}
+.code-cell .code-scroll-inner{display:flex;flex-direction:column;animation:code-up 60s linear infinite;will-change:transform;}
+@keyframes code-up{from{transform:translateY(0);}to{transform:translateY(-50%);}}
+.cl{font-family:var(--font-mono);font-size:10px;line-height:1.7;white-space:nowrap;color:#1a1a1a;}
+.cl .ts{color:#1a1a1a;}.cl .tg{color:#252525;}.cl .msg{color:#1e1e1e;}
+.cl.hi .ts{color:#2a2a2a;}.cl.hi .tg{color:#333;}.cl.hi .msg{color:#2a2a2a;}
+.cl.acc .tg{color:#2a3a2e;}.cl.acc .msg{color:#2a3a2e;}
+.code-fade-t{position:absolute;top:0;left:0;right:0;height:40px;background:linear-gradient(to bottom,#000,transparent);z-index:2;pointer-events:none;}
+.code-fade-b{position:absolute;bottom:0;left:0;right:0;height:40px;background:linear-gradient(to top,#000,transparent);z-index:2;pointer-events:none;}
+.code-cell .scan-line{position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(110,231,183,.08),transparent);animation:scan-move 4s ease-in-out infinite;z-index:3;pointer-events:none;}
+@keyframes scan-move{0%,100%{opacity:0;}50%{opacity:1;}}
 
 .cta-bar{background:var(--code-bg);border:1px solid var(--code-border);padding:32px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;margin:48px 0;}
 .cta-bar-text h3{font-size:20px;font-weight:600;margin-bottom:4px;}
@@ -94,6 +107,7 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
   .page-header{padding:100px 20px 30px;}
   .content{padding:0 20px 60px;}
   .resource-grid{grid-template-columns:1fr;}
+  .code-cell{display:none;}
   .cta-bar{flex-direction:column;text-align:center;}
 }
   </style>
@@ -184,6 +198,8 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
       <p>7 strategies for Polymarket, Manifold, and Kalshi — fundamental analysis, calibration-based trading, and statistical methods.</p>
       <a href="/resources/prediction-market-strategies">Read guide →</a>
     </div>
+    <div class="code-cell" id="code1"><div class="scan-line"></div><div class="code-fade-t"></div><div class="code-fade-b"></div><div class="code-scroll"><div class="code-scroll-inner" id="stream1"></div></div></div>
+    <div class="code-cell" id="code2"><div class="scan-line"></div><div class="code-fade-t"></div><div class="code-fade-b"></div><div class="code-scroll"><div class="code-scroll-inner" id="stream2"></div></div></div>
   </div>
 
   <div class="section-label">TOOLS & AUTOMATION</div>
@@ -213,6 +229,8 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
       <p>Track whale wallets, interpret large position changes, on-chain analysis tools, and how AI factors whale activity into signals.</p>
       <a href="/resources/polymarket-whale-tracking">Read guide →</a>
     </div>
+    <div class="code-cell" id="code3"><div class="scan-line"></div><div class="code-fade-t"></div><div class="code-fade-b"></div><div class="code-scroll"><div class="code-scroll-inner" id="stream3"></div></div></div>
+    <div class="code-cell" id="code4"><div class="scan-line"></div><div class="code-fade-t"></div><div class="code-fade-b"></div><div class="code-scroll"><div class="code-scroll-inner" id="stream4"></div></div></div>
   </div>
 
   <div class="cta-bar rev2">
@@ -320,6 +338,98 @@ const obs=new IntersectionObserver(es=>{
   es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});
 },{threshold:0.08});
 document.querySelectorAll('.rev2').forEach(el=>obs.observe(el));
+
+// Code stream data
+const S1=[
+  ['09:14:03','INIT','hi','Polytragent v2.1 — research engine active'],
+  ['09:14:04','PARSE','','polymarket.com/event/trump-2026'],
+  ['09:14:05','GAMMA','','Fetching sub-markets from Gamma API...'],
+  ['09:14:05','FETCH','hi','Found 12 sub-markets — 8 active'],
+  ['09:14:06','MFLD','','Searching Manifold: "trump 2026"'],
+  ['09:14:06','MATCH','acc','3 matching markets found'],
+  ['09:14:07','COMP','hi','Poly: $0.41 / Manifold: $0.58 — +17%'],
+  ['09:14:08','TRACK','','6 past predictions — 5/6 correct'],
+  ['09:14:09','AI','acc','Claude analysis: edge +28% BUY YES'],
+  ['09:14:10','SAVE','','Logged to prediction_store'],
+  ['09:14:11','DONE','hi','Research complete — 8.2s'],
+  ['09:15:01','INIT','','New query incoming...'],
+  ['09:15:02','PARSE','','polymarket.com/event/fed-rate-june'],
+  ['09:15:03','GAMMA','hi','Fetching sub-markets...'],
+  ['09:15:03','FETCH','','Found 6 sub-markets — 4 active'],
+  ['09:15:04','MFLD','','Searching Manifold: "fed rate june"'],
+  ['09:15:04','MATCH','acc','5 matching markets found'],
+  ['09:15:05','COMP','hi','Poly: $0.67 / Manifold: $0.74 — +7%'],
+  ['09:15:06','HIST','','4 past predictions — 3/4 correct'],
+  ['09:15:07','AI','acc','Claude analysis: edge +12% BUY YES'],
+  ['09:15:08','DONE','hi','Research complete — 6.4s'],
+];
+const S2=[
+  ['11:22:01','SCAN','','Monitoring 1,247 active markets...'],
+  ['11:22:02','EDGE','acc','BTC $100k EOY — edge: +14%'],
+  ['11:22:02','EDGE','hi','ETH merge impact — edge: +22%'],
+  ['11:22:03','HOLD','','Fed pause March — no edge detected'],
+  ['11:22:04','EDGE','acc','Ukraine ceasefire Q2 — edge: +8%'],
+  ['11:22:05','TRACK','hi','Win rate: 78% | 18/23 correct'],
+  ['11:22:06','BIAS','','Calibration: +3% overconfident'],
+  ['11:22:07','SCAN','','Next scan in 30s...'],
+  ['11:22:38','SCAN','','Monitoring 1,251 active markets...'],
+  ['11:22:39','EDGE','acc','Midterms control — edge: +31%'],
+  ['11:22:40','HOLD','','BTC halving impact — fair price'],
+  ['11:22:41','EDGE','hi','ECB cuts rate — edge: +18%'],
+  ['11:22:42','ALERT','acc','Large whale move detected'],
+  ['11:22:43','WHALE','hi','0x7f2c bought $42k YES on midterms'],
+  ['11:22:44','TRACK','','Win rate: 79% | 19/24 correct'],
+  ['11:22:45','DONE','','Scan complete — 7.1s'],
+];
+const S3=[
+  ['14:01:01','BOT','hi','Telegram bot ready — /research'],
+  ['14:01:02','CMD','','User sent /research [polymarket url]'],
+  ['14:01:03','AUTH','acc','User verified — Day Pass active'],
+  ['14:01:04','EXEC','','Executing research pipeline...'],
+  ['14:01:05','API','hi','Gamma API → 200 OK (140ms)'],
+  ['14:01:06','API','','Manifold API → 200 OK (220ms)'],
+  ['14:01:07','DB','acc','prediction_store → 12 records'],
+  ['14:01:08','AI','hi','Claude Sonnet → analysis ready'],
+  ['14:01:09','SEND','acc','Results delivered via Telegram'],
+  ['14:01:10','LOG','','Session logged: research_id=r_8x2f'],
+  ['14:02:01','CRON','','Running resolver check...'],
+  ['14:02:02','CHECK','hi','Checking 147 open predictions...'],
+  ['14:02:03','RESOLVE','acc','3 markets settled — 2 correct'],
+  ['14:02:04','UPDATE','','Win rate updated: 78.4%'],
+  ['14:02:05','DONE','hi','Resolver pass complete'],
+];
+const S4=[
+  ['16:30:01','MM','hi','Market maker initialized'],
+  ['16:30:02','QUOTE','','BID 0.41 / ASK 0.44 — spread 3c'],
+  ['16:30:03','FILL','acc','Sell filled @ 0.44 — +$12.40'],
+  ['16:30:04','REBAL','','Inventory: 62% YES / 38% NO'],
+  ['16:30:05','QUOTE','hi','Adjusting spread — vol spike'],
+  ['16:30:06','FILL','acc','Buy filled @ 0.40 — neutral'],
+  ['16:30:07','PNL','hi','Session PnL: +$84.20'],
+  ['16:30:08','RISK','','Position limit: 42% / 80% max'],
+  ['16:30:09','WHALE','acc','Whale alert: $28k buy detected'],
+  ['16:30:10','QUOTE','','Widening spread: 3c → 5c'],
+  ['16:30:11','FILL','hi','Sell filled @ 0.46 — +$18.60'],
+  ['16:30:12','PNL','acc','Session PnL: +$102.80'],
+  ['16:30:13','MM','','Next rebalance in 15s...'],
+];
+
+function buildStream(data,el){
+  if(!el)return;
+  let html='';
+  // duplicate for seamless loop
+  for(let r=0;r<3;r++){
+    data.forEach(d=>{
+      const cls=d[2]?(' '+d[2]):'';
+      html+=`<div class="cl${cls}"><span class="ts">[${d[0]}]</span> <span class="tg">${d[1]}</span> <span class="msg">${d[3]}</span></div>`;
+    });
+  }
+  el.innerHTML=html;
+}
+buildStream(S1,document.getElementById('stream1'));
+buildStream(S2,document.getElementById('stream2'));
+buildStream(S3,document.getElementById('stream3'));
+buildStream(S4,document.getElementById('stream4'));
 </script>
 </body>
 </html>
