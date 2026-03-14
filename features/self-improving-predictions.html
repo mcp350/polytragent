@@ -1,748 +1,415 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Self-Improving AI Predictions | Polytragent</title>
-  <meta name="description" content="AI that learns from every prediction. Tracks accuracy, detects calibration bias, improves over time. Your forecasting engine gets smarter every day.">
-  <meta property="og:title" content="Self-Improving AI Predictions | Polytragent">
-  <meta property="og:description" content="AI predictions that learn and improve from every outcome. Real-time accuracy tracking and calibration correction.">
-  <meta property="og:url" content="https://polytragent.com/features/self-improving-predictions.html">
-  <meta property="og:type" content="website">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    :root {
-      --black: #000;
-      --white: #fff;
-      --gray: #888;
-      --gray2: #444;
-      --gray3: #222;
-      --border: #1a1a1a;
-      --font-sans: 'Inter', sans-serif;
-      --font-mono: 'JetBrains Mono', monospace;
-      --green: #6ee7b7;
-      --code-bg: #080808;
-      --code-border: #141414;
-    }
-    html, body {
-      background: var(--black);
-      color: var(--white);
-      font-family: var(--font-sans);
-      line-height: 1.6;
-      scroll-behavior: smooth;
-    }
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 24px 40px;
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      background: rgba(0,0,0,0.95);
-      backdrop-filter: blur(10px);
-      z-index: 100;
-    }
-    nav a { text-decoration: none; }
-    nav > a {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    nav svg {
-      height: 22px;
-      width: auto;
-    }
-    .nav-links {
-      display: flex;
-      list-style: none;
-      gap: 32px;
-    }
-    .nav-links a {
-      color: var(--gray);
-      font-size: 14px;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover {
-      color: var(--green);
-    }
-    .nav-ctas {
-      display: flex;
-      gap: 12px;
-    }
-    .btn-outline, .btn-solid {
-      padding: 10px 16px;
-      font-size: 13px;
-      font-weight: 600;
-      border: 1px dashed var(--green);
-      border-radius: 0;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-family: var(--font-mono);
-      text-decoration: none;
-      display: inline-block;
-    }
-    .btn-outline {
-      color: var(--green);
-      background: transparent;
-    }
-    .btn-outline:hover {
-      background: rgba(110, 231, 183, 0.1);
-    }
-    .btn-solid {
-      background: var(--green);
-      color: var(--black);
-      border-color: var(--green);
-    }
-    .btn-solid:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(110, 231, 183, 0.2);
-    }
-    .breadcrumb {
-      padding: 40px;
-      font-family: var(--font-mono);
-      font-size: 12px;
-      color: var(--gray);
-      border-bottom: 1px solid var(--border);
-    }
-    .breadcrumb a {
-      color: var(--green);
-      text-decoration: none;
-    }
-    .breadcrumb a:hover {
-      text-decoration: underline;
-    }
-    section {
-      padding: 80px 40px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .hero {
-      text-align: center;
-      padding: 120px 40px;
-    }
-    .hero h1 {
-      font-size: 52px;
-      font-weight: 700;
-      margin-bottom: 16px;
-      background: linear-gradient(135deg, var(--white), var(--gray));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .hero-subtitle {
-      font-size: 18px;
-      color: var(--gray);
-      max-width: 600px;
-      margin: 0 auto 40px;
-      line-height: 1.8;
-    }
-    .hero-cta {
-      display: inline-block;
-      padding: 14px 28px;
-      background: var(--green);
-      color: var(--black);
-      border: 1px solid var(--green);
-      font-weight: 700;
-      font-family: var(--font-mono);
-      cursor: pointer;
-      transition: all 0.2s;
-      text-decoration: none;
-    }
-    .hero-cta:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 32px rgba(110, 231, 183, 0.3);
-    }
-    h2 {
-      font-size: 36px;
-      font-weight: 700;
-      margin-bottom: 48px;
-      text-align: center;
-    }
-    .pain-points {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 32px;
-      margin-bottom: 60px;
-    }
-    .pain-point {
-      padding: 32px;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      background: rgba(110, 231, 183, 0.02);
-      opacity: 0;
-      animation: slideUp 0.6s ease forwards;
-    }
-    .pain-point:nth-child(1) { animation-delay: 0.1s; }
-    .pain-point:nth-child(2) { animation-delay: 0.2s; }
-    .pain-point:nth-child(3) { animation-delay: 0.3s; }
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(24px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    .pain-point h3 {
-      color: var(--green);
-      font-size: 16px;
-      margin-bottom: 12px;
-      font-family: var(--font-mono);
-    }
-    .pain-point p {
-      color: var(--gray);
-      font-size: 14px;
-      line-height: 1.7;
-    }
-    .how-it-works {
-      background: rgba(110, 231, 183, 0.02);
-      border: 1px solid var(--border);
-      padding: 48px;
-      border-radius: 4px;
-    }
-    .steps {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      margin-top: 40px;
-    }
-    .step {
-      opacity: 0;
-      animation: slideUp 0.6s ease forwards;
-    }
-    .step:nth-child(1) { animation-delay: 0.1s; }
-    .step:nth-child(2) { animation-delay: 0.2s; }
-    .step:nth-child(3) { animation-delay: 0.3s; }
-    .step:nth-child(4) { animation-delay: 0.4s; }
-    .step-num {
-      display: inline-block;
-      width: 36px;
-      height: 36px;
-      background: var(--green);
-      color: var(--black);
-      border-radius: 50%;
-      text-align: center;
-      line-height: 36px;
-      font-weight: 700;
-      font-size: 16px;
-      margin-bottom: 12px;
-    }
-    .step h3 {
-      font-size: 18px;
-      margin-bottom: 12px;
-    }
-    .step p {
-      color: var(--gray);
-      font-size: 14px;
-      margin-bottom: 16px;
-      line-height: 1.6;
-    }
-    .code-block {
-      background: var(--code-bg);
-      border: 1px solid var(--code-border);
-      border-radius: 4px;
-      padding: 12px 16px;
-      font-family: var(--font-mono);
-      font-size: 12px;
-      color: var(--green);
-      overflow-x: auto;
-      margin-top: 12px;
-    }
-    .terminal-container {
-      background: var(--code-bg);
-      border: 1px solid var(--code-border);
-      border-radius: 4px;
-      padding: 20px;
-      font-family: var(--font-mono);
-      font-size: 12px;
-      color: var(--green);
-      min-height: 240px;
-      overflow: hidden;
-      margin-top: 40px;
-    }
-    .terminal-line {
-      margin: 6px 0;
-      opacity: 0;
-      animation: typeIn 0.3s ease forwards;
-    }
-    .terminal-line:nth-child(1) { animation-delay: 0.1s; }
-    .terminal-line:nth-child(2) { animation-delay: 0.4s; }
-    .terminal-line:nth-child(3) { animation-delay: 0.7s; }
-    .terminal-line:nth-child(4) { animation-delay: 1s; }
-    .terminal-line:nth-child(5) { animation-delay: 1.3s; }
-    .terminal-line:nth-child(6) { animation-delay: 1.6s; }
-    .terminal-line:nth-child(7) { animation-delay: 1.9s; }
-    .terminal-line:nth-child(8) { animation-delay: 2.2s; }
-    .terminal-line.prompt { color: var(--gray); }
-    .terminal-line.success { color: var(--green); }
-    .terminal-line.info { color: #60a5fa; }
-    @keyframes typeIn {
-      from {
-        opacity: 0;
-        transform: translateX(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-    .benefits {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 32px;
-      margin-top: 40px;
-    }
-    .benefit-card {
-      padding: 32px;
-      border: 1px solid var(--border);
-      background: rgba(110, 231, 183, 0.02);
-      border-radius: 4px;
-      opacity: 0;
-      animation: slideUp 0.6s ease forwards;
-    }
-    .benefit-card:nth-child(1) { animation-delay: 0.1s; }
-    .benefit-card:nth-child(2) { animation-delay: 0.2s; }
-    .benefit-card:nth-child(3) { animation-delay: 0.3s; }
-    .benefit-card:nth-child(4) { animation-delay: 0.4s; }
-    .benefit-card h3 {
-      color: var(--green);
-      font-size: 16px;
-      margin-bottom: 12px;
-      font-family: var(--font-mono);
-    }
-    .benefit-card p {
-      color: var(--gray);
-      font-size: 14px;
-      line-height: 1.6;
-    }
-    .faq-section {
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    .faq-item {
-      margin-bottom: 24px;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 24px;
-      opacity: 0;
-      animation: slideUp 0.6s ease forwards;
-    }
-    .faq-item:nth-child(1) { animation-delay: 0.1s; }
-    .faq-item:nth-child(2) { animation-delay: 0.2s; }
-    .faq-item:nth-child(3) { animation-delay: 0.3s; }
-    .faq-item:nth-child(4) { animation-delay: 0.4s; }
-    .faq-question {
-      font-weight: 600;
-      color: var(--white);
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 16px;
-    }
-    .faq-toggle {
-      color: var(--green);
-      font-size: 20px;
-    }
-    .faq-answer {
-      color: var(--gray);
-      font-size: 14px;
-      line-height: 1.7;
-      margin-top: 12px;
-      display: none;
-    }
-    .faq-item.active .faq-answer {
-      display: block;
-    }
-    .cta-section {
-      text-align: center;
-      padding: 80px 40px;
-      background: rgba(110, 231, 183, 0.05);
-      border: 1px dashed var(--border);
-      border-radius: 4px;
-      margin: 60px 40px;
-    }
-    .cta-section h2 {
-      margin-bottom: 24px;
-    }
-    .cta-section p {
-      color: var(--gray);
-      margin-bottom: 32px;
-      font-size: 16px;
-    }
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 48px 40px;
-      background: rgba(0,0,0,0.5);
-    }
-    .footer-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 2fr 1fr;
-      gap: 48px;
-      margin-bottom: 32px;
-    }
-    .footer-branding svg {
-      height: 28px;
-      width: auto;
-      opacity: 0.35;
-      margin-bottom: 12px;
-    }
-    .footer-links {
-      display: flex;
-      gap: 48px;
-    }
-    .footer-col h4 {
-      font-size: 12px;
-      color: var(--gray);
-      font-family: var(--font-mono);
-      margin-bottom: 12px;
-      text-transform: uppercase;
-    }
-    .footer-col a {
-      display: block;
-      color: var(--gray);
-      text-decoration: none;
-      font-size: 14px;
-      margin-bottom: 8px;
-      transition: color 0.2s;
-    }
-    .footer-col a:hover {
-      color: var(--green);
-    }
-    .footer-disclaimer {
-      font-size: 12px;
-      color: var(--gray);
-      border-top: 1px solid var(--border);
-      padding-top: 24px;
-      text-align: center;
-    }
-    @media (max-width: 900px) {
-      nav {
-        flex-direction: column;
-        gap: 16px;
-        padding: 16px 20px;
-      }
-      .nav-links {
-        flex-direction: column;
-        gap: 12px;
-      }
-      .nav-ctas {
-        flex-direction: column;
-        width: 100%;
-      }
-      .nav-ctas a {
-        width: 100%;
-        text-align: center;
-      }
-      .hero h1 {
-        font-size: 32px;
-      }
-      .hero-subtitle {
-        font-size: 16px;
-      }
-      section {
-        padding: 60px 20px;
-      }
-      .pain-points {
-        grid-template-columns: 1fr;
-      }
-      .steps {
-        grid-template-columns: 1fr;
-      }
-      .benefits {
-        grid-template-columns: 1fr;
-      }
-      h2 {
-        font-size: 28px;
-      }
-      .footer-content {
-        grid-template-columns: 1fr;
-        gap: 24px;
-      }
-      .footer-links {
-        flex-direction: column;
-        gap: 24px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Self-Improving AI Predictions | Polytragent</title>
+<meta name="description" content="Polytragent learns from every prediction. It tracks its own accuracy, adjusts for calibration bias, and improves every day.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://polytragent.com/"},{"@type":"ListItem","position":2,"name":"Features","item":"https://polytragent.com/features"},{"@type":"ListItem","position":3,"name":"Self-Improving Predictions","item":"https://polytragent.com/features/self-improving-predictions.html"}]}
+</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --black:#000;--white:#fff;--gray:#888;--gray2:#444;--gray3:#222;
+  --border:#1a1a1a;--font-sans:'Inter',sans-serif;--font-mono:'JetBrains Mono',monospace;
+  --green:#6ee7b7;--red:#fca5a5;--blue:#93c5fd;--yellow:#fde68a;
+  --code-bg:#080808;--code-border:#141414;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--white);font-family:var(--font-sans);font-size:16px;line-height:1.6;overflow-x:hidden;}
+a{color:inherit;text-decoration:none;}
+
+.grid-bg{position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;opacity:.35;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:64px;border-bottom:1px solid var(--border);background:rgba(0,0,0,0.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);}
+.nav-links{display:flex;gap:32px;list-style:none;}
+.nav-links a{font-size:14px;color:var(--gray);transition:color .15s;}
+.nav-links a:hover{color:var(--white);}
+.nav-ctas{display:flex;gap:12px;align-items:center;}
+.btn-solid{display:inline-flex;align-items:center;gap:6px;padding:9px 20px;background:var(--white);color:var(--black);font-size:13px;font-weight:500;font-family:var(--font-sans);border:none;cursor:pointer;transition:opacity .15s;}
+.btn-solid:hover{opacity:.85;}
+.btn-outline{display:inline-flex;align-items:center;gap:6px;padding:8px 20px;background:transparent;color:var(--white);font-size:13px;border:1px dashed var(--gray2);cursor:pointer;transition:border-color .15s;}
+.btn-outline:hover{border-color:var(--white);}
+
+.breadcrumb{padding:84px 48px 20px;font-family:var(--font-mono);font-size:11px;color:var(--gray2);letter-spacing:1px;position:relative;z-index:1;}
+
+.split{display:grid;grid-template-columns:44% 56%;border-top:1px solid var(--border);position:relative;z-index:1;}
+.split.rev{grid-template-columns:56% 44%;}
+.st{padding:100px 48px;display:flex;flex-direction:column;justify-content:center;border-right:1px solid var(--border);}
+.split.rev .st{border-right:none;border-left:1px solid var(--border);}
+.sv{padding:80px 48px;display:flex;flex-direction:column;justify-content:center;background:#000;position:relative;overflow:hidden;}
+.snum{font-family:var(--font-mono);font-size:11px;color:var(--gray2);letter-spacing:2px;margin-bottom:20px;}
+h2{font-size:clamp(30px,3.8vw,50px);font-weight:600;line-height:1.1;letter-spacing:-1.5px;margin-bottom:24px;}
+.sb{font-size:15px;color:var(--gray);line-height:1.75;max-width:440px;font-weight:300;margin-bottom:36px;}
+h3{font-size:15px;font-weight:500;letter-spacing:-.3px;margin-bottom:6px;}
+
+.fl{display:flex;flex-direction:column;}
+.fi{display:flex;gap:20px;align-items:flex-start;padding:22px 0;border-bottom:1px solid var(--border);}
+.fi:first-child{border-top:1px solid var(--border);}
+.fn{font-family:var(--font-mono);font-size:11px;color:var(--gray2);padding-top:2px;flex-shrink:0;width:20px;}
+.fc h3{font-size:14px;font-weight:500;margin-bottom:4px;}
+.fc p{font-size:13px;color:var(--gray);font-weight:300;line-height:1.65;}
+
+.run-term{background:#000;border:1px solid var(--border);font-family:var(--font-mono);font-size:10px;overflow:hidden;position:relative;}
+.run-term::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(110,231,183,.15),transparent);animation:term-scan 4s ease-in-out infinite;z-index:2;}
+@keyframes term-scan{0%,100%{opacity:0;}50%{opacity:1;}}
+.rt-header{padding:10px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;color:var(--gray2);font-size:9px;letter-spacing:1px;text-transform:uppercase;}
+.rt-dots{display:flex;gap:5px;}
+.rt-dot{width:7px;height:7px;border-radius:50%;border:1px solid #333;}
+.rt-dot.active{background:#333;}
+.rt-body{padding:0;min-height:340px;max-height:440px;overflow:hidden;position:relative;}
+.rt-line{display:flex;gap:10px;padding:3px 16px;opacity:0;transform:translateY(2px);animation:rt-in .15s forwards;font-size:10px;line-height:1.65;}
+@keyframes rt-in{to{opacity:1;transform:none;}}
+.rt-ts{color:#333;flex-shrink:0;font-size:9px;padding-top:1px;width:52px;}
+.rt-tag{flex-shrink:0;font-size:9.5px;width:60px;font-weight:500;}
+.rt-msg{color:#555;font-size:10px;line-height:1.55;}
+.rt-cursor{display:inline-block;width:6px;height:12px;background:#4a7c59;animation:rt-blink 1s step-end infinite;margin-left:2px;vertical-align:middle;}
+@keyframes rt-blink{50%{opacity:0;}}
+
+.sl2{display:flex;flex-direction:column;}
+.si{display:grid;grid-template-columns:44px 1fr;gap:16px;padding:24px 0;border-bottom:1px solid var(--border);align-items:start;}
+.si:first-child{border-top:1px solid var(--border);}
+.sn{font-family:var(--font-mono);font-size:20px;font-weight:300;color:var(--gray2);line-height:1;}
+.sb2 h3{font-size:14px;font-weight:500;margin-bottom:5px;}
+.sb2 p{font-size:13px;color:var(--gray);font-weight:300;line-height:1.65;}
+
+.faq-section{border-top:1px solid var(--border);display:grid;grid-template-columns:44% 56%;position:relative;z-index:1;}
+.fl2{padding:100px 48px;border-right:1px solid var(--border);display:flex;flex-direction:column;justify-content:flex-start;}
+.fr{padding:100px 48px;}
+.fqi{border-top:1px solid var(--border);padding:22px 0;}
+.fqi:last-child{border-bottom:1px solid var(--border);}
+.fqq{font-size:14px;font-weight:400;margin-bottom:8px;color:var(--white);}
+.fqa{font-size:13px;color:var(--gray);line-height:1.7;font-weight:300;}
+
+.ctas{border-top:1px solid var(--border);display:grid;grid-template-columns:44% 56%;min-height:55vh;position:relative;z-index:1;}
+.ctl{padding:100px 48px;border-right:1px solid var(--border);display:flex;flex-direction:column;justify-content:center;}
+.ctr{padding:80px 48px;display:flex;flex-direction:column;justify-content:center;overflow:hidden;position:relative;}
+.trnote{font-family:var(--font-mono);font-size:11px;color:var(--gray2);margin-top:20px;display:flex;gap:24px;flex-wrap:wrap;}
+.trnote span::before{content:'// ';}
+
+footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;position:relative;z-index:1;}
+.fcopy{font-family:var(--font-mono);font-size:10px;color:var(--gray2);}
+.flinks{display:flex;gap:28px;list-style:none;}
+.flinks a{font-size:13px;color:var(--gray2);transition:color .15s;}.flinks a:hover{color:var(--white);}
+.disc{border-top:1px solid var(--border);padding:18px 48px;position:relative;z-index:1;}
+.disc p{font-size:10px;color:#2a2a2a;font-family:var(--font-mono);line-height:1.6;}
+
+.glow-sep{height:1px;background:linear-gradient(90deg,transparent 0%,rgba(110,231,183,.06) 20%,rgba(110,231,183,.1) 50%,rgba(110,231,183,.06) 80%,transparent 100%);position:relative;z-index:1;}
+
+.rev2{opacity:0;transform:translateY(16px);transition:opacity .55s,transform .55s;}
+.rev2.in{opacity:1;transform:none;}
+
+@media(max-width:900px){
+  .split,.split.rev,.faq-section,.ctas{grid-template-columns:1fr;}
+  .st{border-right:none;border-bottom:1px solid var(--border);}
+  .split.rev .st{border-left:none;border-bottom:1px solid var(--border);}
+  nav{padding:0 20px;}
+  .st,.sv,.fl2,.fr,.ctl,.ctr{padding:60px 24px;}
+  footer,.disc{padding:24px;}
+  .faq-section,.ctas{grid-template-columns:1fr;}
+  .fl2{border-right:none;border-bottom:1px solid var(--border);}
+  .breadcrumb{padding:84px 24px 20px;}
+}
+@media(max-width:600px){
+  .breadcrumb{padding:84px 20px 20px;}
+}
+</style>
 </head>
 <body>
-  <nav>
-    <a href="/">
-      <svg height="22" viewBox="0 0 340 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M4 33 L20 5 L36 33" stroke="white" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        <text x="52" y="29" font-family="Inter,sans-serif" font-size="19" font-weight="600" letter-spacing="4" fill="white">POLYTRAGENT</text>
-      </svg>
-    </a>
-    <ul class="nav-links">
-      <li><a href="/">Home</a></li>
-      <li><a href="/#features">Features</a></li>
-      <li><a href="/#blog">Blog</a></li>
-      <li><a href="/#pricing">Pricing</a></li>
-      <li><a href="/#faq">FAQ</a></li>
-    </ul>
-    <div class="nav-ctas">
-      <a href="/#pricing" class="btn-outline">View pricing</a>
-      <a href="/#pricing" class="btn-solid">Join beta →</a>
-    </div>
-  </nav>
 
-  <div class="breadcrumb">
-    <a href="/">Home</a> / <a href="/#features">Features</a> / Self-Improving Predictions
+<canvas class="grid-bg" id="gridCanvas"></canvas>
+
+<nav>
+  <a href="/">
+    <svg height="22" viewBox="0 0 340 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 33 L20 5 L36 33" stroke="white" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <text x="52" y="29" font-family="Inter,sans-serif" font-size="19" font-weight="600" letter-spacing="4" fill="white">POLYTRAGENT</text>
+    </svg>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/features">Features</a></li>
+    <li><a href="/blog">Blog</a></li>
+    <li><a href="/#pricing">Pricing</a></li>
+    <li><a href="/#faq">FAQ</a></li>
+  </ul>
+  <div class="nav-ctas">
+    <a href="/#pricing" class="btn-outline">View pricing</a>
+    <a href="/#pricing" class="btn-solid">Join beta →</a>
   </div>
+</nav>
 
-  <div class="hero">
-    <h1>Self-Improving AI Predictions</h1>
-    <p class="hero-subtitle">Every prediction is logged and tracked. When markets resolve, the AI learns from the outcome. Calibration bias is corrected. Weak topics are identified. Your forecasting engine gets smarter every day.</p>
-    <a href="/#pricing" class="hero-cta">Join beta →</a>
+<div class="breadcrumb">Home / Features / Self-Improving Predictions</div>
+
+<section class="split">
+  <div class="st rev2">
+    <div class="snum">01 — THE LEARNING</div>
+    <h2>Every wrong<br>prediction makes<br>the next one<br>better.</h2>
+    <p class="sb">Unlike most forecasting tools, Polytragent remembers everything. prediction_store holds every past prediction with market context and outcome. When a market resolves, the background resolver records whether the AI was right or wrong. The AI sees this: "You predicted politics with 83% accuracy. You predicted crypto with 60%. You were overconfident on March predictions by 3%." It adjusts.</p>
+    <div class="fl">
+      <div class="fi"><div class="fn">—</div><div class="fc"><h3>Full Accuracy History</h3><p>Every prediction logged: market ID, AI forecast %, price at time of prediction, recommendation (BUY/HOLD), outcome. Overall win rate calculated continuously.</p></div></div>
+      <div class="fi"><div class="fn">—</div><div class="fc"><h3>Calibration Bias Detection</h3><p>AI detects systematic over/under confidence. "You're +3% overconfident on politics" or "-2% underconfident on economics". Future predictions are adjusted automatically.</p></div></div>
+      <div class="fi"><div class="fn">—</div><div class="fc"><h3>Topic-Specific Accuracy</h3><p>Win rate broken down by category: Politics (83%), Economics (85%), Crypto (60%), Geopolitics (71%). AI knows where it's strong and weak.</p></div></div>
+    </div>
   </div>
-
-  <section>
-    <h2>Why This Matters</h2>
-    <div class="pain-points">
-      <div class="pain-point">
-        <h3>Most AI Never Learns from Mistakes</h3>
-        <p>Static models make the same mistakes forever. Polytragent's AI has full visibility into its own accuracy history. It sees calibration biases (e.g., overconfident on politics by +3%) and corrects them in real-time.</p>
+  <div class="sv">
+    <div class="run-term" data-term="research">
+      <div class="rt-header">
+        <div class="rt-dots"><span class="rt-dot"></span><span class="rt-dot"></span><span class="rt-dot active"></span></div>
+        <span style="margin-left:10px;">polytragent — accuracy review</span>
       </div>
-      <div class="pain-point">
-        <h3>No Way to Compare AI Forecasters</h3>
-        <p>You can't evaluate your AI if you don't track it. Polytragent logs every prediction with reasoning, outcome, and P&L. You see exactly where your AI is strong and where it struggles.</p>
-      </div>
-      <div class="pain-point">
-        <h3>AI Confidence Is Often Overconfident</h3>
-        <p>AI tends to be too certain on topics it doesn't understand well. The prediction store tracks topic-level accuracy: politics 72%, economics 85%, crypto 60%. The AI learns these gaps and adjusts.</p>
-      </div>
+      <div class="rt-body"></div>
     </div>
-  </section>
-
-  <section>
-    <div class="how-it-works">
-      <h2>How It Works</h2>
-      <div class="steps">
-        <div class="step">
-          <div class="step-num">1</div>
-          <h3>Every Prediction Logged</h3>
-          <p>When you request analysis, the bot stores: market ID, AI forecast %, recommendation (BUY_YES/BUY_NO/HOLD), Polymarket price, confidence level, and reasoning snippet in predictions.json.</p>
-          <div class="code-block">$ Prediction logged: ID 12345 | Confidence: HIGH | Edge: +8%</div>
-        </div>
-        <div class="step">
-          <div class="step-num">2</div>
-          <h3>Background Resolver Checks Outcomes</h3>
-          <p>Every 6 hours, a scheduled task queries the Polymarket API for all unresolved predictions. When a market resolves, it records YES or NO outcome and marks the prediction correct or wrong.</p>
-          <div class="code-block">$ Resolved: 3 predictions • Correct: 2 • Wrong: 1</div>
-        </div>
-        <div class="step">
-          <div class="step-num">3</div>
-          <h3>Calculate Calibration Bias</h3>
-          <p>The AI sees its full history: overall win rate, accuracy by topic, confidence level accuracy (HIGH predictions correct 78% vs 52% for LOW), recent performance. It identifies systematic biases.</p>
-          <div class="code-block">$ Politics: Overconfident by +3.2% | Crypto: Underconfident by -1.8%</div>
-        </div>
-        <div class="step">
-          <div class="step-num">4</div>
-          <h3>Adjust and Improve</h3>
-          <p>The AI is explicitly instructed to learn from biases. Next prediction run, it factors in topic accuracy, recent win/loss streak, and confidence calibration. The loop continues forever.</p>
-          <div class="code-block">$ Adjusting confidence on politics: HIGH → MEDIUM</div>
-        </div>
-      </div>
-      <div class="terminal-container">
-        <div class="terminal-line prompt">$ polytragent /predict-track check-history</div>
-        <div class="terminal-line info">→ Loading predictions.json...</div>
-        <div class="terminal-line success">✓ Total predictions: 127</div>
-        <div class="terminal-line success">✓ Overall accuracy: 67.3% | Win rate: 67.3%</div>
-        <div class="terminal-line info">→ Checking for calibration bias...</div>
-        <div class="terminal-line success">✓ Politics: +3.2% overconfident (27 predictions)</div>
-        <div class="terminal-line success">✓ Crypto: -1.8% underconfident (43 predictions)</div>
-        <div class="terminal-line success">➜ AI will adjust next run based on topic biases</div>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <h2>Key Benefits</h2>
-    <div class="benefits">
-      <div class="benefit-card">
-        <h3>Transparent Accuracy Tracking</h3>
-        <p>See exactly how your AI performs. Every prediction is logged with outcome and P&L. You know what's working and what needs fixing.</p>
-      </div>
-      <div class="benefit-card">
-        <h3>Automatic Bias Detection</h3>
-        <p>The system identifies calibration biases automatically. If the AI is overconfident on politics but underconfident on economics, it learns and adjusts.</p>
-      </div>
-      <div class="benefit-card">
-        <h3>Topic-Level Accuracy Scoring</h3>
-        <p>Not all topics are equal. The AI tracks accuracy by category: sports 72%, politics 65%, crypto 58%. Uses this data to adjust future forecasts.</p>
-      </div>
-      <div class="benefit-card">
-        <h3>Confidence Calibration</h3>
-        <p>HIGH confidence calls should have higher accuracy than LOW. If not, the AI learns. This feedback loop makes the system more reliable over time.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="faq-section">
-    <h2>Frequently Asked Questions</h2>
-    <div class="faq-item">
-      <div class="faq-question">
-        <span>How does it track accuracy?</span>
-        <span class="faq-toggle">+</span>
-      </div>
-      <div class="faq-answer">Every prediction is stored in predictions.json with metadata: market ID, forecast %, confidence, reasoning. When markets resolve, the background resolver checks outcomes every 6 hours and marks predictions correct or wrong. This data feeds back into the AI.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-question">
-        <span>What's calibration bias?</span>
-        <span class="faq-toggle">+</span>
-      </div>
-      <div class="faq-answer">Calibration bias is when the AI is systematically over- or under-confident. Example: If the AI says HIGH confidence 100 times but is only right 65% of the time, it's overconfident by 15%. Polytragent detects this and adjusts future forecasts.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-question">
-        <span>How often does it update?</span>
-        <span class="faq-toggle">+</span>
-      </div>
-      <div class="faq-answer">The background resolver runs every 6 hours to check for resolved markets. Your accuracy stats update continuously as outcomes are recorded. The AI learns on the next prediction request after new data arrives.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-question">
-        <span>Can I see my track record?</span>
-        <span class="faq-toggle">+</span>
-      </div>
-      <div class="faq-answer">Yes. Use /predict-track history to see all predictions, /predict-track stats for accuracy by topic, and /predict-track recent for your last 20 predictions with outcomes. Full transparency into AI performance.</div>
-    </div>
-  </section>
-
-  <div class="cta-section">
-    <h2>Join an AI That Learns</h2>
-    <p>Experience predictions that improve with every outcome. Start your learning loop today.</p>
-    <a href="/#pricing" class="hero-cta">Join beta →</a>
   </div>
+</section>
 
-  <footer>
-    <div class="footer-content">
-      <div class="footer-branding">
-        <svg height="28" viewBox="0 0 340 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M4 33 L20 5 L36 33" stroke="white" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-          <text x="52" y="29" font-family="Inter,sans-serif" font-size="19" font-weight="600" letter-spacing="4" fill="white">POLYTRAGENT</text>
-        </svg>
-        <p style="color: var(--gray); font-size: 13px;">AI predictions that improve over time.</p>
+<div class="glow-sep"></div>
+
+<section class="split rev">
+  <div class="sv">
+    <div class="run-term" data-term="trading">
+      <div class="rt-header">
+        <div class="rt-dots"><span class="rt-dot"></span><span class="rt-dot"></span><span class="rt-dot active"></span></div>
+        <span style="margin-left:10px;">polytragent — calibration adjustment</span>
       </div>
-      <div class="footer-links">
-        <div class="footer-col">
-          <h4>Product</h4>
-          <a href="/#features">Features</a>
-          <a href="/#pricing">Pricing</a>
-          <a href="/#faq">FAQ</a>
-        </div>
-        <div class="footer-col">
-          <h4>Resources</h4>
-          <a href="/#blog">Blog</a>
-          <a href="/#docs">Docs</a>
-          <a href="/#api">API</a>
-        </div>
-      </div>
-      <div class="footer-col">
-        <h4>Social</h4>
-        <a href="https://x.com/polytragent">X / Twitter</a>
-      </div>
+      <div class="rt-body"></div>
     </div>
-    <div class="footer-disclaimer">
-      Polytragent is a research tool. Predictions are not guaranteed. Historical performance does not indicate future results. Always conduct your own due diligence before making trades.
+  </div>
+  <div class="st rev2">
+    <div class="snum">02 — THE IMPROVEMENT LOOP</div>
+    <h2>The predict →<br>log → resolve →<br>learn → predict<br>cycle never stops.</h2>
+    <p class="sb">This is the core Polytragent loop. Every prediction is logged. Every 6 hours, the background resolver checks Polymarket for newly resolved markets. Outcomes are matched to past predictions. Accuracy metrics are updated. Claude Sonnet sees the updated stats before the next /research command. The AI is literally learning from the trades it recommended.</p>
+    <div class="sl2">
+      <div class="si"><div class="sn">01</div><div class="sb2"><h3>Prediction Logged</h3><p>User sends /research. AI makes 8–12 predictions. Each is logged to prediction_store with timestamp, market ID, AI estimate, Polymarket price, confidence level.</p></div></div>
+      <div class="si"><div class="sn">02</div><div class="sb2"><h3>Wait for Resolution</h3><p>The Polymarket event trades for days or weeks. Polytragent does nothing—unless the user asks for updates.</p></div></div>
+      <div class="si"><div class="sn">03</div><div class="sb2"><h3>Background Resolver Runs</h3><p>Every 6 hours, background.js hits the Polymarket API. Looks for newly resolved markets matching past predictions. Fetches YES/NO outcomes.</p></div></div>
+      <div class="si"><div class="sn">04</div><div class="sb2"><h3>Match & Record Outcome</h3><p>Compare resolved market ID to prediction_store. Mark CORRECT (AI said YES, market resolved YES) or WRONG. Record hypothetical P&L.</p></div></div>
+      <div class="si"><div class="sn">05</div><div class="sb2"><h3>Update Calibration Metrics</h3><p>Recalculate overall win rate, topic-specific accuracy, calibration biases. Flag improvements and regressions.</p></div></div>
+      <div class="si"><div class="sn">06</div><div class="sb2"><h3>Claude Sees New Stats</h3><p>Next /research command: Claude sees updated accuracy profile. If crypto weakness detected, confidence on crypto predictions is capped lower.</p></div></div>
+      <div class="si"><div class="sn">07</div><div class="sb2"><h3>Improved Predictions</h3><p>Recommendations are more calibrated, more accurate, more profitable. The loop reinforces itself.</p></div></div>
     </div>
-  </footer>
+  </div>
+</section>
 
-  <script>
-    // Intersection Observer for scroll reveals
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-        }
-      });
-    }, observerOptions);
+<div class="glow-sep"></div>
 
-    document.querySelectorAll('.pain-point, .step, .benefit-card, .faq-item').forEach(el => {
-      observer.observe(el);
-    });
+<section class="faq-section">
+  <div class="fl2">
+    <h2 style="margin-bottom:40px;font-size:clamp(24px,3vw,40px);">How does<br>the AI learn?</h2>
+  </div>
+  <div class="fr">
+    <div class="fqi rev2"><div class="fqq">How often does the background resolver check for resolutions?</div><div class="fqa">Every 6 hours on a cron schedule. It's a non-blocking background job that checks Polymarket's API for newly resolved markets and matches them to past predictions.</div></div>
+    <div class="fqi rev2"><div class="fqq">What happens if a prediction is wrong?</div><div class="fqa">The loss is recorded. Hypothetical P&L goes negative. The market and topic are flagged. On the next related prediction, confidence is reduced.</div></div>
+    <div class="fqi rev2"><div class="fqq">Can I see my prediction history?</div><div class="fqa">Not yet. Future update will include a /history command showing all past predictions, outcomes, and P&L. This will be visible via Telegram dashboard.</div></div>
+    <div class="fqi rev2"><div class="fqq">Does the AI reset its learning?</div><div class="fqa">No. prediction_store is permanent. The AI maintains a rolling 100-prediction window for recent performance + lifetime stats for long-term trends.</div></div>
+    <div class="fqi rev2"><div class="fqq">How much does accuracy improve over time?</div><div class="fqa">Early users see ~5–10% improvement in calibration over 30 days of predictions. The first 20 predictions are the least accurate as the AI is still learning the user's market segment.</div></div>
+    <div class="fqi rev2"><div class="fqq">What if Polytragent has a bad streak?</div><div class="fqa">Confidence levels are automatically reduced. A string of losses on "crypto" predictions will cap future crypto confidence at MEDIUM instead of HIGH, protecting against further losses.</div></div>
+  </div>
+</section>
 
-    // FAQ toggle
-    document.querySelectorAll('.faq-question').forEach(question => {
-      question.addEventListener('click', () => {
-        const item = question.closest('.faq-item');
-        item.classList.toggle('active');
-        const toggle = question.querySelector('.faq-toggle');
-        toggle.textContent = item.classList.contains('active') ? '−' : '+';
-      });
-    });
+<div class="glow-sep"></div>
 
-    // Terminal animation on scroll
-    const terminalContainer = document.querySelector('.terminal-container');
-    const terminalObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting && !entry.target.dataset.animated) {
-          entry.target.dataset.animated = 'true';
-          const lines = entry.target.querySelectorAll('.terminal-line');
-          lines.forEach((line, index) => {
-            line.style.animation = `typeIn 0.3s ease forwards`;
-            line.style.animationDelay = `${index * 0.3}s`;
-          });
-        }
-      });
-    }, { threshold: 0.3 });
-    if (terminalContainer) {
-      terminalObserver.observe(terminalContainer);
+<section class="ctas">
+  <div class="ctl">
+    <h2 style="font-size:clamp(28px,3vw,42px);margin-bottom:24px;">An AI that<br>remembers and<br>improves.</h2>
+    <p style="font-size:15px;color:var(--gray);margin-bottom:40px;">Every prediction makes the next one better. That's how you win over time.</p>
+    <a href="/#pricing" class="btn-sl">Start learning — $24.99/day →</a>
+  </div>
+  <div class="ctr">
+    <div class="run-term" data-term="cta">
+      <div class="rt-header">
+        <div class="rt-dots"><span class="rt-dot"></span><span class="rt-dot"></span><span class="rt-dot active"></span></div>
+        <span style="margin-left:10px;">polytragent — learning example</span>
+      </div>
+      <div class="rt-body"></div>
+    </div>
+    <div class="trnote"><span>Accuracy tracked automatically</span><span>Calibration improves daily</span><span>Every resolution fuels improvement</span></div>
+  </div>
+</section>
+
+<footer>
+  <div>
+    <svg height="20" viewBox="0 0 340 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:.35;">
+      <path d="M4 33 L20 5 L36 33" stroke="white" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <text x="52" y="29" font-family="Inter,sans-serif" font-size="19" font-weight="600" letter-spacing="4" fill="white">POLYTRAGENT</text>
+    </svg>
+    <div class="fcopy" style="margin-top:8px;">© 2026 Polytragent. AI Research for Polymarket.</div>
+  </div>
+  <ul class="flinks">
+    <li><a href="/features">Features</a></li>
+    <li><a href="/blog">Blog</a></li>
+    <li><a href="/#pricing">Pricing</a></li>
+    <li><a href="/#faq">FAQ</a></li>
+    <li><a href="#">X / Twitter</a></li>
+  </ul>
+</footer>
+<div class="disc">
+  <p>Risk Disclaimer: Prediction market trading involves significant financial risk. AI-powered research does not guarantee profits. Past performance is not indicative of future results. Polytragent is a research tool, not a financial advisor. Only trade capital you can afford to lose. This website does not constitute financial advice.</p>
+</div>
+
+<script>
+(function(){
+  const c=document.getElementById('gridCanvas');if(!c)return;
+  const ctx=c.getContext('2d');let w,h;
+  function resize(){w=c.width=window.innerWidth;h=c.height=window.innerHeight*4;}
+  resize();window.addEventListener('resize',()=>{resize();draw();});
+  const sp=60;
+  function draw(){
+    ctx.clearRect(0,0,w,h);ctx.strokeStyle='rgba(255,255,255,.018)';ctx.lineWidth=.5;
+    for(let x=0;x<w;x+=sp){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke();}
+    for(let y=0;y<h;y+=sp){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();}
+    ctx.fillStyle='rgba(255,255,255,.03)';
+    for(let x=0;x<w;x+=sp){for(let y=0;y<h;y+=sp){ctx.beginPath();ctx.arc(x,y,1,0,Math.PI*2);ctx.fill();}}
+  }
+  draw();
+})();
+
+const TERM_DATA = {
+  research: [
+    ['09:14:08','HIST','#7c6a3a','Checking prediction_store...'],
+    ['09:14:09','FOUND','#4a7c59','Found 23 total past predictions'],
+    ['09:14:09','STAT','#4a6080','Overall accuracy: 78% — 18/23 correct'],
+    ['09:14:10','POLI','#4a6080','Topic: Politics — 83% (5/6 correct)'],
+    ['09:14:10','ECON','#4a6080','Topic: Economics — 85% (6/7 correct)'],
+    ['09:14:10','CRPT','#7c4a4a','Topic: Crypto — 60% (3/5 correct) ⚠️'],
+    ['09:14:10','BIAS','#7c6a3a','Calibration: +3% overconfident on politics'],
+    ['09:14:11','BIAS','#7c6a3a','Calibration: -5% underconfident on crypto'],
+    ['09:14:12','NOTE','#333','Adjusting confidence for upcoming predictions...'],
+  ],
+  trading: [
+    ['09:15:30','RESV','#7c6a3a','Background resolver running...'],
+    ['09:15:31','CHECK','#4a6080','Checking for newly resolved markets...'],
+    ['09:15:31','OK','#4a7c59','"ECB holds March" — RESOLVED YES — Prediction CORRECT ✓'],
+    ['09:15:31','P&L','#4a7c59','Hypothetical P&L: +$14.20 (+37%)'],
+    ['09:15:32','MISS','#7c4a4a','"BTC $75k March" — RESOLVED NO — Prediction WRONG ✗'],
+    ['09:15:32','P&L','#7c4a4a','Hypothetical P&L: -$8.50 (-22%)'],
+    ['09:15:33','STAT','#4a7c59','Updated: 19/24 correct — win rate: 79.2%'],
+    ['09:15:33','BIAS','#7c6a3a','Crypto confidence reduced to MEDIUM'],
+    ['09:15:34','NEXT','#333','Ready for next /research with improved calibration'],
+  ],
+  cta: [
+    ['','HIST','#555','Checking past predictions...'],
+    ['','STAT','#555','18/23 correct (78%) — improving'],
+    ['','','#333',''],
+    ['','POLI','#4a6080','Politics: 83% accurate — strong'],
+    ['','ECON','#4a6080','Economics: 85% accurate — strong'],
+    ['','CRPT','#7c4a4a','Crypto: 60% accurate — weak'],
+    ['','','#333',''],
+    ['','NEXT','#555','Next crypto prediction: capped at MEDIUM confidence'],
+    ['','NOTE','#333','The AI learns and gets better every day'],
+  ],
+};
+
+class TermRunner {
+  constructor(el, dataKey) {
+    this.el = el;
+    this.body = el.querySelector('.rt-body');
+    this.data = TERM_DATA[dataKey] || TERM_DATA.research;
+    this.idx = 0;
+    this.timer = null;
+    this.running = false;
+    this.maxLines = 22;
+  }
+  start() {
+    if (this.running) return;
+    this.running = true;
+    this.idx = 0;
+    this.body.innerHTML = '';
+    this._addCursor();
+    this._tick();
+  }
+  stop() {
+    this.running = false;
+    if (this.timer) { clearTimeout(this.timer); this.timer = null; }
+  }
+  reset() {
+    this.stop();
+    this.start();
+  }
+  _addCursor() {
+    let cur = this.body.querySelector('.rt-cursor-line');
+    if (!cur) {
+      cur = document.createElement('div');
+      cur.className = 'rt-cursor-line';
+      cur.innerHTML = '<span class="rt-cursor"></span>';
+      cur.style.cssText = 'padding:3px 16px;';
+      this.body.appendChild(cur);
     }
-  </script>
+  }
+  _tick() {
+    if (!this.running) return;
+    if (this.idx >= this.data.length) {
+      this.timer = setTimeout(() => {
+        this.idx = 0;
+        this.body.innerHTML = '';
+        this._addCursor();
+        this._tick();
+      }, 2000);
+      return;
+    }
+    const [ts, tag, color, msg] = this.data[this.idx];
+    const line = document.createElement('div');
+    line.className = 'rt-line';
+    const tsHtml = ts ? `<span class="rt-ts">${ts}</span>` : '<span class="rt-ts"></span>';
+    const tagHtml = tag ? `<span class="rt-tag" style="color:${color}">[${tag}]</span>` : '<span class="rt-tag"></span>';
+    const msgColor = color === '#fff' || color === '#6ee7b7' ? color : '#555';
+    line.innerHTML = `${tsHtml}${tagHtml}<span class="rt-msg" style="color:${msgColor}">${msg}</span>`;
+    const cursor = this.body.querySelector('.rt-cursor-line');
+    if (cursor) {
+      this.body.insertBefore(line, cursor);
+    } else {
+      this.body.appendChild(line);
+    }
+    const lines = this.body.querySelectorAll('.rt-line');
+    if (lines.length > this.maxLines) {
+      lines[0].remove();
+    }
+    this.body.scrollTop = this.body.scrollHeight;
+    this.idx++;
+    const delay = 120 + Math.random() * 180;
+    this.timer = setTimeout(() => this._tick(), delay);
+  }
+}
 
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://polytragent.com/"
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Features",
-        "item": "https://polytragent.com/#features"
-      },
-      {
-        "@type": "ListItem",
-        "position": 3,
-        "name": "Self-Improving Predictions",
-        "item": "https://polytragent.com/features/self-improving-predictions.html"
+const terminals = [];
+document.querySelectorAll('.run-term').forEach(el => {
+  const key = el.getAttribute('data-term');
+  const runner = new TermRunner(el, key);
+  terminals.push({ el, runner, wasVisible: false });
+});
+
+const termObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    const t = terminals.find(t => t.el === entry.target);
+    if (!t) return;
+    if (entry.isIntersecting) {
+      t.runner.reset();
+      t.wasVisible = true;
+    } else {
+      if (t.wasVisible) {
+        t.runner.stop();
+        t.wasVisible = false;
       }
-    ]
-  }
-  </script>
+    }
+  });
+}, { threshold: 0.15 });
 
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Polytragent - Self-Improving Predictions",
-    "description": "AI forecasting engine that learns from every prediction outcome and improves accuracy over time",
-    "url": "https://polytragent.com",
-    "applicationCategory": "FinanceApplication",
-    "operatingSystem": "Web"
-  }
-  </script>
+terminals.forEach(t => termObserver.observe(t.el));
+
+const obs=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});
+},{threshold:0.08});
+document.querySelectorAll('.rev2').forEach(el=>obs.observe(el));
+
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}
+  });
+});
+</script>
 </body>
 </html>
