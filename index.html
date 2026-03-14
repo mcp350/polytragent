@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Polytragent — AI Trading Agent for Polymarket</title>
-<meta name="description" content="Polytragent is an autonomous AI trading agent for Polymarket. Real-time signal detection, smart wallet mirroring, and market making — running 24/7 while you sleep.">
+<title>Polytragent — AI Research Agent for Polymarket</title>
+<meta name="description" content="Polytragent is an AI-powered research agent for Polymarket. Millions of data points analyzed instantly — spot edge, find mispriced markets, and profit from prediction markets with AI-driven insights.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Polytragent","applicationCategory":"FinanceApplication","description":"Autonomous AI trading agent for Polymarket prediction markets","offers":{"@type":"AggregateOffer","lowPrice":"24.99","highPrice":"99","priceCurrency":"USD"}}
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Polytragent","applicationCategory":"FinanceApplication","description":"AI-powered research agent for Polymarket prediction markets. Analyzes millions of data points to find edge and mispriced markets.","offers":{"@type":"AggregateOffer","lowPrice":"24.99","highPrice":"99","priceCurrency":"USD"}}
 </script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is my Polymarket wallet safe with Polytragent?","acceptedAnswer":{"@type":"Answer","text":"Yes. Polytragent operates non-custodially via Polymarket's CLOB API. We never hold your funds."}},{"@type":"Question","name":"What is the minimum amount to start trading?","acceptedAnswer":{"@type":"Answer","text":"You can start with as little as $50 USDC. We recommend $500+ for a diversified multi-market strategy."}},{"@type":"Question","name":"What returns can I expect?","acceptedAnswer":{"@type":"Answer","text":"Market making targets 0.5-2% monthly with under 1% drawdown. Momentum strategies target 3-8% monthly. Past performance is not indicative of future results."}}]}
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What does Polytragent actually do?","acceptedAnswer":{"@type":"Answer","text":"Polytragent is an AI research agent. You send it a Polymarket event URL and it instantly analyzes all sub-markets, cross-references forecasters, checks its own past accuracy, and gives you an edge-scored recommendation — BUY YES, BUY NO, or HOLD."}},{"@type":"Question","name":"How many data sources does it use?","acceptedAnswer":{"@type":"Answer","text":"Millions. Every Polymarket sub-market (including expired ones for context), Manifold Markets forecasts, its own prediction history with win/loss tracking, news velocity data, and on-chain signals — all synthesized by Claude AI in seconds."}},{"@type":"Question","name":"Does it learn from its mistakes?","acceptedAnswer":{"@type":"Answer","text":"Yes. Every prediction is logged with the market price at that moment. A background resolver checks outcomes every 6 hours. The AI sees its full accuracy history — win rate, calibration biases, strong/weak topics — and adjusts future predictions accordingly."}}]}
 </script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -260,34 +260,34 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
 
 <div class="ticker-wrap">
   <div class="ticker-track">
-    <span class="tick-item"><span class="up">▲</span> BUY YES — "Trump 2026 midterms" @ $0.41 — +12.3%</span>
-    <span class="tick-item"><span class="dn">▼</span> SELL NO — "Fed cuts June" @ $0.67 — Closed +8.1%</span>
-    <span class="tick-item"><span class="up">▲</span> MARKET MAKE — "BTC $100k EOY" — spread 1.2¢</span>
-    <span class="tick-item"><span class="up">▲</span> MIRROR 0x3f...a2 — 85% win rate — BUY YES $0.38</span>
-    <span class="tick-item"><span class="dn">▼</span> ARB Poly/Kalshi — "Ukraine ceasefire Q2" — +$0.031</span>
-    <span class="tick-item"><span class="up">▲</span> SIGNAL — ECB news velocity spike — BUY executing</span>
-    <span class="tick-item"><span class="up">▲</span> BUY YES — "Trump 2026 midterms" @ $0.41 — +12.3%</span>
-    <span class="tick-item"><span class="dn">▼</span> SELL NO — "Fed cuts June" @ $0.67 — Closed +8.1%</span>
-    <span class="tick-item"><span class="up">▲</span> MARKET MAKE — "BTC $100k EOY" — spread 1.2¢</span>
-    <span class="tick-item"><span class="up">▲</span> MIRROR 0x3f...a2 — 85% win rate — BUY YES $0.38</span>
-    <span class="tick-item"><span class="dn">▼</span> ARB Poly/Kalshi — "Ukraine ceasefire Q2" — +$0.031</span>
-    <span class="tick-item"><span class="up">▲</span> SIGNAL — ECB news velocity spike — BUY executing</span>
+    <span class="tick-item"><span class="up">▲</span> RESEARCH — "Trump 2026 midterms" — Edge: +28% — BUY YES @ $0.41</span>
+    <span class="tick-item"><span class="up">▲</span> EDGE — "Fed cuts June" — Poly: $0.67 / Manifold: $0.74 — BUY YES</span>
+    <span class="tick-item"><span class="dn">▼</span> HOLD — "BTC $100k EOY" — No edge detected — current price fair</span>
+    <span class="tick-item"><span class="up">▲</span> RESEARCH — "Ukraine ceasefire Q2" — Past accuracy: 71% on geo — BUY NO</span>
+    <span class="tick-item"><span class="up">▲</span> RESOLVED — "ECB holds March" — Correct ✓ — +$14.20 profit</span>
+    <span class="tick-item"><span class="up">▲</span> TRACK — Win rate: 78% — 18/23 predictions correct — calibration improving</span>
+    <span class="tick-item"><span class="up">▲</span> RESEARCH — "Trump 2026 midterms" — Edge: +28% — BUY YES @ $0.41</span>
+    <span class="tick-item"><span class="up">▲</span> EDGE — "Fed cuts June" — Poly: $0.67 / Manifold: $0.74 — BUY YES</span>
+    <span class="tick-item"><span class="dn">▼</span> HOLD — "BTC $100k EOY" — No edge detected — current price fair</span>
+    <span class="tick-item"><span class="up">▲</span> RESEARCH — "Ukraine ceasefire Q2" — Past accuracy: 71% on geo — BUY NO</span>
+    <span class="tick-item"><span class="up">▲</span> RESOLVED — "ECB holds March" — Correct ✓ — +$14.20 profit</span>
+    <span class="tick-item"><span class="up">▲</span> TRACK — Win rate: 78% — 18/23 predictions correct — calibration improving</span>
   </div>
 </div>
 
 <section class="hero">
   <div class="hero-left">
-    <div class="hero-tag"><span class="pulse-dot"></span> Polymarket AI Agent — Beta Open</div>
-    <h1>The AI agent<br>that trades<br>Polymarket<br>for you.</h1>
-    <p class="hero-sub">73% of prediction market profits go to automated bots. Polytragent puts you on the right side — running 24/7, reacting in milliseconds, never missing a signal.</p>
+    <div class="hero-tag"><span class="pulse-dot"></span> Polymarket AI Research Agent — Beta Open</div>
+    <h1>The AI agent<br>that finds edge<br>on Polymarket<br>for you.</h1>
+    <p class="hero-sub">Send a Polymarket link. Get instant AI research — every sub-market analyzed, cross-referenced with forecasters, scored against millions of data points. Spot the edge. Enter the trade. Profit.</p>
     <div class="hero-ctas">
-      <a href="#pricing" class="btn-sl">Start trading — $24.99/day →</a>
+      <a href="#pricing" class="btn-sl">Start researching — $24.99/day →</a>
       <a href="#how-it-works" class="btn-ol">See how it works</a>
     </div>
     <div class="hero-stats">
-      <div><div class="stat-n">2.7s</div><div class="stat-l">Avg arbitrage window</div></div>
-      <div><div class="stat-n">$25M+</div><div class="stat-l">Monthly bot volume</div></div>
-      <div><div class="stat-n">78–85%</div><div class="stat-l">Momentum win rate</div></div>
+      <div><div class="stat-n">78%</div><div class="stat-l">Prediction win rate</div></div>
+      <div><div class="stat-n">M+</div><div class="stat-l">Data points analyzed</div></div>
+      <div><div class="stat-n">&lt;10s</div><div class="stat-l">Full research delivered</div></div>
     </div>
   </div>
   <div class="hero-right" aria-hidden="true">
@@ -302,19 +302,19 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
 <section class="split" id="features">
   <div class="st rev2">
     <div class="snum">01 — The problem</div>
-    <h2>You're trading<br>against machines<br>with your hands.</h2>
-    <p class="sb">Polymarket is the most bot-friendly trading venue in crypto. Open API. Transparent orderbook. On-chain execution. Beautiful for developers — brutal for manual traders who don't realize it yet.</p>
+    <h2>You're researching<br>with Google<br>in a market run<br>by algorithms.</h2>
+    <p class="sb">Polymarket moves fast. Events spawn dozens of sub-markets. Prices shift on news you haven't read yet. By the time you finish your research, the edge is gone. You need an AI that does the work in seconds — not hours.</p>
     <div class="fl">
-      <div class="fi"><div class="fn">—</div><div class="fc"><h3>Arbitrage windows collapsed to 2.7 seconds</h3><p>Down from 12.3s in 2024. 73% of those profits are captured by sub-100ms bots. You never see the window open.</p></div></div>
-      <div class="fi"><div class="fn">—</div><div class="fc"><h3>3.7% of wallets own 37% of all profits</h3><p>These are bot accounts. Leaderboards are engineered to make algorithms look like human traders worth copying.</p></div></div>
-      <div class="fi"><div class="fn">—</div><div class="fc"><h3>Manual research means you're always last</h3><p>Sophisticated agents use news pipelines and on-chain signals — and act minutes before prices shift. Your analysis is already priced in.</p></div></div>
+      <div class="fi"><div class="fn">—</div><div class="fc"><h3>Events have 10–50 sub-markets you'll never manually check</h3><p>Each event on Polymarket can have dozens of date-specific or outcome-specific sub-markets. Most traders only look at the top one and miss the real edge buried in expired contracts and price divergences.</p></div></div>
+      <div class="fi"><div class="fn">—</div><div class="fc"><h3>No cross-platform comparison means you're trading blind</h3><p>Manifold Markets, Metaculus, and other forecasters often price the same events differently. Without cross-referencing, you can't tell if Polymarket's price is the opportunity — or the trap.</p></div></div>
+      <div class="fi"><div class="fn">—</div><div class="fc"><h3>You don't track your own accuracy — so you repeat mistakes</h3><p>Professional forecasters obsessively track calibration. Most Polymarket traders have no idea if they're actually good at predicting politics, crypto, or geopolitics. They keep losing on the same topics.</p></div></div>
     </div>
   </div>
   <div class="sv">
     <div class="run-term" data-term="boot">
       <div class="rt-header">
         <div class="rt-dots"><span class="rt-dot"></span><span class="rt-dot"></span><span class="rt-dot active"></span></div>
-        <span style="margin-left:10px;">polytragent — boot.log</span>
+        <span style="margin-left:10px;">polytragent — research.log</span>
       </div>
       <div class="rt-body"></div>
     </div>
@@ -327,28 +327,28 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
 <section class="split rev" id="solution">
   <div class="sv" style="border-right:1px solid var(--border);">
     <div class="mg">
-      <div class="mc rev2"><div class="mn">78%</div><div class="ml">Win rate,<br>momentum strategy</div></div>
-      <div class="mc rev2"><div class="mn">3–8%</div><div class="ml">Monthly return,<br>momentum</div></div>
-      <div class="mc rev2"><div class="mn">&lt;1%</div><div class="ml">Max drawdown,<br>market making</div></div>
-      <div class="mc rev2"><div class="mn">0.4ms</div><div class="ml">Order execution<br>latency</div></div>
+      <div class="mc rev2"><div class="mn">78%</div><div class="ml">Prediction<br>win rate</div></div>
+      <div class="mc rev2"><div class="mn">M+</div><div class="ml">Data points per<br>research query</div></div>
+      <div class="mc rev2"><div class="mn">&lt;10s</div><div class="ml">Full analysis<br>delivered</div></div>
+      <div class="mc rev2"><div class="mn">24/7</div><div class="ml">Background<br>resolution tracking</div></div>
     </div>
     <div class="run-term" data-term="trading" style="margin-top:1px;">
       <div class="rt-header">
         <div class="rt-dots"><span class="rt-dot"></span><span class="rt-dot"></span><span class="rt-dot active"></span></div>
-        <span style="margin-left:10px;">polytragent — trading.log</span>
+        <span style="margin-left:10px;">polytragent — analysis.log</span>
       </div>
       <div class="rt-body"></div>
     </div>
   </div>
   <div class="st rev2">
     <div class="snum">02 — The solution</div>
-    <h2>Four strategies.<br>One agent.<br>Zero sleep.</h2>
-    <p class="sb">Polytragent runs all four Polymarket strategies simultaneously — allocating capital to wherever the edge exists right now. You set the risk limits. The agent does everything else.</p>
+    <h2>One command.<br>Full research.<br>Edge found.</h2>
+    <p class="sb">Type /research with any Polymarket event URL. Polytragent parses every sub-market, cross-references forecasters, checks its own track record, and delivers an AI-powered edge analysis — with BUY YES, BUY NO, or HOLD for every market. In seconds.</p>
     <div class="fl">
-      <div class="fi"><div class="fn">01</div><div class="fc"><h3>Real-Time Signal Engine</h3><p>News velocity, on-chain data, social signals — detected before prices update. 30s to 5min execution windows, captured automatically.</p></div></div>
-      <div class="fi"><div class="fn">02</div><div class="fc"><h3>Smart Wallet Intelligence</h3><p>Mirrors verified high-Sharpe human wallets the moment they trade. Bot accounts filtered via quadrant analysis. You follow actual alpha.</p></div></div>
-      <div class="fi"><div class="fn">03</div><div class="fc"><h3>Automated Market Making</h3><p>Provides liquidity on both sides, collecting spreads regardless of outcome. 0.5–2% monthly with under 1% drawdown — the most reliable Polymarket strategy.</p></div></div>
-      <div class="fi"><div class="fn">04</div><div class="fc"><h3>Cross-Platform Arbitrage</h3><p>Captures price discrepancies between Polymarket and Kalshi automatically. Less saturated than single-market arb. Consistent edge.</p></div></div>
+      <div class="fi"><div class="fn">01</div><div class="fc"><h3>Full Event Parsing</h3><p>Extracts every sub-market from the event — active, expired, and resolved. Expired markets give context. Active markets get priced. Nothing gets missed.</p></div></div>
+      <div class="fi"><div class="fn">02</div><div class="fc"><h3>Cross-Platform Intelligence</h3><p>Searches Manifold Markets for matching predictions. Compares prices across platforms. When Polymarket says 40% and Manifold says 68%, that's your edge.</p></div></div>
+      <div class="fi"><div class="fn">03</div><div class="fc"><h3>Self-Improving AI Analysis</h3><p>Claude AI synthesizes everything — sub-markets, forecasters, and your full prediction history. It knows where it's been wrong before and corrects calibration biases automatically.</p></div></div>
+      <div class="fi"><div class="fn">04</div><div class="fc"><h3>Prediction Logging & Resolution</h3><p>Every prediction is logged with market price, forecast %, confidence, and reasoning. A background resolver checks outcomes every 6 hours. The system gets smarter with every trade.</p></div></div>
     </div>
   </div>
 </section>
@@ -360,70 +360,66 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
   <div class="intel-header">
     <div class="intel-header-left rev2">
       <div class="snum">03 — Intelligence</div>
-      <h2>11 signal sources.<br>One decision engine.</h2>
-      <p class="sb" style="margin-bottom:0;">Every module feeds the central signal engine in real-time. News, on-chain data, geopolitical events, whale activity — aggregated, scored, and executed in milliseconds.</p>
+      <h2>Millions of data points.<br>One research engine.</h2>
+      <p class="sb" style="margin-bottom:0;">Every Polymarket sub-market, every Manifold forecast, every past prediction you've made, every news signal — aggregated, cross-referenced, and scored by AI in under 10 seconds.</p>
     </div>
-    <div class="intel-count rev2" style="padding-bottom:8px;">16 PYTHON MODULES · 11 INTEL SOURCES · 4 STRATEGIES</div>
+    <div class="intel-count rev2" style="padding-bottom:8px;">8-STEP PIPELINE · MILLIONS OF DATA POINTS · SELF-IMPROVING AI</div>
   </div>
   <div style="padding:32px 48px;overflow-x:auto;" class="rev2">
     <div class="pipeline" id="pipeline">
-      <div class="pipe-node" data-idx="0">INGEST<div class="pipe-data">11 sources</div></div>
+      <div class="pipe-node" data-idx="0">PARSE URL<div class="pipe-data">extract slug</div></div>
       <div class="pipe-connector"></div>
-      <div class="pipe-node" data-idx="1">NORMALIZE<div class="pipe-data">score 0–1</div></div>
+      <div class="pipe-node" data-idx="1">FETCH MARKETS<div class="pipe-data">gamma API</div></div>
       <div class="pipe-connector"></div>
-      <div class="pipe-node" data-idx="2">CORRELATE<div class="pipe-data">multi-signal</div></div>
+      <div class="pipe-node" data-idx="2">CROSS-REF<div class="pipe-data">manifold</div></div>
       <div class="pipe-connector"></div>
-      <div class="pipe-node" data-idx="3">DECIDE<div class="pipe-data">threshold gate</div></div>
+      <div class="pipe-node" data-idx="3">TRACK RECORD<div class="pipe-data">past accuracy</div></div>
       <div class="pipe-connector"></div>
-      <div class="pipe-node" data-idx="4">EXECUTE<div class="pipe-data">0.4ms avg</div></div>
+      <div class="pipe-node" data-idx="4">AI ANALYSIS<div class="pipe-data">claude sonnet</div></div>
       <div class="pipe-connector"></div>
-      <div class="pipe-node" data-idx="5">MONITOR<div class="pipe-data">24/7 loop</div></div>
+      <div class="pipe-node" data-idx="5">LOG & RESOLVE<div class="pipe-data">every 6h</div></div>
     </div>
   </div>
   <div class="intel-grid rev2">
-    <div class="intel-card"><div class="intel-card-icon">◈ scanner.py</div><div class="intel-card-name">Market Scanner</div><div class="intel-card-desc">Indexes all active Polymarket markets, filters by liquidity and volume thresholds.</div></div>
-    <div class="intel-card"><div class="intel-card-icon">◈ news.py</div><div class="intel-card-name">News Velocity</div><div class="intel-card-desc">Bloomberg, Reuters, AP — real-time article velocity scoring per market topic.</div></div>
-    <div class="intel-card"><div class="intel-card-icon">◈ whale.py</div><div class="intel-card-name">Whale Tracker</div><div class="intel-card-desc">On-chain monitoring of large wallet movements on Polygon mainnet.</div></div>
-    <div class="intel-card"><div class="intel-card-icon">◈ monitor.py</div><div class="intel-card-name">Wallet Mirror</div><div class="intel-card-desc">Mirrors high-Sharpe human wallets. Bot accounts filtered via quadrant analysis.</div></div>
-    <div class="intel-card"><div class="intel-card-icon">◈ gdelt.py</div><div class="intel-card-name">GDELT Events</div><div class="intel-card-desc">Global events database — geopolitical signals from 250+ news sources in 100 languages.</div></div>
-    <div class="intel-card"><div class="intel-card-icon">◈ acled.py</div><div class="intel-card-name">ACLED Conflict</div><div class="intel-card-desc">Armed conflict and protest data for geopolitical market correlation.</div></div>
-    <div class="intel-card"><div class="intel-card-icon">◈ rss_intel.py</div><div class="intel-card-name">RSS Intelligence</div><div class="intel-card-desc">Curated RSS feeds from policy think tanks, government agencies, central banks.</div></div>
-    <div class="intel-card"><div class="intel-card-icon">◈ unsc.py</div><div class="intel-card-name">UN Security Council</div><div class="intel-card-desc">Monitors UNSC resolutions and voting patterns for geopolitical market impact.</div></div>
-    <div class="intel-card"><div class="intel-card-icon">◈ kalshi_api.py</div><div class="intel-card-name">Kalshi Bridge</div><div class="intel-card-desc">Cross-platform arbitrage detection between Polymarket and Kalshi.</div></div>
-    <div class="intel-card"><div class="intel-card-icon">◈ swing.py</div><div class="intel-card-name">Swing Detector</div><div class="intel-card-desc">Identifies momentum shifts via price action analysis and volume patterns.</div></div>
-    <div class="intel-card"><div class="intel-card-icon">◈ researcher.py</div><div class="intel-card-name">Deep Researcher</div><div class="intel-card-desc">Multi-source research synthesis for complex market analysis and edge discovery.</div></div>
-    <div class="intel-card"><div class="intel-card-icon">◈ telegram_client.py</div><div class="intel-card-name">Telegram Alerts</div><div class="intel-card-desc">Real-time trade notifications, daily P&L summaries, and risk alerts.</div></div>
+    <div class="intel-card"><div class="intel-card-icon">◈ Step 1</div><div class="intel-card-name">Parse URL</div><div class="intel-card-desc">Extracts slug from Polymarket link. Detects /event/ URLs (multiple sub-markets) vs single market URLs and routes accordingly.</div></div>
+    <div class="intel-card"><div class="intel-card-icon">◈ Step 2</div><div class="intel-card-name">Fetch Sub-Markets</div><div class="intel-card-desc">Hits Gamma API for every sub-market — including expired/resolved ones. Parses YES/NO prices, volume, liquidity, days left.</div></div>
+    <div class="intel-card"><div class="intel-card-icon">◈ Step 3</div><div class="intel-card-name">Search Forecasters</div><div class="intel-card-desc">Cross-references Manifold Markets for matching binary markets. Grabs top 3-5 by liquidity for price comparison.</div></div>
+    <div class="intel-card"><div class="intel-card-icon">◈ Step 4</div><div class="intel-card-name">Past Track Record</div><div class="intel-card-desc">Checks prediction_store for related past predictions. Reports correct vs wrong, with specific examples and topic-level accuracy.</div></div>
+    <div class="intel-card"><div class="intel-card-icon">◈ Step 5</div><div class="intel-card-name">AI Analysis</div><div class="intel-card-desc">Claude Sonnet synthesizes everything — sub-markets, Manifold data, full accuracy history, calibration biases — into edge-scored recommendations.</div></div>
+    <div class="intel-card"><div class="intel-card-icon">◈ Step 6</div><div class="intel-card-name">Log Predictions</div><div class="intel-card-desc">Every active sub-market logged to predictions.json with AI forecast %, recommendation (BUY_YES/BUY_NO/HOLD), confidence, and reasoning.</div></div>
+    <div class="intel-card"><div class="intel-card-icon">◈ Step 7</div><div class="intel-card-name">Build Output</div><div class="intel-card-desc">Formats everything for Telegram: active markets with edge indicators, expired context, Manifold comparison, AI analysis, and direct trade links.</div></div>
+    <div class="intel-card"><div class="intel-card-icon">◈ Step 8</div><div class="intel-card-name">Background Resolve</div><div class="intel-card-desc">Every 6 hours, checks Polymarket API for resolved markets. Records outcomes, calculates hypothetical P&L. Feeds back into future research.</div></div>
   </div>
 </section>
 
 <div class="glow-sep"></div>
 
-<!-- SECTION 04 — LIVE MONITOR -->
+<!-- SECTION 04 — LIVE RESEARCH OUTPUT -->
 <section class="split" id="live-monitor">
   <div class="st rev2">
-    <div class="snum">04 — Live monitor</div>
-    <h2>Watch your<br>agent trade.<br>In real time.</h2>
-    <p class="sb">Every signal, every trade, every P&L update — streamed to your dashboard and Telegram. Full transparency. Pause with one click.</p>
+    <div class="snum">04 — Research output</div>
+    <h2>See every edge.<br>Scored and ranked.<br>In real time.</h2>
+    <p class="sb">Every research query shows you exactly where the edge is — price vs forecast, Manifold divergence, confidence level, and a clear BUY YES / BUY NO / HOLD for every sub-market. All delivered straight to Telegram.</p>
     <div class="arch-grid" style="margin-top:24px;">
-      <div class="arch-module"><div class="arch-module-name">Signal Engine</div><div class="arch-module-desc">Multi-source correlation</div><div class="arch-module-file">scanner.py + news.py</div></div>
-      <div class="arch-module"><div class="arch-module-name">Risk Manager</div><div class="arch-module-desc">Position limits & drawdown</div><div class="arch-module-file">config.py</div></div>
-      <div class="arch-module"><div class="arch-module-name">Execution Layer</div><div class="arch-module-desc">CLOB API + FOK orders</div><div class="arch-module-file">polymarket_api.py</div></div>
-      <div class="arch-module"><div class="arch-module-name">Portfolio Store</div><div class="arch-module-desc">State & P&L tracking</div><div class="arch-module-file">portfolio_store.py</div></div>
+      <div class="arch-module"><div class="arch-module-name">Edge Detection</div><div class="arch-module-desc">Price vs AI forecast divergence</div><div class="arch-module-file">research_engine.py</div></div>
+      <div class="arch-module"><div class="arch-module-name">Manifold Bridge</div><div class="arch-module-desc">Cross-platform price comparison</div><div class="arch-module-file">manifold_api.py</div></div>
+      <div class="arch-module"><div class="arch-module-name">Prediction Store</div><div class="arch-module-desc">Accuracy tracking & resolution</div><div class="arch-module-file">prediction_store.py</div></div>
+      <div class="arch-module"><div class="arch-module-name">Telegram Output</div><div class="arch-module-desc">Formatted research delivery</div><div class="arch-module-file">telegram_client.py</div></div>
     </div>
   </div>
   <div class="sv">
     <div class="data-monitor rev2">
       <div class="dm-header">
-        <div class="dm-header-left">Active positions</div>
+        <div class="dm-header-left">Research results — edge scores</div>
         <div class="dm-live"><span class="dm-live-dot"></span> LIVE</div>
       </div>
-      <div class="dm-row header"><span>MARKET</span><span>ENTRY</span><span>CURRENT</span><span>P&L</span></div>
+      <div class="dm-row header"><span>MARKET</span><span>PRICE</span><span>AI EST.</span><span>EDGE</span></div>
       <div id="dm-rows"></div>
     </div>
     <div class="run-term" data-term="monitor" style="margin-top:16px;">
       <div class="rt-header">
         <div class="rt-dots"><span class="rt-dot"></span><span class="rt-dot"></span><span class="rt-dot active"></span></div>
-        <span style="margin-left:10px;">polytragent — monitor.log</span>
+        <span style="margin-left:10px;">polytragent — output.log</span>
       </div>
       <div class="rt-body"></div>
     </div>
@@ -435,20 +431,20 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
 <!-- SECTION 05 — SETUP -->
 <section class="split" id="how-it-works">
   <div class="st rev2">
-    <div class="snum">05 — Setup</div>
-    <h2>Live in three<br>steps. Running<br>in minutes.</h2>
-    <p class="sb">No infrastructure. No models to train. Polytragent connects via the official Polymarket CLOB API — non-custodially. Your keys never leave your device.</p>
+    <div class="snum">05 — How it works</div>
+    <h2>One command.<br>Instant research.<br>That simple.</h2>
+    <p class="sb">No setup. No APIs to configure. Just open Telegram, send a Polymarket link, and get AI-powered research in seconds. The agent does the rest.</p>
     <div class="sl2">
-      <div class="si"><div class="sn">01</div><div class="sb2"><h3>Connect your wallet</h3><p>Link via the official CLOB API. Polytragent derives credentials from your private key at startup. Keys never stored. EOA mode — your wallet, always your rules.</p></div></div>
-      <div class="si"><div class="sn">02</div><div class="sb2"><h3>Choose your strategy profile</h3><p>Pick Aggressive, Balanced, or Conservative. Set position size limits, max drawdown, and market category filters. Two minutes. Adjustable any time.</p></div></div>
-      <div class="si"><div class="sn">03</div><div class="sb2"><h3>Agent runs 24/7</h3><p>Monitors markets, detects signals, places orders, manages open positions. Live dashboard and Telegram alerts included. Pause instantly in one click.</p></div></div>
+      <div class="si"><div class="sn">01</div><div class="sb2"><h3>Open Telegram → Send /research</h3><p>Paste any Polymarket event URL. The agent detects whether it's a multi-market event or single market and routes automatically. Works with any active Polymarket link.</p></div></div>
+      <div class="si"><div class="sn">02</div><div class="sb2"><h3>AI analyzes everything in &lt;10 seconds</h3><p>Sub-markets fetched, forecasters cross-referenced, your track record checked, Claude AI analysis generated. Millions of data points synthesized into clear recommendations.</p></div></div>
+      <div class="si"><div class="sn">03</div><div class="sb2"><h3>Get edge scores + direct trade links</h3><p>Each sub-market gets a BUY YES, BUY NO, or HOLD recommendation with confidence level and reasoning. Click the trade link to execute on Polymarket instantly.</p></div></div>
     </div>
   </div>
   <div class="sv">
     <div class="run-term" data-term="setup">
       <div class="rt-header">
         <div class="rt-dots"><span class="rt-dot"></span><span class="rt-dot"></span><span class="rt-dot active"></span></div>
-        <span style="margin-left:10px;">polytragent — setup.log</span>
+        <span style="margin-left:10px;">polytragent — research.log</span>
       </div>
       <div class="rt-body"></div>
     </div>
@@ -462,7 +458,7 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
   <div class="ph rev2">
     <div class="snum" style="text-align:center;margin-bottom:12px;">06 — Pricing</div>
     <h2>Try today.<br>Own monthly.</h2>
-    <p>Day Pass for testing the edge. Monthly for serious alpha. No lock-in.</p>
+    <p>Day Pass to test the edge. Monthly for serious researchers. No lock-in.</p>
   </div>
   <div class="pg">
     <div class="pc rev2">
@@ -471,12 +467,12 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
       <div class="pper">per day · no commitment</div>
       <span class="panc">Billed daily · cancel any time</span>
       <ul class="pf">
-        <li><span class="pck">✓</span> Full autonomous trading</li>
-        <li><span class="pck">✓</span> All 4 strategy modes</li>
-        <li><span class="pck">✓</span> 10 concurrent markets</li>
-        <li><span class="pck">✓</span> Smart wallet mirroring</li>
-        <li><span class="pck">✓</span> Telegram alerts</li>
-        <li><span class="pck">✓</span> Risk controls</li>
+        <li><span class="pck">✓</span> Unlimited /research queries</li>
+        <li><span class="pck">✓</span> Full AI analysis with edge scores</li>
+        <li><span class="pck">✓</span> Manifold cross-reference</li>
+        <li><span class="pck">✓</span> Prediction tracking</li>
+        <li><span class="pck">✓</span> Telegram delivery</li>
+        <li><span class="pck">✓</span> Direct trade links</li>
       </ul>
       <a href="#" class="pc-sec">Buy Day Pass →</a>
     </div>
@@ -488,11 +484,11 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
       <span class="panc">vs $749/mo at daily rate</span>
       <ul class="pf">
         <li><span class="pck">✓</span> Everything in Day Pass</li>
-        <li><span class="pck">✓</span> Unlimited concurrent markets</li>
-        <li><span class="pck">✓</span> Priority execution queue</li>
-        <li><span class="pck">✓</span> Advanced risk configuration</li>
-        <li><span class="pck">✓</span> Performance analytics</li>
-        <li><span class="pck">✓</span> Multi-wallet dashboard</li>
+        <li><span class="pck">✓</span> Full accuracy dashboard</li>
+        <li><span class="pck">✓</span> Calibration bias reports</li>
+        <li><span class="pck">✓</span> Topic-level win rates</li>
+        <li><span class="pck">✓</span> Historical P&L tracking</li>
+        <li><span class="pck">✓</span> Priority AI processing</li>
       </ul>
       <a href="#" class="pc-main">Start monthly — $99 →</a>
     </div>
@@ -504,7 +500,7 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
       <ul class="pf">
         <li><span class="pck">✓</span> Everything in Monthly</li>
         <li><span class="pck">✓</span> API access</li>
-        <li><span class="pck">✓</span> Custom strategy dev</li>
+        <li><span class="pck">✓</span> Custom research pipelines</li>
         <li><span class="pck">✓</span> White-label options</li>
         <li><span class="pck">✓</span> Dedicated support</li>
         <li><span class="pck">✓</span> SLA guarantee</li>
@@ -519,15 +515,15 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
   <div class="fl2 rev2">
     <div class="snum">07 — FAQ</div>
     <h2>Common<br>questions.</h2>
-    <p style="font-size:15px;color:var(--gray);font-weight:300;line-height:1.7;max-width:300px;margin-top:14px;">Everything you need to know before connecting your wallet and running your first trade.</p>
+    <p style="font-size:15px;color:var(--gray);font-weight:300;line-height:1.7;max-width:300px;margin-top:14px;">Everything you need to know before running your first /research command.</p>
   </div>
   <div class="fr">
-    <div class="fqi rev2"><div class="fqq">Is my wallet safe with Polytragent?</div><div class="fqa">Yes. Polytragent is fully non-custodial — we operate via the official Polymarket CLOB API and never hold your funds, store your private key, or control your wallet. Revoke access instantly from Polymarket settings at any time.</div></div>
-    <div class="fqi rev2"><div class="fqq">What's the minimum capital to start?</div><div class="fqa">You can start with as little as $50 USDC on the Day Pass. For a diversified multi-market strategy we recommend $500+. Market making requires at least $200 per market for meaningful spread capture.</div></div>
-    <div class="fqi rev2"><div class="fqq">What returns can I realistically expect?</div><div class="fqa">Market making targets 0.5–2% monthly with under 1% drawdown. Momentum strategies target 3–8% monthly with moderate volatility. These are benchmarks from 6 months of orderbook analysis — not guarantees. Results vary by market conditions, capital, and configuration.</div></div>
-    <div class="fqi rev2"><div class="fqq">Does Polytragent work across all Polymarket markets?</div><div class="fqa">Yes — politics, sports, crypto, economics, and any active Polymarket market. The agent filters for minimum liquidity before entering any position, so it only trades markets where execution risk is low.</div></div>
-    <div class="fqi rev2"><div class="fqq">Can I pause the agent at any time?</div><div class="fqa">Yes, immediately. Pausing halts all new order placement. Open positions are held until market resolution or manual close. No penalties, no lock-in on either plan.</div></div>
-    <div class="fqi rev2"><div class="fqq">Is automated trading on Polymarket allowed?</div><div class="fqa">Yes. The Polymarket CLOB API is public and bot trading is explicitly permitted. Polytragent fully complies with Polymarket's terms of service. Users are responsible for compliance with their own local regulations.</div></div>
+    <div class="fqi rev2"><div class="fqq">What exactly does Polytragent do?</div><div class="fqa">Polytragent is an AI research agent for Polymarket. You send it a Polymarket event URL via Telegram, and it instantly analyzes every sub-market, cross-references forecaster platforms like Manifold Markets, reviews its own past prediction accuracy, and delivers AI-powered edge recommendations — BUY YES, BUY NO, or HOLD — with confidence levels and reasoning. It's like having a team of analysts in your pocket.</div></div>
+    <div class="fqi rev2"><div class="fqq">How many data points does it actually analyze?</div><div class="fqa">Millions. Every sub-market in the event (including expired ones for context), all matching Manifold Markets predictions, the full prediction history database with win/loss tracking, news velocity signals, and on-chain data. All of this is synthesized by Claude AI in under 10 seconds.</div></div>
+    <div class="fqi rev2"><div class="fqq">Does it learn from its mistakes?</div><div class="fqa">Yes — this is the core advantage. Every prediction is logged with the market price, AI forecast percentage, confidence level, and reasoning. A background resolver runs every 6 hours checking for outcomes. The AI sees its full track record — win rate, calibration biases, strong/weak topics, recent performance — and adjusts future predictions accordingly.</div></div>
+    <div class="fqi rev2"><div class="fqq">Does Polytragent execute trades for me?</div><div class="fqa">Polytragent is a research agent — it tells you what to buy, not buys for you. Each recommendation comes with a direct trade link to Polymarket so you can execute with one click. You stay in control of every trade.</div></div>
+    <div class="fqi rev2"><div class="fqq">What platforms does it cross-reference?</div><div class="fqa">Currently Manifold Markets is the primary cross-reference source for forecaster comparison. The agent searches by event title, finds matching binary markets, and compares prices. When Polymarket and Manifold disagree significantly, that's where edge lives.</div></div>
+    <div class="fqi rev2"><div class="fqq">How do I use it?</div><div class="fqa">Open Telegram, send /research followed by any Polymarket event URL. That's it. The agent handles everything — URL parsing, sub-market fetching, forecaster comparison, track record analysis, AI synthesis — and delivers the results right in your Telegram chat.</div></div>
   </div>
 </section>
 
@@ -535,22 +531,22 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
 <section class="ctas">
   <div class="ctl rev2">
     <div class="snum" style="margin-bottom:20px;">Join beta</div>
-    <h2>Stop being<br>exit liquidity.<br>Start being<br>the algorithm.</h2>
-    <p style="font-size:15px;color:var(--gray);font-weight:300;line-height:1.7;margin:24px 0 32px;max-width:360px;">Limited beta open now. Connect your wallet and your first trade runs in minutes. No credit card required to start.</p>
+    <h2>Stop guessing.<br>Start researching<br>with AI.</h2>
+    <p style="font-size:15px;color:var(--gray);font-weight:300;line-height:1.7;margin:24px 0 32px;max-width:360px;">Limited beta open now. Send your first /research command and get AI-powered edge detection in seconds. No setup required.</p>
     <div style="display:flex;gap:12px;flex-wrap:wrap;">
-      <a href="#pricing" class="btn-sl">Join beta — free to start →</a>
+      <a href="#pricing" class="btn-sl">Join beta — start researching →</a>
     </div>
     <div class="trnote">
-      <span>Non-custodial</span>
+      <span>Telegram-native</span>
       <span>Cancel anytime</span>
-      <span>Your keys always yours</span>
+      <span>Self-improving AI</span>
     </div>
   </div>
   <div class="ctr" aria-hidden="true">
     <div class="run-term" data-term="cta">
       <div class="rt-header">
         <div class="rt-dots"><span class="rt-dot"></span><span class="rt-dot"></span><span class="rt-dot active"></span></div>
-        <span style="margin-left:10px;">polytragent — connect.log</span>
+        <span style="margin-left:10px;">polytragent — edge.log</span>
       </div>
       <div class="rt-body"></div>
     </div>
@@ -563,7 +559,7 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
       <path d="M4 33 L20 5 L36 33" stroke="white" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
       <text x="52" y="29" font-family="Inter,sans-serif" font-size="19" font-weight="600" letter-spacing="4" fill="white">POLYTRAGENT</text>
     </svg>
-    <div class="fcopy" style="margin-top:8px;">© 2026 Polytragent. Built for Polymarket.</div>
+    <div class="fcopy" style="margin-top:8px;">© 2026 Polytragent. AI Research for Polymarket.</div>
   </div>
   <ul class="flinks">
     <li><a href="#features">Features</a></li>
@@ -574,7 +570,7 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
   </ul>
 </footer>
 <div class="disc">
-  <p>Risk Disclaimer: Prediction market trading involves significant financial risk. Automated trading does not guarantee profits. Past performance is not indicative of future results. Polytragent is a software tool, not a financial advisor. Only trade capital you can afford to lose. This website does not constitute financial advice.</p>
+  <p>Risk Disclaimer: Prediction market trading involves significant financial risk. AI-powered research does not guarantee profits. Past performance is not indicative of future results. Polytragent is a research tool, not a financial advisor. Only trade capital you can afford to lose. This website does not constitute financial advice.</p>
 </div>
 
 <script>
@@ -601,46 +597,46 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
 // HERO CODE STREAM (scrolling background code)
 // ============================================================
 const SD=[
-  ['09:14:03','BOOT','cgr','Polytragent v2.1 initialized — 4 strategies active'],
-  ['09:14:04','SCAN','cbl','Indexing 847 active Polymarket markets...'],
-  ['09:14:05','WATCH','cyl','Monitoring 12 smart wallets (Sharpe > 1.5)'],
-  ['09:14:05','FILT','cg','Filtering bot accounts via quadrant analysis'],
-  ['09:14:06','OK  ','cgr','8 human traders confirmed — mirroring active'],
-  ['09:14:07','NEWS','cyl','Bloomberg: ECB rate decision — velocity +420%'],
-  ['09:14:07','SIG ','cgr','Signal: "ECB holds rates in March" confirmed'],
-  ['09:14:07','PROB','cbl','Market: 40% → True estimate: 68% — edge +28%'],
-  ['09:14:08','ORDER','cgr','BUY YES @ $0.38 — 25 USDC — FOK mode'],
-  ['09:14:08','EXEC','cgr','Filled in 0.4ms ✓ — position open'],
-  ['09:14:09','MM  ','cyl','"BTC $100k EOY" — market making both sides'],
-  ['09:14:09','BID ','cbl','BID $0.497 / ASK $0.509 — spread 1.2¢'],
-  ['09:14:10','RISK','cg','Exposure: $247 / $1000 session limit — OK'],
-  ['09:14:11','COPY','cbl','0x3f...a2 placed BUY YES — mirroring...'],
-  ['09:14:11','ORDER','cgr','BUY YES @ $0.41 — "Trump 2026 midterms"'],
-  ['09:14:12','EXEC','cgr','Filled — position open — 18 USDC ✓'],
-  ['09:14:14','ARB ','cyl','Kalshi/Poly spread detected — "Ukraine Q2"'],
-  ['09:14:14','DELTA','cbl','Poly: $0.520 / Kalshi: $0.489 — $0.031 delta'],
-  ['09:14:14','ORDER','cgr','Cross-arb executing — both legs...'],
-  ['09:14:15','EXEC','cgr','Both legs filled — $0.028 profit locked ✓'],
-  ['09:14:22','CLOSE','cgr','Position closed: +$4.20 (+16.8%) ✓'],
-  ['09:14:23','P&L ','cgr','Session: +$18.41 — drawdown: 0.00%'],
-  ['09:14:24','SCAN','cbl','Scanning next opportunity...'],
-  ['09:14:25','IDLE','cg','No qualifying signals — holding positions'],
-  ['09:14:30','WATCH','cyl','On-chain: whale activity — new wallet pattern'],
-  ['09:14:31','SIG ','cgr','Momentum: "Nvidia Q2 earnings miss" — BUY NO'],
-  ['09:14:31','ORDER','cgr','BUY NO @ $0.61 — 30 USDC — executing'],
-  ['09:14:32','EXEC','cgr','Filled in 0.6ms ✓'],
-  ['09:14:35','ALERT','cyl','Telegram alert sent: trade opened'],
-  ['09:14:40','SCAN','cbl','Next cycle — monitoring 847 markets'],
-  ['09:14:41','MM  ','cyl','Spread collected: $0.0094 — "ECB decision"'],
-  ['09:14:42','RISK','cg','Portfolio: 4 markets / $10k limit — 2.5%'],
-  ['09:14:45','COPY','cbl','0x7a...b3 — win rate 71% — below threshold'],
-  ['09:14:45','FILT','cg','Skip. Minimum Sharpe not met.'],
-  ['09:14:50','SIG ','cyl','Social: "Fed minutes leak" — velocity +280%'],
-  ['09:14:51','ORDER','cgr','BUY YES @ $0.34 — "Fed dovish June" — 20U'],
-  ['09:14:51','EXEC','cgr','Filled — monitoring resolution ✓'],
-  ['09:15:01','SCAN','cbl','Cycle complete — all systems nominal'],
-  ['09:15:02','STAT','cgr','Uptime: 99.97% — Trades: 23 — Win: 18/23'],
-  ['09:15:03','IDLE','cg','Standing by for next signal...'],
+  ['09:14:03','INIT','cgr','Polytragent v2.1 initialized — research engine active'],
+  ['09:14:04','PARSE','cbl','/research polymarket.com/event/trump-2026-midterms'],
+  ['09:14:04','SLUG','cg','Extracted slug: trump-2026-midterms'],
+  ['09:14:05','GAMMA','cyl','Fetching sub-markets from Gamma API...'],
+  ['09:14:05','FETCH','cbl','Found 12 sub-markets — 8 active, 4 expired/resolved'],
+  ['09:14:06','MFLD','cyl','Searching Manifold Markets: "trump 2026 midterms"'],
+  ['09:14:06','MATCH','cgr','3 matching markets found — top by liquidity'],
+  ['09:14:07','COMP','cbl','Poly: $0.41 YES / Manifold: $0.58 YES — divergence +17%'],
+  ['09:14:07','HIST','cyl','Checking prediction_store for "trump" + "midterms"...'],
+  ['09:14:08','TRACK','cgr','Found 6 related past predictions — 5/6 correct (83%)'],
+  ['09:14:08','BIAS','cg','Calibration: slight overconfidence on politics (+3%)'],
+  ['09:14:09','AI','cgr','Sending to Claude Sonnet for analysis...'],
+  ['09:14:10','EDGE','cgr','Sub-market "GOP wins House" — edge +28% — BUY YES'],
+  ['09:14:10','EDGE','cbl','Sub-market "Dem wins Senate" — edge +12% — BUY YES'],
+  ['09:14:11','HOLD','cg','Sub-market "Trump endorses" — no edge — HOLD'],
+  ['09:14:11','LOG','cyl','Logging 12 predictions to predictions.json'],
+  ['09:14:12','TELE','cgr','Research delivered to Telegram ✓'],
+  ['09:14:12','LINK','cbl','Trade links generated for 8 active markets'],
+  ['09:14:30','RESV','cyl','Background resolver: checking 47 open predictions...'],
+  ['09:14:31','OK','cgr','"ECB holds March" — resolved YES — prediction correct ✓'],
+  ['09:14:31','P&L','cgr','Hypothetical: +$14.20 on ECB position'],
+  ['09:14:32','MISS','crd','"BTC $75k March" — resolved NO — prediction wrong ✗'],
+  ['09:14:32','LEARN','cyl','Updating crypto calibration: reducing confidence -5%'],
+  ['09:14:33','STAT','cgr','Overall: 78% win rate — 18/23 lifetime predictions'],
+  ['09:14:40','PARSE','cbl','/research polymarket.com/event/fed-rate-decision-june'],
+  ['09:14:40','SLUG','cg','Extracted slug: fed-rate-decision-june'],
+  ['09:14:41','GAMMA','cyl','Fetching sub-markets from Gamma API...'],
+  ['09:14:41','FETCH','cbl','Found 8 sub-markets — 6 active, 2 expired'],
+  ['09:14:42','MFLD','cyl','Searching Manifold Markets: "fed rate june"'],
+  ['09:14:42','MATCH','cgr','5 matching markets found'],
+  ['09:14:43','COMP','cbl','Poly: $0.67 / Manifold: $0.74 — divergence +7%'],
+  ['09:14:43','HIST','cyl','Past "fed" predictions: 4/5 correct (80%)'],
+  ['09:14:44','AI','cgr','Claude analysis: BUY YES — confidence HIGH'],
+  ['09:14:44','EDGE','cgr','Edge: +7% vs market — recommendation: BUY YES'],
+  ['09:14:45','LOG','cyl','6 predictions logged to predictions.json'],
+  ['09:14:45','TELE','cgr','Research delivered to Telegram ✓'],
+  ['09:14:50','IDLE','cg','Waiting for next /research command...'],
+  ['09:15:01','RESV','cyl','Background check: 49 open predictions — 2 newly resolved'],
+  ['09:15:02','STAT','cgr','Updated win rate: 78.3% — calibration improving'],
+  ['09:15:03','IDLE','cg','Standing by...'],
 ];
 const ALL=[...SD,...SD,...SD];
 function buildStream(){
@@ -660,142 +656,119 @@ buildStream();
 // ============================================================
 const TERM_DATA = {
   boot: [
-    ['09:14:03','BOOT','#4a7c59','Polytragent v2.1 initialized — 4 strategies active'],
-    ['09:14:04','SCAN','#4a6080','Indexing 847 active Polymarket markets...'],
-    ['09:14:05','WATCH','#7c6a3a','Monitoring 12 smart wallets (Sharpe > 1.5)'],
-    ['09:14:05','FILT','#333','Filtering bot accounts via quadrant analysis'],
-    ['09:14:06','OK','#4a7c59','8 human traders confirmed — mirroring active'],
-    ['09:14:07','NEWS','#7c6a3a','Bloomberg: ECB rate decision — velocity +420%'],
-    ['09:14:07','SIG','#4a7c59','Signal: "ECB holds rates in March" confirmed'],
-    ['09:14:07','PROB','#4a6080','Market: 40% → True estimate: 68% — edge +28%'],
-    ['09:14:08','ORDER','#4a7c59','BUY YES @ $0.38 — 25 USDC — FOK mode'],
-    ['09:14:08','EXEC','#4a7c59','Filled in 0.4ms ✓ — position open'],
-    ['09:14:09','MM','#7c6a3a','"BTC $100k EOY" — market making both sides'],
-    ['09:14:09','BID','#4a6080','BID $0.497 / ASK $0.509 — spread 1.2¢'],
-    ['09:14:10','RISK','#333','Exposure: $247 / $1000 session limit — OK'],
-    ['09:14:11','COPY','#4a6080','0x3f...a2 placed BUY YES — mirroring...'],
-    ['09:14:11','ORDER','#4a7c59','BUY YES @ $0.41 — "Trump 2026 midterms"'],
-    ['09:14:12','EXEC','#4a7c59','Filled — position open — 18 USDC ✓'],
-    ['09:14:14','ARB','#7c6a3a','Kalshi/Poly spread detected — "Ukraine Q2"'],
-    ['09:14:14','DELTA','#4a6080','Poly: $0.520 / Kalshi: $0.489 — $0.031 delta'],
-    ['09:14:14','ORDER','#4a7c59','Cross-arb executing — both legs...'],
-    ['09:14:15','EXEC','#4a7c59','Both legs filled — $0.028 profit locked ✓'],
-    ['09:14:22','CLOSE','#4a7c59','Position closed: +$4.20 (+16.8%) ✓'],
-    ['09:14:23','P&L','#4a7c59','Session: +$18.41 — drawdown: 0.00%'],
-    ['09:14:24','SCAN','#4a6080','Scanning next opportunity...'],
-    ['09:14:25','IDLE','#333','No qualifying signals — holding positions'],
-    ['09:14:30','WATCH','#7c6a3a','On-chain: whale activity — new wallet pattern'],
-    ['09:14:31','SIG','#4a7c59','Momentum: "Nvidia Q2 earnings miss" — BUY NO'],
-    ['09:14:31','ORDER','#4a7c59','BUY NO @ $0.61 — 30 USDC — executing'],
-    ['09:14:32','EXEC','#4a7c59','Filled in 0.6ms ✓'],
-    ['09:14:35','ALERT','#7c6a3a','Telegram alert sent: trade opened'],
-    ['09:14:40','SCAN','#4a6080','Next cycle — monitoring 847 markets'],
+    ['09:14:03','INIT','#4a7c59','Polytragent v2.1 — research engine starting...'],
+    ['09:14:04','CMD','#fff','/research polymarket.com/event/trump-2026-midterms'],
+    ['09:14:04','PARSE','#4a6080','Detecting URL type: /event/ — multi-market mode'],
+    ['09:14:04','SLUG','#333','Extracted: trump-2026-midterms'],
+    ['09:14:05','GAMMA','#7c6a3a','Hitting Gamma API → /events?slug=trump-2026-midterms'],
+    ['09:14:05','FETCH','#4a6080','Found 12 sub-markets — parsing prices...'],
+    ['09:14:06','MKT','#4a6080','  → "GOP wins House 2026" — YES $0.41 / NO $0.59'],
+    ['09:14:06','MKT','#4a6080','  → "Dem wins Senate 2026" — YES $0.38 / NO $0.62'],
+    ['09:14:06','MKT','#333','  → "Trump endorses winner" — EXPIRED — resolved YES'],
+    ['09:14:07','MFLD','#7c6a3a','Searching Manifold: "trump 2026 midterms"...'],
+    ['09:14:07','MATCH','#4a7c59','3 markets found — comparing prices...'],
+    ['09:14:07','COMP','#4a6080','Poly: $0.41 / Manifold: $0.58 — divergence: +17%'],
+    ['09:14:08','HIST','#7c6a3a','Checking prediction_store for related events...'],
+    ['09:14:08','TRACK','#4a7c59','Found 6 past "politics" predictions — 5/6 correct'],
+    ['09:14:08','BIAS','#333','Calibration note: +3% overconfidence on politics'],
+    ['09:14:09','AI','#7c6a3a','Sending to Claude Sonnet for synthesis...'],
+    ['09:14:10','EDGE','#4a7c59','→ "GOP wins House" — BUY YES — edge +28% — HIGH conf'],
+    ['09:14:10','EDGE','#4a7c59','→ "Dem wins Senate" — BUY YES — edge +12% — MED conf'],
+    ['09:14:10','HOLD','#333','→ "Trump endorses" — HOLD — no clear edge'],
+    ['09:14:11','LOG','#7c6a3a','12 predictions logged to predictions.json'],
+    ['09:14:11','TELE','#4a7c59','Research delivered to Telegram ✓'],
+    ['09:14:12','LINK','#4a6080','Trade links: polymarket.com/event/... attached'],
+    ['09:14:15','IDLE','#333','Waiting for next /research command...'],
   ],
   trading: [
-    ['09:14:41','MM','#7c6a3a','Spread collected: $0.0094 — "ECB decision"'],
-    ['09:14:42','RISK','#333','Portfolio: 4 markets / $10k limit — 2.5%'],
-    ['09:14:45','COPY','#4a6080','0x7a...b3 — win rate 71% — below threshold'],
-    ['09:14:45','FILT','#333','Skip. Minimum Sharpe not met.'],
-    ['09:14:50','SIG','#7c6a3a','Social: "Fed minutes leak" — velocity +280%'],
-    ['09:14:51','ORDER','#4a7c59','BUY YES @ $0.34 — "Fed dovish June" — 20U'],
-    ['09:14:51','EXEC','#4a7c59','Filled — monitoring resolution ✓'],
-    ['09:15:01','SCAN','#4a6080','Cycle complete — all systems nominal'],
-    ['09:15:02','STAT','#4a7c59','Uptime: 99.97% — Trades: 23 — Win: 18/23'],
-    ['09:15:03','IDLE','#333','Standing by for next signal...'],
-    ['09:15:10','WATCH','#7c6a3a','On-chain: whale 0xab...f1 — $50k movement'],
-    ['09:15:11','SIG','#4a7c59','Whale correlated with "BTC $100k" market'],
-    ['09:15:12','PROB','#4a6080','Edge: 0.18 — above threshold 0.15'],
-    ['09:15:12','ORDER','#4a7c59','BUY YES @ $0.51 — 40 USDC — FOK'],
-    ['09:15:13','EXEC','#4a7c59','Filled in 0.3ms ✓'],
-    ['09:15:20','MM','#7c6a3a','Rebalancing "ECB March" — BID/ASK updated'],
-    ['09:15:21','BID','#4a6080','BID $0.65 / ASK $0.68 — spread 3.0¢'],
-    ['09:15:30','ARB','#7c6a3a','Kalshi delta expanding — "AI regulation"'],
-    ['09:15:30','DELTA','#4a6080','Poly: $0.41 / Kalshi: $0.38 — $0.030 delta'],
-    ['09:15:31','ORDER','#4a7c59','Cross-arb executing — both legs...'],
-    ['09:15:32','EXEC','#4a7c59','Both legs filled — $0.025 locked ✓'],
-    ['09:15:40','RISK','#333','Session exposure: $387 / $1000 — 38.7%'],
-    ['09:15:41','P&L','#4a7c59','Running P&L: +$22.84 — no drawdown'],
-    ['09:15:50','SCAN','#4a6080','847 markets — 12 pass liquidity filter'],
-    ['09:15:55','COPY','#4a6080','0x3f...a2 — BUY NO "Trump trial" @ $0.72'],
-    ['09:15:56','ORDER','#4a7c59','Mirroring — BUY NO @ $0.72 — 15 USDC'],
-    ['09:15:56','EXEC','#4a7c59','Filled ✓ — position open'],
-    ['09:16:01','STAT','#4a7c59','Active: 6 positions — Win rate: 78%'],
-    ['09:16:05','IDLE','#333','Cycle complete. Waiting for next signal...'],
+    ['09:15:00','CMD','#fff','/research polymarket.com/event/fed-rate-decision-june'],
+    ['09:15:00','PARSE','#4a6080','Event URL detected — multi-market mode'],
+    ['09:15:01','GAMMA','#7c6a3a','Fetching from Gamma API...'],
+    ['09:15:01','FETCH','#4a6080','8 sub-markets found — 6 active, 2 expired'],
+    ['09:15:02','MKT','#4a6080','  → "Fed cuts 25bp June" — YES $0.67 / NO $0.33'],
+    ['09:15:02','MKT','#4a6080','  → "Fed holds June" — YES $0.28 / NO $0.72'],
+    ['09:15:02','MKT','#333','  → "Fed cuts March" — EXPIRED — resolved NO'],
+    ['09:15:03','MFLD','#7c6a3a','Searching Manifold: "fed rate june 2026"...'],
+    ['09:15:03','MATCH','#4a7c59','5 matching markets found'],
+    ['09:15:04','COMP','#4a6080','Poly: $0.67 / Manifold: $0.74 — divergence: +7%'],
+    ['09:15:04','COMP','#4a6080','Poly: $0.28 / Manifold: $0.21 — divergence: -7%'],
+    ['09:15:05','HIST','#7c6a3a','Past "fed" predictions: 4/5 correct (80%)'],
+    ['09:15:05','BIAS','#333','Strong topic — no calibration adjustment needed'],
+    ['09:15:06','AI','#7c6a3a','Claude analysis running...'],
+    ['09:15:07','EDGE','#4a7c59','→ "Fed cuts June" — BUY YES — edge +7% — HIGH conf'],
+    ['09:15:07','EDGE','#4a7c59','→ "Fed holds June" — BUY NO — edge +7% — MED conf'],
+    ['09:15:08','LOG','#7c6a3a','6 predictions logged'],
+    ['09:15:08','TELE','#4a7c59','Research delivered to Telegram ✓'],
+    ['09:15:10','IDLE','#333','Standing by for next command...'],
+    ['09:15:30','RESV','#7c6a3a','Background resolver: checking 49 open predictions...'],
+    ['09:15:31','OK','#4a7c59','"ECB holds March" — resolved YES — correct ✓'],
+    ['09:15:31','P&L','#4a7c59','Hypothetical P&L: +$14.20'],
+    ['09:15:32','MISS','#7c4a4a','"BTC $75k March" — resolved NO — wrong ✗'],
+    ['09:15:32','LEARN','#7c6a3a','Crypto calibration adjusted: -5% confidence'],
+    ['09:15:33','STAT','#4a7c59','Overall: 78% win rate — 18/23 correct'],
   ],
   monitor: [
-    ['09:14:08','EXEC','#4a7c59','BUY YES "ECB holds March" filled — $0.38'],
-    ['09:14:09','ALERT','#7c6a3a','Telegram: New position opened'],
-    ['09:14:12','EXEC','#4a7c59','BUY YES "Trump midterms" filled — $0.41'],
-    ['09:14:15','EXEC','#4a7c59','ARB both legs filled — locked $0.028'],
-    ['09:14:22','CLOSE','#4a7c59','Position closed: +$4.20 (+16.8%) ✓'],
-    ['09:14:23','P&L','#4a7c59','Session: +$18.41 — drawdown: 0.00%'],
-    ['09:14:25','RISK','#333','All positions within risk limits'],
-    ['09:14:30','WATCH','#7c6a3a','Whale 0xab...f1 activity detected'],
-    ['09:14:32','EXEC','#4a7c59','BUY NO "Nvidia Q2" filled — $0.61'],
-    ['09:14:35','ALERT','#7c6a3a','Telegram: 3 active positions'],
-    ['09:14:40','MM','#7c6a3a','Spread: $0.009 collected — "ECB decision"'],
-    ['09:14:42','RISK','#333','Drawdown: 0.0% — session limit: OK'],
-    ['09:14:50','SIG','#4a7c59','New signal: "Fed minutes" — velocity +280%'],
-    ['09:14:51','EXEC','#4a7c59','BUY YES "Fed dovish" filled — $0.34'],
-    ['09:14:52','ALERT','#7c6a3a','Telegram: Position #4 opened'],
-    ['09:15:01','STAT','#4a7c59','Session: 5 trades — 4 wins — 1 pending'],
-    ['09:15:10','P&L','#4a7c59','Running P&L: +$22.84 across 5 positions'],
-    ['09:15:15','RISK','#333','Max position: $40 / $100 limit — compliant'],
-    ['09:15:20','MM','#7c6a3a','Spread rebalance complete — 3 markets'],
-    ['09:15:30','ARB','#7c6a3a','New arb detected — Poly/Kalshi delta $0.03'],
-    ['09:15:32','EXEC','#4a7c59','Arb filled — $0.025 profit locked ✓'],
-    ['09:15:40','ALERT','#7c6a3a','Telegram: Daily digest sent'],
-    ['09:15:50','STAT','#4a7c59','Win rate: 78% — 18/23 lifetime trades'],
-    ['09:15:55','COPY','#4a6080','Mirror trade: 0x3f...a2 BUY NO $0.72'],
-    ['09:15:56','EXEC','#4a7c59','Mirror filled ✓ — 6 active positions'],
+    ['09:14:10','EDGE','#4a7c59','GOP wins House — Poly $0.41 / AI est $0.69 — BUY YES'],
+    ['09:14:10','CONF','#7c6a3a','Confidence: HIGH — past politics accuracy 83%'],
+    ['09:14:10','EDGE','#4a7c59','Dem wins Senate — Poly $0.38 / AI est $0.50 — BUY YES'],
+    ['09:14:10','CONF','#7c6a3a','Confidence: MEDIUM — limited comparable data'],
+    ['09:14:11','HOLD','#333','Trump endorses winner — fair price — HOLD'],
+    ['09:14:11','TELE','#4a7c59','Results sent to Telegram ✓'],
+    ['09:15:07','EDGE','#4a7c59','Fed cuts June — Poly $0.67 / AI est $0.74 — BUY YES'],
+    ['09:15:07','MFLD','#4a6080','Manifold confirms: $0.74 — cross-platform agreement'],
+    ['09:15:07','EDGE','#4a7c59','Fed holds June — Poly $0.28 / AI est $0.21 — BUY NO'],
+    ['09:15:08','TELE','#4a7c59','Results sent to Telegram ✓'],
+    ['09:15:31','RESV','#4a7c59','ECB March — resolved — prediction CORRECT ✓'],
+    ['09:15:31','P&L','#4a7c59','Hypothetical: +$14.20 (+37.4%)'],
+    ['09:15:32','RESV','#7c4a4a','BTC $75k March — resolved — prediction WRONG ✗'],
+    ['09:15:32','LEARN','#7c6a3a','Adjusting crypto calibration...'],
+    ['09:15:33','STAT','#4a7c59','Win rate: 78% — improving on economics (+4%)'],
+    ['09:15:40','RESV','#4a7c59','Ukraine ceasefire Q1 — resolved — CORRECT ✓'],
+    ['09:15:40','P&L','#4a7c59','Hypothetical: +$8.60 (+22.1%)'],
+    ['09:15:50','STAT','#4a7c59','Lifetime: 19/24 correct — calibration score: 0.82'],
+    ['09:15:55','IDLE','#333','Background resolver sleeping — next check in 6h'],
   ],
   setup: [
-    ['09:14:00','SYS','#333','$ polytragent connect --wallet 0x3f...a2'],
-    ['09:14:01','AUTH','#4a6080','Deriving API credentials from private key...'],
-    ['09:14:01','AUTH','#4a7c59','Credentials derived. Session: ptg_8f2a***'],
-    ['09:14:02','API','#4a7c59','Connected to Polymarket CLOB API ✓'],
-    ['09:14:02','CONF','#333','Loading config: strategy=balanced'],
-    ['09:14:02','RISK','#333','max_drawdown=10% max_pos=$100'],
-    ['09:14:03','CONF','#7c6a3a','Allocation: momentum 40% | MM 30% | copy 20% | arb 10%'],
-    ['09:14:03','INIT','#4a6080','Initializing signal engine...'],
-    ['09:14:04','NEWS','#4a7c59','Bloomberg, Reuters, AP — active ✓'],
-    ['09:14:04','CHAIN','#4a7c59','Polygon mainnet — active ✓'],
-    ['09:14:04','SOC','#4a7c59','X, Telegram — active ✓'],
-    ['09:14:05','WATCH','#7c6a3a','Smart wallets: 12 loaded — filtering...'],
-    ['09:14:05','FILT','#333','4 bot accounts removed'],
-    ['09:14:06','OK','#4a7c59','8 human traders confirmed ✓'],
-    ['09:14:06','MM','#7c6a3a','Market making: 3 markets configured'],
-    ['09:14:06','SYS','#4a7c59','All systems nominal.'],
-    ['09:14:07','SYS','#fff','$ Agent started. Monitoring 847 markets.'],
-    ['09:14:08','SIG','#4a6080','First signal in 4 seconds...'],
-    ['09:14:12','SIG','#7c6a3a','[BUY] "ECB holds March" — executing...'],
-    ['09:14:12','EXEC','#4a7c59','Filled in 0.4ms ✓ — position open'],
-    ['09:14:15','ALERT','#7c6a3a','Telegram alert sent: first trade'],
-    ['09:14:20','SCAN','#4a6080','Scanning 847 markets...'],
-    ['09:14:25','STAT','#4a7c59','Status: 1 position — $0.38 entry — monitoring'],
-    ['09:14:30','SIG','#7c6a3a','New signal detected — processing...'],
+    ['09:14:00','SYS','#333','$ Open Telegram → @PolytragentBot'],
+    ['09:14:01','BOT','#4a6080','Welcome to Polytragent — AI Research for Polymarket'],
+    ['09:14:01','BOT','#4a6080','Commands: /research [url] · /stats · /history'],
+    ['09:14:02','CMD','#fff','/research polymarket.com/event/trump-2026-midterms'],
+    ['09:14:02','PARSE','#333','Parsing URL... event detected'],
+    ['09:14:03','GAMMA','#7c6a3a','Fetching 12 sub-markets from Gamma API...'],
+    ['09:14:04','MFLD','#7c6a3a','Cross-referencing Manifold Markets...'],
+    ['09:14:05','HIST','#7c6a3a','Checking past prediction accuracy...'],
+    ['09:14:06','AI','#7c6a3a','Running Claude Sonnet analysis...'],
+    ['09:14:08','DONE','#4a7c59','Research complete — 8 active markets analyzed'],
+    ['09:14:08','EDGE','#4a7c59','→ 3 markets with edge detected'],
+    ['09:14:08','HOLD','#333','→ 5 markets — no edge — HOLD'],
+    ['09:14:09','TELE','#4a7c59','Results delivered to your Telegram ✓'],
+    ['09:14:09','LINK','#4a6080','Trade links included — click to execute on Polymarket'],
+    ['09:14:10','LOG','#7c6a3a','8 predictions logged — tracking started'],
+    ['09:14:15','SYS','#4a7c59','That took 8 seconds. Try another event ↓'],
+    ['09:14:20','CMD','#fff','/stats'],
+    ['09:14:20','STAT','#4a7c59','Win rate: 78% — 18/23 correct predictions'],
+    ['09:14:20','STAT','#4a6080','Best topic: Economics (85%) — Weakest: Crypto (60%)'],
+    ['09:14:21','STAT','#7c6a3a','Calibration: slightly overconfident on politics (+3%)'],
+    ['09:14:25','IDLE','#333','Send another /research to continue...'],
   ],
   cta: [
-    ['','$','#fff','polytragent connect --wallet 0x3f...a2'],
-    ['','SYS','#444','Deriving API credentials...'],
-    ['','SYS','#555','Credentials derived. Session: ptg_***'],
-    ['','API','#4a7c59','Connected to Polymarket CLOB API ✓'],
-    ['','CONF','#444','Loading strategy: balanced'],
-    ['','RISK','#444','max_drawdown=10% max_pos=$100'],
-    ['','INIT','#444','Initializing signal engine...'],
-    ['','NEWS','#555','Bloomberg, Reuters, AP — active'],
-    ['','CHAIN','#555','Polygon mainnet — active'],
-    ['','SOC','#555','X, Telegram — active'],
-    ['','WATCH','#444','Smart wallets: 12 loaded — filtering...'],
-    ['','FILT','#444','4 bot accounts removed'],
-    ['','OK','#4a7c59','8 human traders confirmed ✓'],
-    ['','MM','#555','Market making: 3 markets configured'],
-    ['','SYS','#666','All systems nominal.'],
+    ['','$','#fff','/research polymarket.com/event/ukraine-ceasefire-q2'],
+    ['','PARSE','#444','URL parsed — event mode detected'],
+    ['','GAMMA','#555','Fetching 15 sub-markets...'],
+    ['','MFLD','#555','Cross-referencing Manifold...'],
+    ['','HIST','#444','Past geo predictions: 71% accurate'],
+    ['','AI','#555','Claude analysis running...'],
     ['','','#333',''],
-    ['','$','#fff','Agent started. Monitoring 847 markets.'],
-    ['','SIG','#444','First signal in 4 seconds...'],
-    ['','ORDER','#555','[BUY] "ECB holds March" — executing...'],
-    ['','EXEC','#6ee7b7','Filled in 0.4ms ✓ — position open'],
+    ['','EDGE','#4a7c59','→ "Ceasefire by June" — BUY NO — edge +18%'],
+    ['','EDGE','#4a7c59','→ "Negotiations resume" — BUY YES — edge +9%'],
+    ['','HOLD','#444','→ "Full peace deal" — no edge — HOLD'],
+    ['','','#333',''],
+    ['','LOG','#555','15 predictions logged'],
+    ['','TELE','#6ee7b7','Research delivered to Telegram ✓'],
+    ['','','#333',''],
+    ['','STAT','#555','Win rate: 78% — self-improving with every prediction'],
+    ['','','#333',''],
+    ['','$','#fff','/research — send any Polymarket link to start'],
   ],
 };
 
@@ -907,15 +880,15 @@ const termObserver = new IntersectionObserver(entries => {
 terminals.forEach(t => termObserver.observe(t.el));
 
 // ============================================================
-// LIVE DATA MONITOR
+// RESEARCH RESULTS MONITOR
 // ============================================================
 const MARKETS=[
-  {name:'ECB holds March',entry:'$0.38',current:'$0.52',pnl:'+36.8%',cls:'dm-pos'},
-  {name:'Trump 2026 midterms',entry:'$0.41',current:'$0.44',pnl:'+7.3%',cls:'dm-pos'},
-  {name:'BTC $100k EOY',entry:'$0.50',current:'$0.49',pnl:'-2.0%',cls:'dm-neg'},
-  {name:'Fed dovish June',entry:'$0.34',current:'$0.39',pnl:'+14.7%',cls:'dm-pos'},
-  {name:'Nvidia Q2 miss (NO)',entry:'$0.61',current:'$0.64',pnl:'+4.9%',cls:'dm-pos'},
-  {name:'Ukraine ceasefire Q2',entry:'$0.52',current:'$0.51',pnl:'-1.9%',cls:'dm-neg'},
+  {name:'GOP wins House 2026',entry:'$0.41',current:'$0.69',pnl:'+28%',cls:'dm-pos'},
+  {name:'Fed cuts 25bp June',entry:'$0.67',current:'$0.74',pnl:'+7%',cls:'dm-pos'},
+  {name:'Dem wins Senate 2026',entry:'$0.38',current:'$0.50',pnl:'+12%',cls:'dm-pos'},
+  {name:'Ukraine ceasefire Q2',entry:'$0.52',current:'$0.34',pnl:'-18%',cls:'dm-neg'},
+  {name:'BTC $100k EOY',entry:'$0.49',current:'$0.51',pnl:'+2%',cls:'dm-pos'},
+  {name:'Nvidia Q2 miss',entry:'$0.22',current:'$0.31',pnl:'+9%',cls:'dm-pos'},
 ];
 const dmEl=document.getElementById('dm-rows');
 function buildMonitor(){
