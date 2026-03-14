@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resources — Polymarket Trading Guides, Strategies & Tools | Polytragent</title>
+  <meta name="description" content="Polymarket trading resources — strategies, automated trading, whale tracking, market making, Telegram bots, and POLY token airdrop guides. Everything you need to profit on prediction markets.">
+  <meta property="og:title" content="Resources — Polymarket Trading Guides & Tools">
+  <meta property="og:description" content="Complete collection of Polymarket trading resources — strategies, tools, and guides for prediction market traders.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://polytragent.com/resources">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"CollectionPage","name":"Polytragent Resources","description":"Polymarket trading guides, strategies, and tools","url":"https://polytragent.com/resources","publisher":{"@type":"Organization","name":"Polytragent"}}
+  </script>
+  <style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --black:#000;--white:#fff;--gray:#888;--gray2:#444;--gray3:#222;
+  --border:#1a1a1a;--font-sans:'Inter',sans-serif;--font-mono:'JetBrains Mono',monospace;
+  --green:#6ee7b7;--red:#fca5a5;--blue:#93c5fd;--yellow:#fde68a;
+  --code-bg:#080808;--code-border:#141414;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--white);font-family:var(--font-sans);font-size:16px;line-height:1.6;overflow-x:hidden;}
+a{color:inherit;text-decoration:none;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:64px;border-bottom:1px solid var(--border);background:rgba(0,0,0,0.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);}
+.nav-links{display:flex;gap:32px;list-style:none;}
+.nav-links a{font-size:14px;color:var(--gray);transition:color .15s;}
+.nav-links a:hover{color:var(--white);}
+.nav-links li{position:relative;}
+.nav-dropdown{display:none;position:absolute;top:100%;left:-16px;padding-top:12px;z-index:300;}
+.nav-links li:hover .nav-dropdown{display:block;}
+.nav-dropdown-inner{background:rgba(0,0,0,0.96);border:1px solid var(--border);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);padding:12px 0;min-width:260px;}
+.nav-dropdown a{display:block;padding:8px 20px;font-size:13px;color:var(--gray);transition:color .15s,background .15s;white-space:nowrap;}
+.nav-dropdown a:hover{color:var(--white);background:rgba(255,255,255,.04);}
+.ndrop-label{padding:6px 20px 4px;font-family:var(--font-mono);font-size:9px;color:var(--gray2);letter-spacing:2px;text-transform:uppercase;}
+.ndrop-label:not(:first-child){margin-top:8px;border-top:1px solid var(--border);padding-top:10px;}
+.nav-ctas{display:flex;gap:12px;align-items:center;}
+.btn-solid{display:inline-flex;align-items:center;gap:6px;padding:9px 20px;background:var(--white);color:var(--black);font-size:13px;font-weight:500;font-family:var(--font-sans);border:none;cursor:pointer;transition:opacity .15s;}
+.btn-solid:hover{opacity:.85;}
+.btn-outline{display:inline-flex;align-items:center;gap:6px;padding:8px 20px;background:transparent;color:var(--white);font-size:13px;border:1px dashed var(--gray2);cursor:pointer;transition:border-color .15s;}
+.btn-outline:hover{border-color:var(--white);}
+
+footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;position:relative;z-index:1;}
+.fcopy{font-family:var(--font-mono);font-size:10px;color:var(--gray2);}
+.flinks{display:flex;gap:28px;list-style:none;}
+.flinks a{font-size:13px;color:var(--gray2);transition:color .15s;}.flinks a:hover{color:var(--white);}
+.disc{border-top:1px solid var(--border);padding:18px 48px;position:relative;z-index:1;}
+.disc p{font-size:10px;color:#2a2a2a;font-family:var(--font-mono);line-height:1.6;}
+
+.rev2{opacity:0;transform:translateY(16px);transition:opacity .55s,transform .55s;}
+.rev2.in{opacity:1;transform:none;}
+
+@media(max-width:900px){
+  nav{padding:0 20px;}
+  .nav-links{display:none;}
+  footer,.disc{padding:24px;}
+}
+
+/* Page-specific */
+.breadcrumb{font-family:var(--font-mono);font-size:11px;color:var(--gray2);margin-bottom:24px;}
+.breadcrumb a{color:var(--gray);transition:color .15s;}
+.breadcrumb a:hover{color:var(--white);}
+
+.page-header{max-width:960px;padding:120px 48px 40px;margin:0 auto;}
+.page-header h1{font-size:clamp(30px,3.8vw,50px);font-weight:600;line-height:1.1;letter-spacing:-1.5px;margin-bottom:16px;}
+.page-header p{font-size:16px;color:var(--gray);line-height:1.7;max-width:600px;font-weight:300;}
+
+.content{max-width:960px;margin:0 auto;padding:0 48px 80px;}
+.section-label{font-family:var(--font-mono);font-size:10px;color:var(--gray2);letter-spacing:2px;text-transform:uppercase;margin:48px 0 20px;padding-top:32px;border-top:1px solid var(--border);}
+.section-label:first-child{border-top:none;padding-top:0;margin-top:0;}
+
+.resource-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:var(--border);margin-bottom:48px;}
+.resource-card{background:#000;padding:28px;display:flex;flex-direction:column;gap:12px;transition:background .15s;}
+.resource-card:hover{background:#050505;}
+.resource-card .card-vol{font-family:var(--font-mono);font-size:10px;color:var(--gray2);letter-spacing:1px;}
+.resource-card h3{font-size:18px;font-weight:600;letter-spacing:-0.3px;margin:0;}
+.resource-card p{font-size:13px;color:var(--gray);margin:0;line-height:1.65;font-weight:300;}
+.resource-card a{display:inline-flex;align-items:center;gap:6px;margin-top:auto;color:var(--white);font-size:13px;font-weight:500;padding-top:8px;transition:opacity .15s;}
+.resource-card a:hover{opacity:.7;}
+
+.cta-bar{background:var(--code-bg);border:1px solid var(--code-border);padding:32px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;margin:48px 0;}
+.cta-bar-text h3{font-size:20px;font-weight:600;margin-bottom:4px;}
+.cta-bar-text p{font-size:14px;color:var(--gray);font-weight:300;}
+
+.btn-sl{padding:14px 28px;font-size:14px;font-weight:500;background:var(--white);color:var(--black);border:none;cursor:pointer;font-family:var(--font-sans);display:inline-flex;align-items:center;gap:8px;transition:opacity .15s;}
+.btn-sl:hover{opacity:.85;}
+
+@media(max-width:900px){
+  .page-header{padding:100px 20px 30px;}
+  .content{padding:0 20px 60px;}
+  .resource-grid{grid-template-columns:1fr;}
+  .cta-bar{flex-direction:column;text-align:center;}
+}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/"><svg height="22" viewBox="0 0 340 40" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 33 L20 5 L36 33" stroke="white" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/><text x="52" y="29" font-family="Inter,sans-serif" font-size="19" font-weight="600" letter-spacing="4" fill="white">POLYTRAGENT</text></svg></a>
+  <ul class="nav-links">
+    <li><a href="/#features">Features</a></li>
+    <li><a href="/#how-it-works">How it works</a></li>
+    <li><a href="/#pricing">Pricing</a></li>
+    <li>
+      <a href="#">Resources ▾</a>
+      <div class="nav-dropdown"><div class="nav-dropdown-inner">
+        <div class="ndrop-label">Compare</div>
+        <a href="/compare">All Comparisons</a>
+        <a href="/compare/polytragent-vs-polycop">Polytragent vs PolyCop</a>
+        <a href="/compare/polytragent-vs-polysight">Polytragent vs Polysight</a>
+        <a href="/compare/copy-trading-bots">Copy Trading Bots</a>
+        <a href="/compare/polycop-alternative">PolyCop Alternative</a>
+        <a href="/compare/polysight-alternative">Polysight Alternative</a>
+        <div class="ndrop-label">Landing Pages</div>
+        <a href="/resources/polymarket-strategies">Polymarket Strategies 2026</a>
+        <a href="/resources/how-to-make-money-polymarket">How to Make Money</a>
+        <a href="/resources/prediction-market-strategies">Prediction Market Strategies</a>
+        <a href="/resources/polymarket-telegram-bots">Telegram Bots</a>
+        <a href="/resources/polymarket-automated-trading">Automated Trading</a>
+        <a href="/resources/polymarket-whale-tracking">Whale Tracking</a>
+        <a href="/resources/polymarket-market-making">Market Making</a>
+        <a href="/resources/polymarket-poly-token">POLY Token Airdrop</a>
+        <div class="ndrop-label">Blog</div>
+        <a href="/blog">All Articles</a>
+        <a href="/blog/polymarket-prediction-bot">Polymarket Prediction Bot</a>
+        <a href="/blog/polymarket-tools-guide">Polymarket Tools Guide</a>
+        <a href="/blog/best-polymarket-bots-2026">Best Polymarket Bots 2026</a>
+        <a href="/blog/polymarket-trading-bot">Polymarket Trading Bot</a>
+        <a href="/blog/copy-trade-bot">Copy Trade Bot Guide</a>
+        <a href="/blog/copy-trading-guide">Copy Trading Guide</a>
+        <a href="/blog/polymarket-strategies-2026">Polymarket Strategies 2026</a>
+        <a href="/blog/how-to-make-money-polymarket">How to Make Money on Polymarket</a>
+        <a href="/blog/prediction-market-strategies">Prediction Market Strategies</a>
+        <a href="/blog/polymarket-telegram-bots">Polymarket Telegram Bots</a>
+        <a href="/blog/polymarket-automated-trading">Automated Trading Guide</a>
+        <a href="/blog/polymarket-whale-tracking">Whale Tracking Guide</a>
+        <a href="/blog/polymarket-market-making">Market Making Guide</a>
+        <a href="/blog/polymarket-poly-token">POLY Token Airdrop Guide</a>
+      </div></div>
+    </li>
+    <li><a href="/#faq">FAQ</a></li>
+  </ul>
+  <div class="nav-ctas"><a href="/#pricing" class="btn-outline">See plans</a><a href="https://t.me/bmpolybot" target="_blank" class="btn-solid">Get started →</a></div>
+</nav>
+
+<div class="page-header">
+  <div class="breadcrumb"><a href="/">Home</a> / <span>Resources</span></div>
+  <h1>Polymarket Trading Resources</h1>
+  <p>Guides, strategies, and tools for prediction market traders. From your first trade to advanced automation — everything you need to find edge on Polymarket.</p>
+</div>
+
+<div class="content">
+
+  <!-- LANDING PAGES -->
+  <div class="section-label">GUIDES & STRATEGIES</div>
+
+  <div class="resource-grid">
+    <div class="resource-card rev2">
+      <div class="card-vol">6,800 monthly searches</div>
+      <h3>How to Make Money on Polymarket</h3>
+      <p>Step-by-step guide from account setup to your first profitable trade. Finding mispriced markets, managing risk, and tracking P&L.</p>
+      <a href="/resources/how-to-make-money-polymarket">Read guide →</a>
+    </div>
+    <div class="resource-card rev2">
+      <div class="card-vol">5,200 monthly searches</div>
+      <h3>POLY Token Airdrop Guide</h3>
+      <p>Complete guide to the POLY token — eligibility criteria, airdrop mechanics, volume tiers, and how to maximize your allocation.</p>
+      <a href="/resources/polymarket-poly-token">Read guide →</a>
+    </div>
+    <div class="resource-card rev2">
+      <div class="card-vol">4,200 monthly searches</div>
+      <h3>Polymarket Strategies 2026</h3>
+      <p>6 proven strategies for Polymarket — research-driven trading, cross-platform arbitrage, news velocity, and AI-powered edge detection.</p>
+      <a href="/resources/polymarket-strategies">Read guide →</a>
+    </div>
+    <div class="resource-card rev2">
+      <div class="card-vol">2,400 monthly searches</div>
+      <h3>Prediction Market Strategies</h3>
+      <p>7 strategies for Polymarket, Manifold, and Kalshi — fundamental analysis, calibration-based trading, and statistical methods.</p>
+      <a href="/resources/prediction-market-strategies">Read guide →</a>
+    </div>
+  </div>
+
+  <div class="section-label">TOOLS & AUTOMATION</div>
+
+  <div class="resource-grid">
+    <div class="resource-card rev2">
+      <div class="card-vol">1,900 monthly searches</div>
+      <h3>Polymarket Telegram Bots</h3>
+      <p>Complete review of Telegram bots for Polymarket — alerts, research commands, tracking features. Find the best bot for your style.</p>
+      <a href="/resources/polymarket-telegram-bots">Read guide →</a>
+    </div>
+    <div class="resource-card rev2">
+      <div class="card-vol">1,200 monthly searches</div>
+      <h3>Automated Trading on Polymarket</h3>
+      <p>Guide to automated trading — API access, bot frameworks, AI research automation, and risk management systems.</p>
+      <a href="/resources/polymarket-automated-trading">Read guide →</a>
+    </div>
+    <div class="resource-card rev2">
+      <div class="card-vol">720 monthly searches</div>
+      <h3>Market Making on Polymarket</h3>
+      <p>How to provide liquidity and profit — bid-ask spreads, inventory management, automated quoting, and scaling operations.</p>
+      <a href="/resources/polymarket-market-making">Read guide →</a>
+    </div>
+    <div class="resource-card rev2">
+      <div class="card-vol">480 monthly searches</div>
+      <h3>Whale Tracking on Polymarket</h3>
+      <p>Track whale wallets, interpret large position changes, on-chain analysis tools, and how AI factors whale activity into signals.</p>
+      <a href="/resources/polymarket-whale-tracking">Read guide →</a>
+    </div>
+  </div>
+
+  <div class="cta-bar rev2">
+    <div class="cta-bar-text">
+      <h3>Stop reading. Start researching with AI.</h3>
+      <p>Send any Polymarket link. Get instant AI-powered edge detection.</p>
+    </div>
+    <a href="https://t.me/bmpolybot" target="_blank" class="btn-sl">Get started →</a>
+  </div>
+
+  <!-- COMPARISONS -->
+  <div class="section-label">TOOL COMPARISONS</div>
+
+  <div class="resource-grid">
+    <div class="resource-card rev2">
+      <h3>Polytragent vs PolyCop</h3>
+      <p>AI research agent vs copy trading bot — feature-by-feature comparison for Polymarket traders.</p>
+      <a href="/compare/polytragent-vs-polycop">Compare →</a>
+    </div>
+    <div class="resource-card rev2">
+      <h3>Polytragent vs Polysight</h3>
+      <p>AI research agent vs analytics dashboard — which tool gives you more edge?</p>
+      <a href="/compare/polytragent-vs-polysight">Compare →</a>
+    </div>
+    <div class="resource-card rev2">
+      <h3>Copy Trading Bots Compared</h3>
+      <p>Side-by-side comparison of every copy trading bot for Polymarket in 2026.</p>
+      <a href="/compare/copy-trading-bots">Compare →</a>
+    </div>
+    <div class="resource-card rev2">
+      <h3>PolyCop Alternative</h3>
+      <p>Looking beyond PolyCop? Research-driven alternatives that find edge instead of copying it.</p>
+      <a href="/compare/polycop-alternative">Compare →</a>
+    </div>
+    <div class="resource-card rev2">
+      <h3>Polysight Alternative</h3>
+      <p>Better than Polysight? AI-powered research that goes beyond basic analytics.</p>
+      <a href="/compare/polysight-alternative">Compare →</a>
+    </div>
+    <div class="resource-card rev2">
+      <h3>All Comparisons</h3>
+      <p>Full comparison hub — every Polymarket tool ranked and reviewed.</p>
+      <a href="/compare">View all →</a>
+    </div>
+  </div>
+
+  <!-- BLOG -->
+  <div class="section-label">BLOG ARTICLES</div>
+
+  <div class="resource-grid">
+    <div class="resource-card rev2">
+      <h3>Best Polymarket Bots 2026</h3>
+      <p>Complete ranking of every Polymarket bot — features, pricing, performance.</p>
+      <a href="/blog/best-polymarket-bots-2026">Read →</a>
+    </div>
+    <div class="resource-card rev2">
+      <h3>Polymarket Prediction Bot</h3>
+      <p>How AI prediction bots find edge by analyzing millions of data points.</p>
+      <a href="/blog/polymarket-prediction-bot">Read →</a>
+    </div>
+    <div class="resource-card rev2">
+      <h3>Polymarket Tools Guide</h3>
+      <p>25 must-have tools for traders — research agents, analytics, arbitrage scanners.</p>
+      <a href="/blog/polymarket-tools-guide">Read →</a>
+    </div>
+    <div class="resource-card rev2">
+      <h3>Polymarket Trading Bot</h3>
+      <p>How trading bots work and why automated strategies matter in prediction markets.</p>
+      <a href="/blog/polymarket-trading-bot">Read →</a>
+    </div>
+    <div class="resource-card rev2">
+      <h3>Copy Trading Guide</h3>
+      <p>Mirror successful traders — wallet tracking, proportional sizing, and risk management.</p>
+      <a href="/blog/copy-trading-guide">Read →</a>
+    </div>
+    <div class="resource-card rev2">
+      <h3>All Blog Articles</h3>
+      <p>Browse the full collection of Polymarket trading articles and research.</p>
+      <a href="/blog">View all →</a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div>
+    <svg height="20" viewBox="0 0 340 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:.35;"><path d="M4 33 L20 5 L36 33" stroke="white" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/><text x="52" y="29" font-family="Inter,sans-serif" font-size="19" font-weight="600" letter-spacing="4" fill="white">POLYTRAGENT</text></svg>
+    <div class="fcopy" style="margin-top:8px;">© 2026 Polytragent. AI Research for Polymarket.</div>
+  </div>
+  <ul class="flinks">
+    <li><a href="/features">Features</a></li>
+    <li><a href="/#pricing">Pricing</a></li>
+    <li><a href="/resources">Resources</a></li>
+    <li><a href="/blog">Blog</a></li>
+    <li><a href="/#faq">FAQ</a></li>
+    <li><a href="#">X / Twitter</a></li>
+  </ul>
+</footer>
+<div class="disc">
+  <p>Risk Disclaimer: Prediction market trading involves significant financial risk. AI-powered research does not guarantee profits. Past performance is not indicative of future results. Polytragent is a research tool, not a financial advisor. Only trade capital you can afford to lose.</p>
+</div>
+
+<script>
+const obs=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});
+},{threshold:0.08});
+document.querySelectorAll('.rev2').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
