@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI-Powered Market Research | Polytragent</title>
+  <meta name="description" content="Leverage Claude AI to analyze Polymarket events, sub-markets, and forecaster data. Get edge-scored BUY/HOLD/SELL recommendations in seconds via Telegram.">
+  <meta property="og:title" content="AI-Powered Market Research | Polytragent">
+  <meta property="og:description" content="Real-time Polymarket research powered by Claude AI. Analyze all sub-markets, detect divergences, get recommendations.">
+  <meta property="og:url" content="https://polytragent.com/features/ai-market-research.html">
+  <meta property="og:type" content="website">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    :root {
+      --black: #000;
+      --white: #fff;
+      --gray: #888;
+      --gray2: #444;
+      --gray3: #222;
+      --border: #1a1a1a;
+      --font-sans: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --green: #6ee7b7;
+      --code-bg: #080808;
+      --code-border: #141414;
+    }
+    html, body {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 40px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: rgba(0,0,0,0.95);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+    }
+    nav a { text-decoration: none; }
+    nav > a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    nav svg {
+      height: 22px;
+      width: auto;
+    }
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 32px;
+    }
+    .nav-links a {
+      color: var(--gray);
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover {
+      color: var(--green);
+    }
+    .nav-ctas {
+      display: flex;
+      gap: 12px;
+    }
+    .btn-outline, .btn-solid {
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px dashed var(--green);
+      border-radius: 0;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: var(--font-mono);
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-outline {
+      color: var(--green);
+      background: transparent;
+    }
+    .btn-outline:hover {
+      background: rgba(110, 231, 183, 0.1);
+    }
+    .btn-solid {
+      background: var(--green);
+      color: var(--black);
+      border-color: var(--green);
+    }
+    .btn-solid:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(110, 231, 183, 0.2);
+    }
+    .breadcrumb {
+      padding: 40px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--gray);
+      border-bottom: 1px solid var(--border);
+    }
+    .breadcrumb a {
+      color: var(--green);
+      text-decoration: none;
+    }
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+    section {
+      padding: 80px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .hero {
+      text-align: center;
+      padding: 120px 40px;
+    }
+    .hero h1 {
+      font-size: 52px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, var(--white), var(--gray));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-subtitle {
+      font-size: 18px;
+      color: var(--gray);
+      max-width: 600px;
+      margin: 0 auto 40px;
+      line-height: 1.8;
+    }
+    .hero-cta {
+      display: inline-block;
+      padding: 14px 28px;
+      background: var(--green);
+      color: var(--black);
+      border: 1px solid var(--green);
+      font-weight: 700;
+      font-family: var(--font-mono);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+    .hero-cta:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(110, 231, 183, 0.3);
+    }
+    h2 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 48px;
+      text-align: center;
+    }
+    .pain-points {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 32px;
+      margin-bottom: 60px;
+    }
+    .pain-point {
+      padding: 32px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: rgba(110, 231, 183, 0.02);
+      opacity: 0;
+      animation: slideUp 0.6s ease forwards;
+    }
+    .pain-point:nth-child(1) { animation-delay: 0.1s; }
+    .pain-point:nth-child(2) { animation-delay: 0.2s; }
+    .pain-point:nth-child(3) { animation-delay: 0.3s; }
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .pain-point h3 {
+      color: var(--green);
+      font-size: 16px;
+      margin-bottom: 12px;
+      font-family: var(--font-mono);
+    }
+    .pain-point p {
+      color: var(--gray);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .how-it-works {
+      background: rgba(110, 231, 183, 0.02);
+      border: 1px solid var(--border);
+      padding: 48px;
+      border-radius: 4px;
+    }
+    .steps {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      margin-top: 40px;
+    }
+    .step {
+      opacity: 0;
+      animation: slideUp 0.6s ease forwards;
+    }
+    .step:nth-child(1) { animation-delay: 0.1s; }
+    .step:nth-child(2) { animation-delay: 0.2s; }
+    .step:nth-child(3) { animation-delay: 0.3s; }
+    .step:nth-child(4) { animation-delay: 0.4s; }
+    .step-num {
+      display: inline-block;
+      width: 36px;
+      height: 36px;
+      background: var(--green);
+      color: var(--black);
+      border-radius: 50%;
+      text-align: center;
+      line-height: 36px;
+      font-weight: 700;
+      font-size: 16px;
+      margin-bottom: 12px;
+    }
+    .step h3 {
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+    .step p {
+      color: var(--gray);
+      font-size: 14px;
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+    .code-block {
+      background: var(--code-bg);
+      border: 1px solid var(--code-border);
+      border-radius: 4px;
+      padding: 12px 16px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--green);
+      overflow-x: auto;
+      margin-top: 12px;
+    }
+    .terminal-container {
+      background: var(--code-bg);
+      border: 1px solid var(--code-border);
+      border-radius: 4px;
+      padding: 20px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--green);
+      min-height: 240px;
+      overflow: hidden;
+      margin-top: 40px;
+    }
+    .terminal-line {
+      margin: 6px 0;
+      opacity: 0;
+      animation: typeIn 0.3s ease forwards;
+    }
+    .terminal-line:nth-child(1) { animation-delay: 0.1s; }
+    .terminal-line:nth-child(2) { animation-delay: 0.4s; }
+    .terminal-line:nth-child(3) { animation-delay: 0.7s; }
+    .terminal-line:nth-child(4) { animation-delay: 1s; }
+    .terminal-line:nth-child(5) { animation-delay: 1.3s; }
+    .terminal-line:nth-child(6) { animation-delay: 1.6s; }
+    .terminal-line:nth-child(7) { animation-delay: 1.9s; }
+    .terminal-line:nth-child(8) { animation-delay: 2.2s; }
+    .terminal-line.prompt { color: var(--gray); }
+    .terminal-line.success { color: var(--green); }
+    .terminal-line.info { color: #60a5fa; }
+    @keyframes typeIn {
+      from {
+        opacity: 0;
+        transform: translateX(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    .benefits {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-top: 40px;
+    }
+    .benefit-card {
+      padding: 32px;
+      border: 1px solid var(--border);
+      background: rgba(110, 231, 183, 0.02);
+      border-radius: 4px;
+      opacity: 0;
+      animation: slideUp 0.6s ease forwards;
+    }
+    .benefit-card:nth-child(1) { animation-delay: 0.1s; }
+    .benefit-card:nth-child(2) { animation-delay: 0.2s; }
+    .benefit-card:nth-child(3) { animation-delay: 0.3s; }
+    .benefit-card:nth-child(4) { animation-delay: 0.4s; }
+    .benefit-card h3 {
+      color: var(--green);
+      font-size: 16px;
+      margin-bottom: 12px;
+      font-family: var(--font-mono);
+    }
+    .benefit-card p {
+      color: var(--gray);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .faq-section {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .faq-item {
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 24px;
+      opacity: 0;
+      animation: slideUp 0.6s ease forwards;
+    }
+    .faq-item:nth-child(1) { animation-delay: 0.1s; }
+    .faq-item:nth-child(2) { animation-delay: 0.2s; }
+    .faq-item:nth-child(3) { animation-delay: 0.3s; }
+    .faq-item:nth-child(4) { animation-delay: 0.4s; }
+    .faq-question {
+      font-weight: 600;
+      color: var(--white);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 16px;
+    }
+    .faq-toggle {
+      color: var(--green);
+      font-size: 20px;
+    }
+    .faq-answer {
+      color: var(--gray);
+      font-size: 14px;
+      line-height: 1.7;
+      margin-top: 12px;
+      display: none;
+    }
+    .faq-item.active .faq-answer {
+      display: block;
+    }
+    .cta-section {
+      text-align: center;
+      padding: 80px 40px;
+      background: rgba(110, 231, 183, 0.05);
+      border: 1px dashed var(--border);
+      border-radius: 4px;
+      margin: 60px 40px;
+    }
+    .cta-section h2 {
+      margin-bottom: 24px;
+    }
+    .cta-section p {
+      color: var(--gray);
+      margin-bottom: 32px;
+      font-size: 16px;
+    }
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 48px 40px;
+      background: rgba(0,0,0,0.5);
+    }
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr;
+      gap: 48px;
+      margin-bottom: 32px;
+    }
+    .footer-branding svg {
+      height: 28px;
+      width: auto;
+      opacity: 0.35;
+      margin-bottom: 12px;
+    }
+    .footer-links {
+      display: flex;
+      gap: 48px;
+    }
+    .footer-col h4 {
+      font-size: 12px;
+      color: var(--gray);
+      font-family: var(--font-mono);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+    .footer-col a {
+      display: block;
+      color: var(--gray);
+      text-decoration: none;
+      font-size: 14px;
+      margin-bottom: 8px;
+      transition: color 0.2s;
+    }
+    .footer-col a:hover {
+      color: var(--green);
+    }
+    .footer-disclaimer {
+      font-size: 12px;
+      color: var(--gray);
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+      text-align: center;
+    }
+    @media (max-width: 900px) {
+      nav {
+        flex-direction: column;
+        gap: 16px;
+        padding: 16px 20px;
+      }
+      .nav-links {
+        flex-direction: column;
+        gap: 12px;
+      }
+      .nav-ctas {
+        flex-direction: column;
+        width: 100%;
+      }
+      .nav-ctas a {
+        width: 100%;
+        text-align: center;
+      }
+      .hero h1 {
+        font-size: 32px;
+      }
+      .hero-subtitle {
+        font-size: 16px;
+      }
+      section {
+        padding: 60px 20px;
+      }
+      .pain-points {
+        grid-template-columns: 1fr;
+      }
+      .steps {
+        grid-template-columns: 1fr;
+      }
+      .benefits {
+        grid-template-columns: 1fr;
+      }
+      h2 {
+        font-size: 28px;
+      }
+      .footer-content {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+      .footer-links {
+        flex-direction: column;
+        gap: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/">
+      <svg height="22" viewBox="0 0 340 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 33 L20 5 L36 33" stroke="white" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <text x="52" y="29" font-family="Inter,sans-serif" font-size="19" font-weight="600" letter-spacing="4" fill="white">POLYTRAGENT</text>
+      </svg>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/#features">Features</a></li>
+      <li><a href="/#blog">Blog</a></li>
+      <li><a href="/#pricing">Pricing</a></li>
+      <li><a href="/#faq">FAQ</a></li>
+    </ul>
+    <div class="nav-ctas">
+      <a href="/#pricing" class="btn-outline">View pricing</a>
+      <a href="/#pricing" class="btn-solid">Join beta →</a>
+    </div>
+  </nav>
+
+  <div class="breadcrumb">
+    <a href="/">Home</a> / <a href="/#features">Features</a> / AI-Powered Market Research
+  </div>
+
+  <div class="hero">
+    <h1>AI-Powered Market Research</h1>
+    <p class="hero-subtitle">Send a Polymarket event URL. Our Claude-powered engine analyzes all sub-markets, parses prices and liquidity, and delivers edge-scored recommendations instantly to Telegram.</p>
+    <a href="/#pricing" class="hero-cta">Join beta →</a>
+  </div>
+
+  <section>
+    <h2>Why This Matters</h2>
+    <div class="pain-points">
+      <div class="pain-point">
+        <h3>Manual Analysis Takes Hours</h3>
+        <p>Researching event markets means clicking through dozens of sub-markets, parsing prices by hand, noting volume discrepancies. By the time you've gathered data, the market has moved 5 points.</p>
+      </div>
+      <div class="pain-point">
+        <h3>Impossible to Spot Hidden Edges</h3>
+        <p>Edge lives in the gaps between sub-markets and expired forecasts. Humans can't hold 100+ data points in their head simultaneously. AI synthesizes everything into a single confidence-scored recommendation.</p>
+      </div>
+      <div class="pain-point">
+        <h3>No Forecaster Context</h3>
+        <p>Prices are just numbers without context. Who predicted accurately on this topic before? What's the event history? The engine checks past resolution data to weight current recommendations appropriately.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="how-it-works">
+      <h2>How It Works</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>Send Event URL</h3>
+          <p>You paste a Polymarket event URL into Telegram. The bot extracts the event slug and detects whether it's a single market or an event with multiple sub-markets.</p>
+          <div class="code-block">$ /research https://polymarket.com/market/will-btc-close-above-100k</div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>Fetch All Data</h3>
+          <p>The agent hits the Gamma API and pulls every active and expired sub-market, their YES/NO prices, volume, liquidity, and time remaining. No market is left out.</p>
+          <div class="code-block">$ [12 sub-markets found] • Analyzing 47 price points</div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>AI Analysis</h3>
+          <p>Claude Sonnet synthesizes all sub-market data, compares against historical accuracy, detects probability gaps, and scores confidence. The AI is told to flag edge when it finds it.</p>
+          <div class="code-block">$ Confidence: HIGH • Edge: +8.2% • Recommendation: BUY YES</div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <h3>Get Recommendation</h3>
+          <p>You receive a formatted Telegram message with the edge percentage, confidence level (HIGH/MEDIUM/LOW), reasoning, and a clear BUY YES / BUY NO / HOLD recommendation.</p>
+          <div class="code-block">$ Result sent to Telegram • Decision time: 4.2s</div>
+        </div>
+      </div>
+      <div class="terminal-container">
+        <div class="terminal-line prompt">$ polytragent /research polymarket.com/market/btc-100k</div>
+        <div class="terminal-line info">→ Extracting slug: will-btc-close-above-100k</div>
+        <div class="terminal-line info">→ Fetching from Gamma API...</div>
+        <div class="terminal-line success">✓ Found 12 active sub-markets</div>
+        <div class="terminal-line info">→ Parsing prices: YES 61%, NO 39% (volume: 2.4M)</div>
+        <div class="terminal-line info">→ Running Claude analysis...</div>
+        <div class="terminal-line success">✓ Edge detected: +8.2% | Confidence: HIGH</div>
+        <div class="terminal-line success">➜ RECOMMENDATION: BUY YES @ 61%</div>
+        <div class="terminal-line prompt">$ Result delivered to Telegram</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Key Benefits</h2>
+    <div class="benefits">
+      <div class="benefit-card">
+        <h3>4-Second Decisions</h3>
+        <p>End-to-end analysis from URL paste to Telegram message in under 5 seconds. By the time you read it, you've already captured the edge.</p>
+      </div>
+      <div class="benefit-card">
+        <h3>Complete Market Coverage</h3>
+        <p>No sub-market is missed. The agent pulls expired markets too, giving AI context about how this event has moved historically.</p>
+      </div>
+      <div class="benefit-card">
+        <h3>Confidence Scoring</h3>
+        <p>Not every recommendation is equal. HIGH/MEDIUM/LOW confidence tells you when to act aggressively vs. when to wait for better odds.</p>
+      </div>
+      <div class="benefit-card">
+        <h3>Transparent Reasoning</h3>
+        <p>Every recommendation includes the logic: which sub-markets had edge, what the historical forecaster accuracy was, what the probability gap is.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <div class="faq-question">
+        <span>What markets can I research?</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">Any Polymarket event with 2+ sub-markets or a single market. The agent works on binary questions across crypto, politics, sports, and economics. Paste any Polymarket URL and it will analyze.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">
+        <span>How fast is the analysis?</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">Most analyses complete in 3-6 seconds. This includes API calls to Gamma, Claude inference, and Telegram delivery. Larger events with 20+ sub-markets may take up to 10 seconds.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">
+        <span>What does the AI actually analyze?</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">Every sub-market price, volume, and liquidity. All expired market history for context. Forecaster accuracy on this topic. Probability gaps. News signals if available. The AI synthesizes all this into a single edge score.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">
+        <span>How accurate are the recommendations?</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">The bot tracks every prediction in predictions.json. It learns from wins and losses, adjusts for calibration bias, and improves over time. Current accuracy is 67% on HIGH confidence calls. Check your prediction history any time.</div>
+    </div>
+  </section>
+
+  <div class="cta-section">
+    <h2>Ready to Research Like an AI?</h2>
+    <p>Join our beta and get instant edge detection on every Polymarket event.</p>
+    <a href="/#pricing" class="hero-cta">Join beta →</a>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-branding">
+        <svg height="28" viewBox="0 0 340 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 33 L20 5 L36 33" stroke="white" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <text x="52" y="29" font-family="Inter,sans-serif" font-size="19" font-weight="600" letter-spacing="4" fill="white">POLYTRAGENT</text>
+        </svg>
+        <p style="color: var(--gray); font-size: 13px;">AI-powered prediction market research.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Product</h4>
+          <a href="/#features">Features</a>
+          <a href="/#pricing">Pricing</a>
+          <a href="/#faq">FAQ</a>
+        </div>
+        <div class="footer-col">
+          <h4>Resources</h4>
+          <a href="/#blog">Blog</a>
+          <a href="/#docs">Docs</a>
+          <a href="/#api">API</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Social</h4>
+        <a href="https://x.com/polytragent">X / Twitter</a>
+      </div>
+    </div>
+    <div class="footer-disclaimer">
+      Polytragent is a research tool. Predictions are not guaranteed. Always conduct your own due diligence before making trades. Past performance does not indicate future results.
+    </div>
+  </footer>
+
+  <script>
+    // Intersection Observer for scroll reveals
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.pain-point, .step, .benefit-card, .faq-item').forEach(el => {
+      observer.observe(el);
+    });
+
+    // FAQ toggle
+    document.querySelectorAll('.faq-question').forEach(question => {
+      question.addEventListener('click', () => {
+        const item = question.closest('.faq-item');
+        item.classList.toggle('active');
+        const toggle = question.querySelector('.faq-toggle');
+        toggle.textContent = item.classList.contains('active') ? '−' : '+';
+      });
+    });
+
+    // Terminal animation on scroll
+    const terminalContainer = document.querySelector('.terminal-container');
+    const terminalObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !entry.target.dataset.animated) {
+          entry.target.dataset.animated = 'true';
+          const lines = entry.target.querySelectorAll('.terminal-line');
+          lines.forEach((line, index) => {
+            line.style.animation = `typeIn 0.3s ease forwards`;
+            line.style.animationDelay = `${index * 0.3}s`;
+          });
+        }
+      });
+    }, { threshold: 0.3 });
+    if (terminalContainer) {
+      terminalObserver.observe(terminalContainer);
+    }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://polytragent.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Features",
+        "item": "https://polytragent.com/#features"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "AI-Powered Market Research",
+        "item": "https://polytragent.com/features/ai-market-research.html"
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Polytragent - AI Market Research",
+    "description": "Claude-powered Polymarket analysis with edge detection and real-time recommendations",
+    "url": "https://polytragent.com",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "ratingCount": "127"
+    }
+  }
+  </script>
+</body>
+</html>

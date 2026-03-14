@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Features - Polytragent | AI-Powered Market Research</title>
+  <meta name="description" content="Discover Polytragent's AI-powered features for market research, price comparison, edge detection, and prediction tracking.">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Features - Polytragent">
+  <meta property="og:description" content="AI-powered market research and prediction tracking for Polymarket.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://polytragent.com/features">
+  <meta property="og:image" content="https://polytragent.com/og-image.png">
+
+  <!-- JSON-LD BreadcrumbList Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://polytragent.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Features",
+        "item": "https://polytragent.com/features"
+      }
+    ]
+  }
+  </script>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --black: #000;
+      --white: #fff;
+      --gray: #888;
+      --gray2: #444;
+      --gray3: #222;
+      --border: #1a1a1a;
+      --font-sans: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --green: #6ee7b7;
+      --code-bg: #080808;
+      --code-border: #141414;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+    }
+
+    a {
+      color: var(--white);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      color: var(--green);
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 64px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(0, 0, 0, 0.92);
+      backdrop-filter: blur(16px);
+    }
+
+    nav > a {
+      display: flex;
+      align-items: center;
+    }
+
+    nav svg {
+      height: 22px;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 32px;
+      flex: 1;
+      margin-left: 64px;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--green);
+    }
+
+    .nav-ctas {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn-outline, .btn-solid {
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      font-family: var(--font-sans);
+      border-radius: 4px;
+      transition: all 0.2s ease;
+      border: 1px solid;
+    }
+
+    .btn-outline {
+      border-color: var(--gray2);
+      color: var(--white);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    .btn-solid {
+      background: var(--green);
+      color: var(--black);
+      border-color: var(--green);
+    }
+
+    .btn-solid:hover {
+      background: var(--white);
+      border-color: var(--white);
+      color: var(--black);
+    }
+
+    /* Main content padding for fixed nav */
+    main {
+      padding-top: 64px;
+      padding-bottom: 100px;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 80px 48px;
+      text-align: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .mono-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: var(--gray);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 {
+      font-size: clamp(32px, 5vw, 56px);
+      font-weight: 700;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+
+    .hero p {
+      font-size: 16px;
+      color: var(--gray);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* Features Grid */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 48px;
+    }
+
+    .feature-card {
+      padding: 32px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--code-bg);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(110, 231, 183, 0.05) 0%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .feature-card:hover {
+      border-color: var(--green);
+      background: rgba(110, 231, 183, 0.02);
+      box-shadow: 0 0 20px rgba(110, 231, 183, 0.1);
+      transform: translateY(-4px);
+    }
+
+    .feature-card:hover::before {
+      opacity: 1;
+    }
+
+    .feature-icon {
+      font-family: var(--font-mono);
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--green);
+      margin-bottom: 16px;
+      display: inline-block;
+    }
+
+    .feature-card h3 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      text-align: left;
+    }
+
+    .feature-card p {
+      font-size: 14px;
+      color: var(--gray);
+      margin-bottom: 20px;
+      flex-grow: 1;
+      text-align: left;
+      line-height: 1.6;
+    }
+
+    .feature-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--green);
+      border-bottom: 1px solid transparent;
+      transition: all 0.2s ease;
+      width: fit-content;
+    }
+
+    .feature-link:hover {
+      border-bottom-color: var(--green);
+      gap: 12px;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    footer svg {
+      height: 20px;
+      opacity: 0.35;
+    }
+
+    .footer-branding {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .footer-copyright {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--gray2);
+      margin-top: 8px;
+    }
+
+    .flinks {
+      display: flex;
+      list-style: none;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .flinks a {
+      font-size: 13px;
+      color: var(--gray);
+      transition: color 0.2s ease;
+    }
+
+    .flinks a:hover {
+      color: var(--green);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav {
+        padding: 0 24px;
+        height: 56px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .nav-ctas {
+        gap: 8px;
+      }
+
+      .btn-outline, .btn-solid {
+        padding: 6px 12px;
+        font-size: 12px;
+      }
+
+      main {
+        padding-top: 56px;
+      }
+
+      .hero {
+        padding: 60px 24px;
+      }
+
+      .hero h1 {
+        font-size: 28px;
+      }
+
+      .hero p {
+        font-size: 14px;
+      }
+
+      .features-grid {
+        padding: 0 24px;
+        gap: 16px;
+      }
+
+      .feature-card {
+        padding: 24px;
+      }
+
+      footer {
+        padding: 24px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .flinks {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      nav {
+        padding: 0 16px;
+        height: 52px;
+      }
+
+      .nav-ctas {
+        gap: 4px;
+      }
+
+      .btn-outline, .btn-solid {
+        padding: 6px 10px;
+        font-size: 11px;
+      }
+
+      main {
+        padding-top: 52px;
+      }
+
+      .hero {
+        padding: 40px 16px;
+      }
+
+      .hero h1 {
+        font-size: 24px;
+      }
+
+      .features-grid {
+        padding: 0 16px;
+        grid-template-columns: 1fr;
+      }
+
+      .feature-card {
+        padding: 20px;
+      }
+
+      footer {
+        padding: 20px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <a href="/">
+      <svg height="22" viewBox="0 0 340 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 33 L20 5 L36 33" stroke="white" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <text x="52" y="29" font-family="Inter,sans-serif" font-size="19" font-weight="600" letter-spacing="4" fill="white">POLYTRAGENT</text>
+      </svg>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/features">Features</a></li>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="/#pricing">Pricing</a></li>
+      <li><a href="/#faq">FAQ</a></li>
+    </ul>
+    <div class="nav-ctas">
+      <a href="/#pricing" class="btn-outline">View pricing</a>
+      <a href="/#pricing" class="btn-solid">Join beta →</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="mono-tag">FEATURES</div>
+      <h1>Everything Polytragent does for you.</h1>
+      <p>An AI-powered research engine that analyzes prediction markets, detects mispriced opportunities, and tracks your forecast accuracy in real time.</p>
+    </section>
+
+    <!-- Features Grid -->
+    <section class="features-grid">
+      <!-- Feature 1: AI-Powered Market Research -->
+      <article class="feature-card">
+        <div class="feature-icon">01</div>
+        <h3>AI-Powered Market Research</h3>
+        <p>Send any Polymarket URL. Get instant AI analysis of every sub-market with edge-scored recommendations.</p>
+        <a href="/features/ai-market-research" class="feature-link">
+          Learn more <span>→</span>
+        </a>
+      </article>
+
+      <!-- Feature 2: Cross-Platform Price Comparison -->
+      <article class="feature-card">
+        <div class="feature-icon">02</div>
+        <h3>Cross-Platform Price Comparison</h3>
+        <p>Cross-reference Polymarket prices with Manifold Markets forecasts. When platforms disagree, that's where edge lives.</p>
+        <a href="/features/cross-platform-comparison" class="feature-link">
+          Learn more <span>→</span>
+        </a>
+      </article>
+
+      <!-- Feature 3: Self-Improving Predictions -->
+      <article class="feature-card">
+        <div class="feature-icon">03</div>
+        <h3>Self-Improving Predictions</h3>
+        <p>Every prediction is tracked. Every outcome is recorded. The AI learns from its mistakes and corrects calibration biases.</p>
+        <a href="/features/self-improving-predictions" class="feature-link">
+          Learn more <span>→</span>
+        </a>
+      </article>
+
+      <!-- Feature 4: Edge Detection Engine -->
+      <article class="feature-card">
+        <div class="feature-icon">04</div>
+        <h3>Edge Detection Engine</h3>
+        <p>Millions of data points analyzed in seconds. Spot mispriced markets before the crowd catches on.</p>
+        <a href="/features/edge-detection" class="feature-link">
+          Learn more <span>→</span>
+        </a>
+      </article>
+
+      <!-- Feature 5: Prediction Tracking & Resolution -->
+      <article class="feature-card">
+        <div class="feature-icon">05</div>
+        <h3>Prediction Tracking & Resolution</h3>
+        <p>Every forecast logged with confidence, reasoning, and market price. Background resolver checks outcomes every 6 hours.</p>
+        <a href="/features/prediction-tracking" class="feature-link">
+          Learn more <span>→</span>
+        </a>
+      </article>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-branding">
+      <svg height="20" viewBox="0 0 340 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 33 L20 5 L36 33" stroke="white" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <text x="52" y="29" font-family="Inter,sans-serif" font-size="19" font-weight="600" letter-spacing="4" fill="white">POLYTRAGENT</text>
+      </svg>
+      <div class="footer-copyright">© 2026 Polytragent. AI Research for Polymarket.</div>
+    </div>
+    <ul class="flinks">
+      <li><a href="/features">Features</a></li>
+      <li><a href="/blog">Blog</a></li>
+      <li><a href="/#pricing">Pricing</a></li>
+      <li><a href="/#faq">FAQ</a></li>
+      <li><a href="#">X / Twitter</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    // Smooth anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const href = this.getAttribute('href');
+        if (href !== '#' && document.querySelector(href)) {
+          e.preventDefault();
+          const target = document.querySelector(href);
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Feature card click navigation
+    document.querySelectorAll('.feature-card').forEach(card => {
+      card.addEventListener('click', function(e) {
+        if (!e.target.closest('a')) {
+          const link = this.querySelector('.feature-link');
+          if (link) window.location.href = link.href;
+        }
+      });
+    });
+  </script>
+</body>
+</html>

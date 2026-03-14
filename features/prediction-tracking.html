@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prediction Tracking & Resolution | Polytragent</title>
+  <meta name="description" content="Every prediction logged. Every outcome tracked. Every P&L calculated. Predict → Log → Resolve → Learn → Improve. The feedback loop that makes AI smarter.">
+  <meta property="og:title" content="Prediction Tracking & Resolution | Polytragent">
+  <meta property="og:description" content="Real-time prediction logging and outcome resolution with P&L tracking and learning loop.">
+  <meta property="og:url" content="https://polytragent.com/features/prediction-tracking.html">
+  <meta property="og:type" content="website">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    :root {
+      --black: #000;
+      --white: #fff;
+      --gray: #888;
+      --gray2: #444;
+      --gray3: #222;
+      --border: #1a1a1a;
+      --font-sans: 'Inter', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --green: #6ee7b7;
+      --code-bg: #080808;
+      --code-border: #141414;
+    }
+    html, body {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 40px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: rgba(0,0,0,0.95);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+    }
+    nav a { text-decoration: none; }
+    nav > a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    nav svg {
+      height: 22px;
+      width: auto;
+    }
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 32px;
+    }
+    .nav-links a {
+      color: var(--gray);
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover {
+      color: var(--green);
+    }
+    .nav-ctas {
+      display: flex;
+      gap: 12px;
+    }
+    .btn-outline, .btn-solid {
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px dashed var(--green);
+      border-radius: 0;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: var(--font-mono);
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-outline {
+      color: var(--green);
+      background: transparent;
+    }
+    .btn-outline:hover {
+      background: rgba(110, 231, 183, 0.1);
+    }
+    .btn-solid {
+      background: var(--green);
+      color: var(--black);
+      border-color: var(--green);
+    }
+    .btn-solid:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(110, 231, 183, 0.2);
+    }
+    .breadcrumb {
+      padding: 40px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--gray);
+      border-bottom: 1px solid var(--border);
+    }
+    .breadcrumb a {
+      color: var(--green);
+      text-decoration: none;
+    }
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+    section {
+      padding: 80px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .hero {
+      text-align: center;
+      padding: 120px 40px;
+    }
+    .hero h1 {
+      font-size: 52px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, var(--white), var(--gray));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-subtitle {
+      font-size: 18px;
+      color: var(--gray);
+      max-width: 600px;
+      margin: 0 auto 40px;
+      line-height: 1.8;
+    }
+    .hero-cta {
+      display: inline-block;
+      padding: 14px 28px;
+      background: var(--green);
+      color: var(--black);
+      border: 1px solid var(--green);
+      font-weight: 700;
+      font-family: var(--font-mono);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+    .hero-cta:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(110, 231, 183, 0.3);
+    }
+    h2 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 48px;
+      text-align: center;
+    }
+    .pain-points {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 32px;
+      margin-bottom: 60px;
+    }
+    .pain-point {
+      padding: 32px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: rgba(110, 231, 183, 0.02);
+      opacity: 0;
+      animation: slideUp 0.6s ease forwards;
+    }
+    .pain-point:nth-child(1) { animation-delay: 0.1s; }
+    .pain-point:nth-child(2) { animation-delay: 0.2s; }
+    .pain-point:nth-child(3) { animation-delay: 0.3s; }
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .pain-point h3 {
+      color: var(--green);
+      font-size: 16px;
+      margin-bottom: 12px;
+      font-family: var(--font-mono);
+    }
+    .pain-point p {
+      color: var(--gray);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .how-it-works {
+      background: rgba(110, 231, 183, 0.02);
+      border: 1px solid var(--border);
+      padding: 48px;
+      border-radius: 4px;
+    }
+    .steps {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      margin-top: 40px;
+    }
+    .step {
+      opacity: 0;
+      animation: slideUp 0.6s ease forwards;
+    }
+    .step:nth-child(1) { animation-delay: 0.1s; }
+    .step:nth-child(2) { animation-delay: 0.2s; }
+    .step:nth-child(3) { animation-delay: 0.3s; }
+    .step:nth-child(4) { animation-delay: 0.4s; }
+    .step-num {
+      display: inline-block;
+      width: 36px;
+      height: 36px;
+      background: var(--green);
+      color: var(--black);
+      border-radius: 50%;
+      text-align: center;
+      line-height: 36px;
+      font-weight: 700;
+      font-size: 16px;
+      margin-bottom: 12px;
+    }
+    .step h3 {
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+    .step p {
+      color: var(--gray);
+      font-size: 14px;
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+    .code-block {
+      background: var(--code-bg);
+      border: 1px solid var(--code-border);
+      border-radius: 4px;
+      padding: 12px 16px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--green);
+      overflow-x: auto;
+      margin-top: 12px;
+    }
+    .terminal-container {
+      background: var(--code-bg);
+      border: 1px solid var(--code-border);
+      border-radius: 4px;
+      padding: 20px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--green);
+      min-height: 240px;
+      overflow: hidden;
+      margin-top: 40px;
+    }
+    .terminal-line {
+      margin: 6px 0;
+      opacity: 0;
+      animation: typeIn 0.3s ease forwards;
+    }
+    .terminal-line:nth-child(1) { animation-delay: 0.1s; }
+    .terminal-line:nth-child(2) { animation-delay: 0.4s; }
+    .terminal-line:nth-child(3) { animation-delay: 0.7s; }
+    .terminal-line:nth-child(4) { animation-delay: 1s; }
+    .terminal-line:nth-child(5) { animation-delay: 1.3s; }
+    .terminal-line:nth-child(6) { animation-delay: 1.6s; }
+    .terminal-line:nth-child(7) { animation-delay: 1.9s; }
+    .terminal-line:nth-child(8) { animation-delay: 2.2s; }
+    .terminal-line.prompt { color: var(--gray); }
+    .terminal-line.success { color: var(--green); }
+    .terminal-line.info { color: #60a5fa; }
+    @keyframes typeIn {
+      from {
+        opacity: 0;
+        transform: translateX(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    .benefits {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-top: 40px;
+    }
+    .benefit-card {
+      padding: 32px;
+      border: 1px solid var(--border);
+      background: rgba(110, 231, 183, 0.02);
+      border-radius: 4px;
+      opacity: 0;
+      animation: slideUp 0.6s ease forwards;
+    }
+    .benefit-card:nth-child(1) { animation-delay: 0.1s; }
+    .benefit-card:nth-child(2) { animation-delay: 0.2s; }
+    .benefit-card:nth-child(3) { animation-delay: 0.3s; }
+    .benefit-card:nth-child(4) { animation-delay: 0.4s; }
+    .benefit-card h3 {
+      color: var(--green);
+      font-size: 16px;
+      margin-bottom: 12px;
+      font-family: var(--font-mono);
+    }
+    .benefit-card p {
+      color: var(--gray);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .faq-section {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .faq-item {
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 24px;
+      opacity: 0;
+      animation: slideUp 0.6s ease forwards;
+    }
+    .faq-item:nth-child(1) { animation-delay: 0.1s; }
+    .faq-item:nth-child(2) { animation-delay: 0.2s; }
+    .faq-item:nth-child(3) { animation-delay: 0.3s; }
+    .faq-item:nth-child(4) { animation-delay: 0.4s; }
+    .faq-item:nth-child(5) { animation-delay: 0.5s; }
+    .faq-question {
+      font-weight: 600;
+      color: var(--white);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 16px;
+    }
+    .faq-toggle {
+      color: var(--green);
+      font-size: 20px;
+    }
+    .faq-answer {
+      color: var(--gray);
+      font-size: 14px;
+      line-height: 1.7;
+      margin-top: 12px;
+      display: none;
+    }
+    .faq-item.active .faq-answer {
+      display: block;
+    }
+    .cta-section {
+      text-align: center;
+      padding: 80px 40px;
+      background: rgba(110, 231, 183, 0.05);
+      border: 1px dashed var(--border);
+      border-radius: 4px;
+      margin: 60px 40px;
+    }
+    .cta-section h2 {
+      margin-bottom: 24px;
+    }
+    .cta-section p {
+      color: var(--gray);
+      margin-bottom: 32px;
+      font-size: 16px;
+    }
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 48px 40px;
+      background: rgba(0,0,0,0.5);
+    }
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr;
+      gap: 48px;
+      margin-bottom: 32px;
+    }
+    .footer-branding svg {
+      height: 28px;
+      width: auto;
+      opacity: 0.35;
+      margin-bottom: 12px;
+    }
+    .footer-links {
+      display: flex;
+      gap: 48px;
+    }
+    .footer-col h4 {
+      font-size: 12px;
+      color: var(--gray);
+      font-family: var(--font-mono);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+    .footer-col a {
+      display: block;
+      color: var(--gray);
+      text-decoration: none;
+      font-size: 14px;
+      margin-bottom: 8px;
+      transition: color 0.2s;
+    }
+    .footer-col a:hover {
+      color: var(--green);
+    }
+    .footer-disclaimer {
+      font-size: 12px;
+      color: var(--gray);
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+      text-align: center;
+    }
+    @media (max-width: 900px) {
+      nav {
+        flex-direction: column;
+        gap: 16px;
+        padding: 16px 20px;
+      }
+      .nav-links {
+        flex-direction: column;
+        gap: 12px;
+      }
+      .nav-ctas {
+        flex-direction: column;
+        width: 100%;
+      }
+      .nav-ctas a {
+        width: 100%;
+        text-align: center;
+      }
+      .hero h1 {
+        font-size: 32px;
+      }
+      .hero-subtitle {
+        font-size: 16px;
+      }
+      section {
+        padding: 60px 20px;
+      }
+      .pain-points {
+        grid-template-columns: 1fr;
+      }
+      .steps {
+        grid-template-columns: 1fr;
+      }
+      .benefits {
+        grid-template-columns: 1fr;
+      }
+      h2 {
+        font-size: 28px;
+      }
+      .footer-content {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+      .footer-links {
+        flex-direction: column;
+        gap: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/">
+      <svg height="22" viewBox="0 0 340 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 33 L20 5 L36 33" stroke="white" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <text x="52" y="29" font-family="Inter,sans-serif" font-size="19" font-weight="600" letter-spacing="4" fill="white">POLYTRAGENT</text>
+      </svg>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/#features">Features</a></li>
+      <li><a href="/#blog">Blog</a></li>
+      <li><a href="/#pricing">Pricing</a></li>
+      <li><a href="/#faq">FAQ</a></li>
+    </ul>
+    <div class="nav-ctas">
+      <a href="/#pricing" class="btn-outline">View pricing</a>
+      <a href="/#pricing" class="btn-solid">Join beta →</a>
+    </div>
+  </nav>
+
+  <div class="breadcrumb">
+    <a href="/">Home</a> / <a href="/#features">Features</a> / Prediction Tracking & Resolution
+  </div>
+
+  <div class="hero">
+    <h1>Prediction Tracking & Resolution</h1>
+    <p class="hero-subtitle">Log every prediction. Track every outcome. Calculate real P&L. The predict → resolve → learn loop that powers continuous improvement.</p>
+    <a href="/#pricing" class="hero-cta">Join beta →</a>
+  </div>
+
+  <section>
+    <h2>Why This Matters</h2>
+    <div class="pain-points">
+      <div class="pain-point">
+        <h3>Predictions Without Tracking Are Just Guesses</h3>
+        <p>If you don't track outcomes, you can't know if you're improving. Most forecasters make predictions and never check them. Polytragent logs everything so you always know exactly how your AI is performing.</p>
+      </div>
+      <div class="pain-point">
+        <h3>No Feedback Loop Means No Learning</h3>
+        <p>AI only improves when it gets feedback. Polytragent's background resolver checks market outcomes every 6 hours and updates the record. The AI sees wins and losses and learns from them in real-time.</p>
+      </div>
+      <div class="pain-point">
+        <h3>P&L Without Context Is Meaningless</h3>
+        <p>Just knowing you made money doesn't tell you why. Polytragent logs every prediction with context: market price, confidence level, reasoning. You see exactly which decisions worked and which didn't.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="how-it-works">
+      <h2>How It Works</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>Prediction Logged Instantly</h3>
+          <p>When you get AI analysis, the bot stores to predictions.json: market ID, market title, AI forecast %, recommendation (BUY_YES/BUY_NO/HOLD), current Polymarket price, Manifold price if available, confidence level, and reasoning snippet.</p>
+          <div class="code-block">$ Prediction logged • Market: BTC 100k • Forecast: 52% • Confidence: HIGH</div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>Background Resolver Checks Outcomes</h3>
+          <p>Every 6 hours, a scheduled task queries Polymarket for all unresolved predictions. When a market resolves (YES or NO), the resolver records the actual outcome and marks the prediction correct or wrong.</p>
+          <div class="code-block">$ Resolver running... • Checked: 127 predictions • Resolved: 3 new outcomes</div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>Calculate Hypothetical P&L</h3>
+          <p>For each resolved prediction, the system calculates: if you had placed $100 at the recommendation price, what would your P&L be now? This tracks realized and unrealized gains/losses across your prediction history.</p>
+          <div class="code-block">$ P&L calculated: +$8.40 | Accuracy on this call: 100% | Win rate: 67%</div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <h3>AI Learns and Improves</h3>
+          <p>The AI reads the full prediction history and sees: which topics it got right/wrong, confidence levels that were accurate vs overconfident, recent win streaks vs losing runs. Next prediction run, it factors all this in and makes better calls.</p>
+          <div class="code-block">$ Loop complete: Predict → Log → Resolve → Learn → Better predictions</div>
+        </div>
+      </div>
+      <div class="terminal-container">
+        <div class="terminal-line prompt">$ polytragent /predict-track resolve</div>
+        <div class="terminal-line info">→ Checking Polymarket for resolved markets...</div>
+        <div class="terminal-line success">✓ Checking 127 unresolved predictions</div>
+        <div class="terminal-line success">✓ Outcome resolved: BTC 100k → YES | Prediction was: BUY YES @ 40%</div>
+        <div class="terminal-line success">✓ P&L: +$30 | Confidence was HIGH | Result: CORRECT</div>
+        <div class="terminal-line info">→ Updating AI memory with outcomes...</div>
+        <div class="terminal-line success">✓ AI accuracy updated: 67.3% • Win rate: 67.3%</div>
+        <div class="terminal-line success">➜ AI improved: Next predictions will learn from this</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Key Benefits</h2>
+    <div class="benefits">
+      <div class="benefit-card">
+        <h3>Complete Transparency</h3>
+        <p>Every prediction is logged with metadata. You can see exactly what the AI predicted, when, at what price, with what confidence. Perfect for auditing and understanding performance.</p>
+      </div>
+      <div class="benefit-card">
+        <h3>Automatic Outcome Tracking</h3>
+        <p>No manual work. The background resolver checks outcomes every 6 hours. When markets resolve, your record updates automatically. You're always seeing current, not stale, data.</p>
+      </div>
+      <div class="benefit-card">
+        <h3>Real P&L Calculation</h3>
+        <p>Hypothetical P&L shows you exactly what you would have made if you'd traded the AI recommendations. See realized gains, unrealized exposure, and ROI across all predictions.</p>
+      </div>
+      <div class="benefit-card">
+        <h3>Closed Learning Loop</h3>
+        <p>The AI learns from every outcome. Wins and losses feed back into future forecasts. Your AI gets smarter every 6 hours as new outcomes resolve and are logged.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <div class="faq-question">
+        <span>What gets logged per prediction?</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">Market ID, title, AI forecast %, recommendation (BUY_YES/BUY_NO/HOLD), Polymarket price when logged, Manifold price if cross-listed, confidence level (HIGH/MEDIUM/LOW), reasoning snippet, timestamp, and any available context like news signals.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">
+        <span>How often does resolution check run?</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">The background resolver runs every 6 hours on a schedule. When it runs, it checks all unresolved predictions against the Polymarket API. New outcomes are recorded immediately. You can also trigger a manual check with /predict-track resolve-now.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">
+        <span>Can I export my history?</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">Yes. Use /predict-track export to download predictions.json as CSV or JSON. This includes all predictions, outcomes, P&L calculations, and metadata. Perfect for record-keeping, taxes, or external analysis.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">
+        <span>How is P&L calculated?</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">Hypothetical: assume you placed $100 at the market price when the prediction was logged. P&L = (outcome_value - entry_price) * 100. For BUY YES at 40% that resolves YES: gain = 100 * (1 - 0.40) = $60. For BUY NO at 40% that resolves YES: loss = 100 * 0.40 = -$40.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">
+        <span>What if a market doesn't resolve?</span>
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">Markets that don't resolve stay in your prediction history as "UNRESOLVED". If a market is cancelled or reverted by the platform, it's marked as such. The AI doesn't learn from unresolved or cancelled predictions.</div>
+    </div>
+  </section>
+
+  <div class="cta-section">
+    <h2>Track Every Prediction. Watch Your AI Improve.</h2>
+    <p>Join the feedback loop that powers continuous learning and prediction excellence.</p>
+    <a href="/#pricing" class="hero-cta">Join beta →</a>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-branding">
+        <svg height="28" viewBox="0 0 340 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 33 L20 5 L36 33" stroke="white" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <text x="52" y="29" font-family="Inter,sans-serif" font-size="19" font-weight="600" letter-spacing="4" fill="white">POLYTRAGENT</text>
+        </svg>
+        <p style="color: var(--gray); font-size: 13px;">Prediction tracking and outcome resolution.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Product</h4>
+          <a href="/#features">Features</a>
+          <a href="/#pricing">Pricing</a>
+          <a href="/#faq">FAQ</a>
+        </div>
+        <div class="footer-col">
+          <h4>Resources</h4>
+          <a href="/#blog">Blog</a>
+          <a href="/#docs">Docs</a>
+          <a href="/#api">API</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Social</h4>
+        <a href="https://x.com/polytragent">X / Twitter</a>
+      </div>
+    </div>
+    <div class="footer-disclaimer">
+      Polytragent is a research tool. Prediction outcomes and P&L calculations are based on logged data and market resolution. Always verify outcomes independently. Past performance does not indicate future results.
+    </div>
+  </footer>
+
+  <script>
+    // Intersection Observer for scroll reveals
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.pain-point, .step, .benefit-card, .faq-item').forEach(el => {
+      observer.observe(el);
+    });
+
+    // FAQ toggle
+    document.querySelectorAll('.faq-question').forEach(question => {
+      question.addEventListener('click', () => {
+        const item = question.closest('.faq-item');
+        item.classList.toggle('active');
+        const toggle = question.querySelector('.faq-toggle');
+        toggle.textContent = item.classList.contains('active') ? '−' : '+';
+      });
+    });
+
+    // Terminal animation on scroll
+    const terminalContainer = document.querySelector('.terminal-container');
+    const terminalObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !entry.target.dataset.animated) {
+          entry.target.dataset.animated = 'true';
+          const lines = entry.target.querySelectorAll('.terminal-line');
+          lines.forEach((line, index) => {
+            line.style.animation = `typeIn 0.3s ease forwards`;
+            line.style.animationDelay = `${index * 0.3}s`;
+          });
+        }
+      });
+    }, { threshold: 0.3 });
+    if (terminalContainer) {
+      terminalObserver.observe(terminalContainer);
+    }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://polytragent.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Features",
+        "item": "https://polytragent.com/#features"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Prediction Tracking & Resolution",
+        "item": "https://polytragent.com/features/prediction-tracking.html"
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Polytragent - Prediction Tracking & Resolution",
+    "description": "Complete prediction logging, outcome tracking, and P&L calculation with real-time learning loop",
+    "url": "https://polytragent.com",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web"
+  }
+  </script>
+</body>
+</html>
