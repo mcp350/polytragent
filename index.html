@@ -31,6 +31,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .nav-links{display:flex;gap:32px;list-style:none;}
 .nav-links a{font-size:14px;color:var(--gray);transition:color .15s;}
 .nav-links a:hover{color:var(--white);}
+.nav-links li{position:relative;}
+.nav-dropdown{display:none;position:absolute;top:100%;left:-16px;padding-top:12px;z-index:300;}
+.nav-links li:hover .nav-dropdown{display:block;}
+.nav-dropdown-inner{background:rgba(0,0,0,0.96);border:1px solid var(--border);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);padding:12px 0;min-width:260px;}
+.nav-dropdown a{display:block;padding:8px 20px;font-size:13px;color:var(--gray);transition:color .15s,background .15s;white-space:nowrap;}
+.nav-dropdown a:hover{color:var(--white);background:rgba(255,255,255,.04);}
+.ndrop-label{padding:6px 20px 4px;font-family:var(--font-mono);font-size:9px;color:var(--gray2);letter-spacing:2px;text-transform:uppercase;}
+.ndrop-label:not(:first-child){margin-top:8px;border-top:1px solid var(--border);padding-top:10px;}
 .nav-ctas{display:flex;gap:12px;align-items:center;}
 .btn-solid{display:inline-flex;align-items:center;gap:6px;padding:9px 20px;background:var(--white);color:var(--black);font-size:13px;font-weight:500;font-family:var(--font-sans);border:none;cursor:pointer;transition:opacity .15s;}
 .btn-solid:hover{opacity:.85;}
@@ -248,12 +256,31 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
   <ul class="nav-links">
     <li><a href="#features">Features</a></li>
     <li><a href="#how-it-works">How it works</a></li>
-    <li><a href="https://t.me/bmpolybot" target="_blank">Pricing</a></li>
-    <li><a href="/blog">Blog</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li>
+      <a href="#">Resources ▾</a>
+      <div class="nav-dropdown"><div class="nav-dropdown-inner">
+        <div class="ndrop-label">Compare</div>
+        <a href="/compare">All Comparisons</a>
+        <a href="/compare/polytragent-vs-polycop">Polytragent vs PolyCop</a>
+        <a href="/compare/polytragent-vs-polysight">Polytragent vs Polysight</a>
+        <a href="/compare/copy-trading-bots">Copy Trading Bots</a>
+        <a href="/compare/polycop-alternative">PolyCop Alternative</a>
+        <a href="/compare/polysight-alternative">Polysight Alternative</a>
+        <div class="ndrop-label">Blog</div>
+        <a href="/blog">All Articles</a>
+        <a href="/blog/polymarket-prediction-bot">Polymarket Prediction Bot</a>
+        <a href="/blog/polymarket-tools-guide">Polymarket Tools Guide</a>
+        <a href="/blog/best-polymarket-bots-2026">Best Polymarket Bots 2026</a>
+        <a href="/blog/polymarket-trading-bot">Polymarket Trading Bot</a>
+        <a href="/blog/copy-trade-bot">Copy Trade Bot Guide</a>
+        <a href="/blog/copy-trading-guide">Copy Trading Guide</a>
+      </div></div>
+    </li>
     <li><a href="#faq">FAQ</a></li>
   </ul>
   <div class="nav-ctas">
-    <a href="https://t.me/bmpolybot" target="_blank" class="btn-outline">See plans</a>
+    <a href="#pricing" class="btn-outline">See plans</a>
     <a href="https://t.me/bmpolybot" target="_blank" class="btn-solid">Get started →</a>
   </div>
 </nav>
@@ -474,7 +501,7 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
         <li><span class="pck">✓</span> Telegram delivery</li>
         <li><span class="pck">✓</span> Direct trade links</li>
       </ul>
-      <a href="#" class="pc-sec">Buy Day Pass →</a>
+      <a href="https://t.me/bmpolybot" target="_blank" class="pc-sec">Buy Day Pass →</a>
     </div>
     <div class="pc feat rev2">
       <div class="pbadge">Best value — save 67%</div>
@@ -490,7 +517,7 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
         <li><span class="pck">✓</span> Historical P&L tracking</li>
         <li><span class="pck">✓</span> Priority AI processing</li>
       </ul>
-      <a href="#" class="pc-main">Start monthly — $99 →</a>
+      <a href="https://t.me/bmpolybot" target="_blank" class="pc-main">Start monthly — $99 →</a>
     </div>
     <div class="pc rev2">
       <div class="pname">Institutional</div>
@@ -505,7 +532,7 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
         <li><span class="pck">✓</span> Dedicated support</li>
         <li><span class="pck">✓</span> SLA guarantee</li>
       </ul>
-      <a href="#" class="pc-sec">Contact sales →</a>
+      <a href="https://t.me/bmpolybot" target="_blank" class="pc-sec">Contact sales →</a>
     </div>
   </div>
 </section>
@@ -563,8 +590,9 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
   </div>
   <ul class="flinks">
     <li><a href="/features">Features</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="/compare">Resources</a></li>
     <li><a href="/blog">Blog</a></li>
-    <li><a href="https://t.me/bmpolybot" target="_blank">Pricing</a></li>
     <li><a href="#faq">FAQ</a></li>
     <li><a href="#">X / Twitter</a></li>
   </ul>
