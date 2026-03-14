@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Polytragent — AI Trading Agent for Polymarket</title>
+<meta name="description" content="Polytragent is an autonomous AI trading agent for Polymarket. Real-time signal detection, smart wallet mirroring, and market making — running 24/7 while you sleep.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Polytragent","applicationCategory":"FinanceApplication","description":"Autonomous AI trading agent for Polymarket prediction markets","offers":{"@type":"AggregateOffer","lowPrice":"24.99","highPrice":"99","priceCurrency":"USD"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is my Polymarket wallet safe with Polytragent?","acceptedAnswer":{"@type":"Answer","text":"Yes. Polytragent operates non-custodially via Polymarket's CLOB API. We never hold your funds."}},{"@type":"Question","name":"What is the minimum amount to start trading?","acceptedAnswer":{"@type":"Answer","text":"You can start with as little as $50 USDC. We recommend $500+ for a diversified multi-market strategy."}},{"@type":"Question","name":"What returns can I expect?","acceptedAnswer":{"@type":"Answer","text":"Market making targets 0.5-2% monthly with under 1% drawdown. Momentum strategies target 3-8% monthly. Past performance is not indicative of future results."}}]}
+</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --black:#000;--white:#fff;--gray:#888;--gray2:#444;--gray3:#222;
+  --border:#1a1a1a;--font-sans:'Inter',sans-serif;--font-mono:'JetBrains Mono',monospace;
+  --green:#6ee7b7;--red:#fca5a5;--blue:#93c5fd;--yellow:#fde68a;
+  --code-bg:#080808;--code-border:#141414;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--white);font-family:var(--font-sans);font-size:16px;line-height:1.6;overflow-x:hidden;}
+a{color:inherit;text-decoration:none;}
+
+.grid-bg{position:fixed;top:0;left:0;right:0;bottom:0;z-index:0;pointer-events:none;opacity:.35;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:64px;border-bottom:1px solid var(--border);background:rgba(0,0,0,0.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);}
+.nav-links{display:flex;gap:32px;list-style:none;}
+.nav-links a{font-size:14px;color:var(--gray);transition:color .15s;}
+.nav-links a:hover{color:var(--white);}
+.nav-ctas{display:flex;gap:12px;align-items:center;}
+.btn-solid{display:inline-flex;align-items:center;gap:6px;padding:9px 20px;background:var(--white);color:var(--black);font-size:13px;font-weight:500;font-family:var(--font-sans);border:none;cursor:pointer;transition:opacity .15s;}
+.btn-solid:hover{opacity:.85;}
+.btn-outline{display:inline-flex;align-items:center;gap:6px;padding:8px 20px;background:transparent;color:var(--white);font-size:13px;border:1px dashed var(--gray2);cursor:pointer;transition:border-color .15s;}
+.btn-outline:hover{border-color:var(--white);}
+
+.ticker-wrap{border-bottom:1px solid var(--border);overflow:hidden;padding:10px 0;background:#000;margin-top:64px;position:relative;z-index:1;}
+.ticker-track{display:flex;width:max-content;animation:scroll-ticker 40s linear infinite;}
+@keyframes scroll-ticker{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.tick-item{font-family:var(--font-mono);font-size:11px;padding:0 40px;white-space:nowrap;color:#555;display:flex;align-items:center;gap:10px;}
+.tick-item .up{color:#4a7c59;}.tick-item .dn{color:#7c4a4a;}
+
+.hero{display:grid;grid-template-columns:44% 56%;min-height:calc(100vh - 88px);position:relative;z-index:1;}
+.hero-left{padding:80px 48px;display:flex;flex-direction:column;justify-content:center;border-right:1px solid var(--border);}
+.hero-tag{font-family:var(--font-mono);font-size:11px;color:var(--gray);letter-spacing:2px;text-transform:uppercase;margin-bottom:40px;display:flex;align-items:center;gap:10px;}
+.hero-tag::before{content:'';display:inline-block;width:24px;height:1px;background:var(--gray);}
+.hero-tag .pulse-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#6ee7b7;animation:pulse-glow 2s ease-in-out infinite;}
+@keyframes pulse-glow{0%,100%{opacity:1;box-shadow:0 0 4px #6ee7b7;}50%{opacity:.4;box-shadow:0 0 8px #6ee7b7;}}
+h1{font-size:clamp(40px,5vw,72px);font-weight:600;line-height:1.05;letter-spacing:-2px;margin-bottom:32px;}
+.hero-sub{font-size:17px;color:var(--gray);line-height:1.7;max-width:420px;margin-bottom:48px;font-weight:300;}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:60px;}
+.btn-sl{padding:14px 28px;font-size:14px;font-weight:500;background:var(--white);color:var(--black);border:none;cursor:pointer;font-family:var(--font-sans);display:inline-flex;align-items:center;gap:8px;transition:opacity .15s;}
+.btn-sl:hover{opacity:.85;}
+.btn-ol{padding:13px 28px;font-size:14px;font-weight:400;background:transparent;color:var(--white);border:1px dashed var(--gray2);cursor:pointer;font-family:var(--font-sans);display:inline-flex;align-items:center;gap:8px;transition:border-color .15s;}
+.btn-ol:hover{border-color:var(--white);}
+.hero-stats{display:flex;gap:48px;padding-top:40px;border-top:1px solid var(--border);}
+.stat-n{font-size:26px;font-weight:600;letter-spacing:-1px;}
+.stat-l{font-size:12px;color:var(--gray);margin-top:2px;font-weight:300;}
+
+.hero-right{position:relative;overflow:hidden;background:#000;}
+.fade-l{position:absolute;left:0;top:0;bottom:0;width:60px;z-index:10;background:linear-gradient(to right,#000,transparent);pointer-events:none;}
+.fade-t{position:absolute;left:0;right:0;top:0;height:80px;z-index:10;background:linear-gradient(to bottom,#000,transparent);pointer-events:none;}
+.fade-b{position:absolute;left:0;right:0;bottom:0;height:120px;z-index:10;background:linear-gradient(to top,#000,transparent);pointer-events:none;}
+#stream{position:absolute;top:0;left:0;right:0;bottom:0;overflow:hidden;padding:20px 20px 20px 24px;}
+.scol{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;padding:20px 20px 20px 24px;animation:sup 80s linear infinite;will-change:transform;}
+@keyframes sup{from{transform:translateY(0);}to{transform:translateY(-50%);}}
+.cl{font-family:var(--font-mono);font-size:10px;line-height:1.6;white-space:nowrap;display:flex;gap:10px;color:#2a2a2a;}
+.cl.hi{color:#555;}.cl.lo{color:#1a1a1a;}
+.cg{color:#333;}.cw{color:#555;}.cbr{color:#888;}.cgr{color:#4a7c59;}.crd{color:#7c4a4a;}.cbl{color:#4a5f7c;}.cyl{color:#7c6a3a;}
+
+.split{display:grid;grid-template-columns:44% 56%;border-top:1px solid var(--border);position:relative;z-index:1;}
+.split.rev{grid-template-columns:56% 44%;}
+.st{padding:100px 48px;display:flex;flex-direction:column;justify-content:center;border-right:1px solid var(--border);}
+.split.rev .st{border-right:none;border-left:1px solid var(--border);}
+.sv{padding:80px 48px;display:flex;flex-direction:column;justify-content:center;background:#000;position:relative;overflow:hidden;}
+.snum{font-family:var(--font-mono);font-size:11px;color:var(--gray2);letter-spacing:2px;margin-bottom:20px;}
+h2{font-size:clamp(30px,3.8vw,50px);font-weight:600;line-height:1.1;letter-spacing:-1.5px;margin-bottom:24px;}
+.sb{font-size:15px;color:var(--gray);line-height:1.75;max-width:440px;font-weight:300;margin-bottom:36px;}
+h3{font-size:15px;font-weight:500;letter-spacing:-.3px;margin-bottom:6px;}
+
+.fl{display:flex;flex-direction:column;}
+.fi{display:flex;gap:20px;align-items:flex-start;padding:22px 0;border-bottom:1px solid var(--border);}
+.fi:first-child{border-top:1px solid var(--border);}
+.fn{font-family:var(--font-mono);font-size:11px;color:var(--gray2);padding-top:2px;flex-shrink:0;width:20px;}
+.fc h3{font-size:14px;font-weight:500;margin-bottom:4px;}
+.fc p{font-size:13px;color:var(--gray);font-weight:300;line-height:1.65;}
+
+/* RUNNING TERMINAL */
+.run-term{background:#000;border:1px solid var(--border);font-family:var(--font-mono);font-size:10px;overflow:hidden;position:relative;}
+.run-term::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(110,231,183,.15),transparent);animation:term-scan 4s ease-in-out infinite;z-index:2;}
+@keyframes term-scan{0%,100%{opacity:0;}50%{opacity:1;}}
+.rt-header{padding:10px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;color:var(--gray2);font-size:9px;letter-spacing:1px;text-transform:uppercase;}
+.rt-dots{display:flex;gap:5px;}
+.rt-dot{width:7px;height:7px;border-radius:50%;border:1px solid #333;}
+.rt-dot.active{background:#333;}
+.rt-body{padding:0;min-height:340px;max-height:440px;overflow:hidden;position:relative;}
+.rt-line{display:flex;gap:10px;padding:3px 16px;opacity:0;transform:translateY(2px);animation:rt-in .15s forwards;font-size:10px;line-height:1.65;}
+@keyframes rt-in{to{opacity:1;transform:none;}}
+.rt-ts{color:#333;flex-shrink:0;font-size:9px;padding-top:1px;width:52px;}
+.rt-tag{flex-shrink:0;font-size:9.5px;width:60px;font-weight:500;}
+.rt-msg{color:#555;font-size:10px;line-height:1.55;}
+.rt-cursor{display:inline-block;width:6px;height:12px;background:#4a7c59;animation:rt-blink 1s step-end infinite;margin-left:2px;vertical-align:middle;}
+@keyframes rt-blink{50%{opacity:0;}}
+
+.mg{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);}
+.mc{background:#000;padding:32px 28px;position:relative;overflow:hidden;}
+.mc::after{content:'';position:absolute;top:0;right:0;width:40%;height:100%;background:linear-gradient(180deg,rgba(110,231,183,.02),transparent);pointer-events:none;opacity:0;transition:opacity .5s;}
+.mc:hover::after{opacity:1;}
+.mn{font-size:40px;font-weight:600;letter-spacing:-2px;line-height:1;margin-bottom:6px;}
+.ml{font-size:12px;color:var(--gray);font-weight:300;line-height:1.4;}
+
+.data-monitor{background:var(--code-bg);border:1px solid var(--code-border);font-family:var(--font-mono);overflow:hidden;}
+.dm-header{padding:10px 16px;border-bottom:1px solid var(--code-border);display:flex;align-items:center;justify-content:space-between;}
+.dm-header-left{display:flex;align-items:center;gap:8px;font-size:9px;color:var(--gray2);letter-spacing:1px;text-transform:uppercase;}
+.dm-live{display:flex;align-items:center;gap:5px;font-size:9px;color:#4a7c59;}
+.dm-live-dot{width:5px;height:5px;border-radius:50%;background:#4a7c59;animation:dm-pulse 2s infinite;}
+@keyframes dm-pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+.dm-row{display:grid;grid-template-columns:1fr 80px 80px 60px;padding:10px 16px;border-bottom:1px solid var(--code-border);font-size:10px;color:#555;transition:background .2s;align-items:center;}
+.dm-row:hover{background:rgba(255,255,255,.02);}
+.dm-row.header{color:var(--gray2);font-size:9px;letter-spacing:1px;text-transform:uppercase;border-bottom:1px solid var(--code-border);}
+.dm-market{color:#888;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.dm-pos{color:#4a7c59;font-size:10px;font-weight:500;}
+.dm-neg{color:#7c4a4a;font-size:10px;font-weight:500;}
+.dm-neutral{color:#555;font-size:10px;}
+
+.pipeline{display:flex;align-items:center;gap:0;padding:24px 0;overflow:hidden;}
+.pipe-node{flex-shrink:0;padding:10px 16px;border:1px solid var(--code-border);font-family:var(--font-mono);font-size:9px;color:#555;letter-spacing:1px;text-transform:uppercase;position:relative;transition:all .3s;}
+.pipe-node.active{border-color:#333;color:#888;background:rgba(255,255,255,.02);}
+.pipe-node.active::before{content:'';position:absolute;top:-1px;left:0;right:0;height:1px;background:#4a7c59;}
+.pipe-connector{width:32px;height:1px;background:var(--code-border);flex-shrink:0;position:relative;}
+.pipe-connector::after{content:'›';position:absolute;right:-3px;top:-8px;color:#333;font-size:14px;}
+.pipe-data{font-family:var(--font-mono);font-size:9px;color:#333;margin-top:4px;}
+
+.arch-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--code-border);}
+.arch-module{background:#000;padding:20px;position:relative;overflow:hidden;transition:background .3s;}
+.arch-module:hover{background:#050505;}
+.arch-module-name{font-family:var(--font-mono);font-size:10px;color:#666;margin-bottom:4px;display:flex;align-items:center;gap:6px;}
+.arch-module-name::before{content:'◈';color:#333;font-size:8px;}
+.arch-module-desc{font-size:11px;color:#444;font-weight:300;}
+.arch-module-file{font-family:var(--font-mono);font-size:9px;color:#2a2a2a;margin-top:8px;}
+
+.sl2{display:flex;flex-direction:column;}
+.si{display:grid;grid-template-columns:44px 1fr;gap:16px;padding:24px 0;border-bottom:1px solid var(--border);align-items:start;}
+.si:first-child{border-top:1px solid var(--border);}
+.sn{font-family:var(--font-mono);font-size:20px;font-weight:300;color:var(--gray2);line-height:1;}
+.sb2 h3{font-size:14px;font-weight:500;margin-bottom:5px;}
+.sb2 p{font-size:13px;color:var(--gray);font-weight:300;line-height:1.65;}
+
+.pricing-section{border-top:1px solid var(--border);padding:100px 48px;position:relative;z-index:1;}
+.ph{max-width:460px;margin:0 auto 80px;text-align:center;}
+.ph h2{margin-bottom:16px;}
+.ph p{font-size:15px;color:var(--gray);font-weight:300;}
+.pg{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);max-width:960px;margin:0 auto;}
+.pc{background:#000;padding:44px 32px;position:relative;overflow:hidden;}
+.pc.feat{background:#080808;}
+.pc.feat::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);}
+.pbadge{font-family:var(--font-mono);font-size:9px;color:#000;background:#fff;display:inline-block;padding:3px 10px;letter-spacing:1px;text-transform:uppercase;margin-bottom:16px;}
+.pname{font-family:var(--font-mono);font-size:10px;color:var(--gray);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;}
+.pprice{font-size:48px;font-weight:600;letter-spacing:-2px;line-height:1;margin-bottom:4px;}
+.pper{font-size:12px;color:var(--gray);margin-bottom:6px;font-weight:300;}
+.panc{font-family:var(--font-mono);font-size:10px;color:var(--gray2);text-decoration:line-through;margin-bottom:32px;display:block;}
+.pf{list-style:none;margin-bottom:36px;}
+.pf li{font-size:13px;color:var(--gray);padding:9px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;font-weight:300;}
+.pf li:last-child{border-bottom:none;}
+.pck{font-family:var(--font-mono);font-size:10px;color:#fff;}
+.pc-main{width:100%;padding:13px;background:#fff;color:#000;font-size:13px;font-weight:500;font-family:var(--font-sans);border:none;cursor:pointer;transition:opacity .15s;text-align:center;display:block;}
+.pc-main:hover{opacity:.85;}
+.pc-sec{width:100%;padding:12px;background:transparent;color:#fff;font-size:13px;font-family:var(--font-sans);border:1px dashed var(--gray2);cursor:pointer;transition:border-color .15s;text-align:center;display:block;}
+.pc-sec:hover{border-color:#fff;}
+
+.faq-section{border-top:1px solid var(--border);display:grid;grid-template-columns:44% 56%;position:relative;z-index:1;}
+.fl2{padding:100px 48px;border-right:1px solid var(--border);display:flex;flex-direction:column;justify-content:flex-start;}
+.fr{padding:100px 48px;}
+.fqi{border-top:1px solid var(--border);padding:22px 0;}
+.fqi:last-child{border-bottom:1px solid var(--border);}
+.fqq{font-size:14px;font-weight:400;margin-bottom:8px;color:var(--white);}
+.fqa{font-size:13px;color:var(--gray);line-height:1.7;font-weight:300;}
+
+.ctas{border-top:1px solid var(--border);display:grid;grid-template-columns:44% 56%;min-height:55vh;position:relative;z-index:1;}
+.ctl{padding:100px 48px;border-right:1px solid var(--border);display:flex;flex-direction:column;justify-content:center;}
+.ctr{padding:80px 48px;display:flex;flex-direction:column;justify-content:center;overflow:hidden;position:relative;}
+.trnote{font-family:var(--font-mono);font-size:11px;color:var(--gray2);margin-top:20px;display:flex;gap:24px;flex-wrap:wrap;}
+.trnote span::before{content:'// ';}
+
+.intel-section{border-top:1px solid var(--border);position:relative;z-index:1;}
+.intel-header{padding:60px 48px 0;display:flex;align-items:flex-end;justify-content:space-between;gap:32px;}
+.intel-header-left{max-width:480px;}
+.intel-count{font-family:var(--font-mono);font-size:9px;color:var(--gray2);letter-spacing:1px;}
+.intel-grid{padding:48px;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--code-border);}
+.intel-card{background:#000;padding:24px;transition:background .3s;position:relative;}
+.intel-card:hover{background:#050505;}
+.intel-card-icon{font-family:var(--font-mono);font-size:10px;color:#333;margin-bottom:12px;}
+.intel-card-name{font-size:13px;font-weight:500;margin-bottom:4px;}
+.intel-card-desc{font-size:11px;color:var(--gray);font-weight:300;line-height:1.55;}
+
+footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;position:relative;z-index:1;}
+.fcopy{font-family:var(--font-mono);font-size:10px;color:var(--gray2);}
+.flinks{display:flex;gap:28px;list-style:none;}
+.flinks a{font-size:13px;color:var(--gray2);transition:color .15s;}.flinks a:hover{color:var(--white);}
+.disc{border-top:1px solid var(--border);padding:18px 48px;position:relative;z-index:1;}
+.disc p{font-size:10px;color:#2a2a2a;font-family:var(--font-mono);line-height:1.6;}
+
+.glow-sep{height:1px;background:linear-gradient(90deg,transparent 0%,rgba(110,231,183,.06) 20%,rgba(110,231,183,.1) 50%,rgba(110,231,183,.06) 80%,transparent 100%);position:relative;z-index:1;}
+
+.rev2{opacity:0;transform:translateY(16px);transition:opacity .55s,transform .55s;}
+.rev2.in{opacity:1;transform:none;}
+
+@media(max-width:900px){
+  .hero,.split,.split.rev,.faq-section,.ctas{grid-template-columns:1fr;}
+  .st{border-right:none;border-bottom:1px solid var(--border);}
+  .split.rev .st{border-left:none;border-bottom:1px solid var(--border);}
+  nav{padding:0 20px;}
+  .hero-left,.st,.sv,.fl2,.fr,.ctl,.ctr,.pricing-section{padding:60px 24px;}
+  .pg{grid-template-columns:1fr;}
+  .mg{grid-template-columns:1fr;}
+  .hero-right{height:260px;}
+  .nav-links{display:none;}
+  footer,.disc{padding:24px;}
+  .faq-section,.ctas{grid-template-columns:1fr;}
+  .fl2{border-right:none;border-bottom:1px solid var(--border);}
+  .intel-grid{grid-template-columns:1fr 1fr;}
+  .intel-header{padding:40px 24px 0;flex-direction:column;align-items:flex-start;}
+  .intel-grid{padding:24px;}
+  .pipeline{flex-wrap:wrap;gap:8px;}
+  .pipe-connector{width:16px;}
+  .arch-grid{grid-template-columns:1fr;}
+}
+@media(max-width:600px){
+  .intel-grid{grid-template-columns:1fr;}
+  .hero-stats{flex-direction:column;gap:20px;}
+}
+</style>
+</head>
+<body>
+
+<canvas class="grid-bg" id="gridCanvas"></canvas>
+
+<nav>
+  <a href="/">
+    <svg height="22" viewBox="0 0 340 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 33 L20 5 L36 33" stroke="white" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <text x="52" y="29" font-family="Inter,sans-serif" font-size="19" font-weight="600" letter-spacing="4" fill="white">POLYTRAGENT</text>
+    </svg>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#intel">Intelligence</a></li>
+    <li><a href="#how-it-works">How it works</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <div class="nav-ctas">
+    <a href="#pricing" class="btn-outline">View pricing</a>
+    <a href="#pricing" class="btn-solid">Join beta →</a>
+  </div>
+</nav>
+
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <span class="tick-item"><span class="up">▲</span> BUY YES — "Trump 2026 midterms" @ $0.41 — +12.3%</span>
+    <span class="tick-item"><span class="dn">▼</span> SELL NO — "Fed cuts June" @ $0.67 — Closed +8.1%</span>
+    <span class="tick-item"><span class="up">▲</span> MARKET MAKE — "BTC $100k EOY" — spread 1.2¢</span>
+    <span class="tick-item"><span class="up">▲</span> MIRROR 0x3f...a2 — 85% win rate — BUY YES $0.38</span>
+    <span class="tick-item"><span class="dn">▼</span> ARB Poly/Kalshi — "Ukraine ceasefire Q2" — +$0.031</span>
+    <span class="tick-item"><span class="up">▲</span> SIGNAL — ECB news velocity spike — BUY executing</span>
+    <span class="tick-item"><span class="up">▲</span> BUY YES — "Trump 2026 midterms" @ $0.41 — +12.3%</span>
+    <span class="tick-item"><span class="dn">▼</span> SELL NO — "Fed cuts June" @ $0.67 — Closed +8.1%</span>
+    <span class="tick-item"><span class="up">▲</span> MARKET MAKE — "BTC $100k EOY" — spread 1.2¢</span>
+    <span class="tick-item"><span class="up">▲</span> MIRROR 0x3f...a2 — 85% win rate — BUY YES $0.38</span>
+    <span class="tick-item"><span class="dn">▼</span> ARB Poly/Kalshi — "Ukraine ceasefire Q2" — +$0.031</span>
+    <span class="tick-item"><span class="up">▲</span> SIGNAL — ECB news velocity spike — BUY executing</span>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-tag"><span class="pulse-dot"></span> Polymarket AI Agent — Beta Open</div>
+    <h1>The AI agent<br>that trades<br>Polymarket<br>for you.</h1>
+    <p class="hero-sub">73% of prediction market profits go to automated bots. Polytragent puts you on the right side — running 24/7, reacting in milliseconds, never missing a signal.</p>
+    <div class="hero-ctas">
+      <a href="#pricing" class="btn-sl">Start trading — $24.99/day →</a>
+      <a href="#how-it-works" class="btn-ol">See how it works</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-n">2.7s</div><div class="stat-l">Avg arbitrage window</div></div>
+      <div><div class="stat-n">$25M+</div><div class="stat-l">Monthly bot volume</div></div>
+      <div><div class="stat-n">78–85%</div><div class="stat-l">Momentum win rate</div></div>
+    </div>
+  </div>
+  <div class="hero-right" aria-hidden="true">
+    <div class="fade-l"></div>
+    <div class="fade-t"></div>
+    <div class="fade-b"></div>
+    <div id="stream"></div>
+  </div>
+</section>
+
+<!-- SECTION 01 — THE PROBLEM -->
+<section class="split" id="features">
+  <div class="st rev2">
+    <div class="snum">01 — The problem</div>
+    <h2>You're trading<br>against machines<br>with your hands.</h2>
+    <p class="sb">Polymarket is the most bot-friendly trading venue in crypto. Open API. Transparent orderbook. On-chain execution. Beautiful for developers — brutal for manual traders who don't realize it yet.</p>
+    <div class="fl">
+      <div class="fi"><div class="fn">—</div><div class="fc"><h3>Arbitrage windows collapsed to 2.7 seconds</h3><p>Down from 12.3s in 2024. 73% of those profits are captured by sub-100ms bots. You never see the window open.</p></div></div>
+      <div class="fi"><div class="fn">—</div><div class="fc"><h3>3.7% of wallets own 37% of all profits</h3><p>These are bot accounts. Leaderboards are engineered to make algorithms look like human traders worth copying.</p></div></div>
+      <div class="fi"><div class="fn">—</div><div class="fc"><h3>Manual research means you're always last</h3><p>Sophisticated agents use news pipelines and on-chain signals — and act minutes before prices shift. Your analysis is already priced in.</p></div></div>
+    </div>
+  </div>
+  <div class="sv">
+    <div class="run-term" data-term="boot">
+      <div class="rt-header">
+        <div class="rt-dots"><span class="rt-dot"></span><span class="rt-dot"></span><span class="rt-dot active"></span></div>
+        <span style="margin-left:10px;">polytragent — boot.log</span>
+      </div>
+      <div class="rt-body"></div>
+    </div>
+  </div>
+</section>
+
+<div class="glow-sep"></div>
+
+<!-- SECTION 02 — THE SOLUTION -->
+<section class="split rev" id="solution">
+  <div class="sv" style="border-right:1px solid var(--border);">
+    <div class="mg">
+      <div class="mc rev2"><div class="mn">78%</div><div class="ml">Win rate,<br>momentum strategy</div></div>
+      <div class="mc rev2"><div class="mn">3–8%</div><div class="ml">Monthly return,<br>momentum</div></div>
+      <div class="mc rev2"><div class="mn">&lt;1%</div><div class="ml">Max drawdown,<br>market making</div></div>
+      <div class="mc rev2"><div class="mn">0.4ms</div><div class="ml">Order execution<br>latency</div></div>
+    </div>
+    <div class="run-term" data-term="trading" style="margin-top:1px;">
+      <div class="rt-header">
+        <div class="rt-dots"><span class="rt-dot"></span><span class="rt-dot"></span><span class="rt-dot active"></span></div>
+        <span style="margin-left:10px;">polytragent — trading.log</span>
+      </div>
+      <div class="rt-body"></div>
+    </div>
+  </div>
+  <div class="st rev2">
+    <div class="snum">02 — The solution</div>
+    <h2>Four strategies.<br>One agent.<br>Zero sleep.</h2>
+    <p class="sb">Polytragent runs all four Polymarket strategies simultaneously — allocating capital to wherever the edge exists right now. You set the risk limits. The agent does everything else.</p>
+    <div class="fl">
+      <div class="fi"><div class="fn">01</div><div class="fc"><h3>Real-Time Signal Engine</h3><p>News velocity, on-chain data, social signals — detected before prices update. 30s to 5min execution windows, captured automatically.</p></div></div>
+      <div class="fi"><div class="fn">02</div><div class="fc"><h3>Smart Wallet Intelligence</h3><p>Mirrors verified high-Sharpe human wallets the moment they trade. Bot accounts filtered via quadrant analysis. You follow actual alpha.</p></div></div>
+      <div class="fi"><div class="fn">03</div><div class="fc"><h3>Automated Market Making</h3><p>Provides liquidity on both sides, collecting spreads regardless of outcome. 0.5–2% monthly with under 1% drawdown — the most reliable Polymarket strategy.</p></div></div>
+      <div class="fi"><div class="fn">04</div><div class="fc"><h3>Cross-Platform Arbitrage</h3><p>Captures price discrepancies between Polymarket and Kalshi automatically. Less saturated than single-market arb. Consistent edge.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="glow-sep"></div>
+
+<!-- SECTION 03 — INTELLIGENCE -->
+<section class="intel-section" id="intel">
+  <div class="intel-header">
+    <div class="intel-header-left rev2">
+      <div class="snum">03 — Intelligence</div>
+      <h2>11 signal sources.<br>One decision engine.</h2>
+      <p class="sb" style="margin-bottom:0;">Every module feeds the central signal engine in real-time. News, on-chain data, geopolitical events, whale activity — aggregated, scored, and executed in milliseconds.</p>
+    </div>
+    <div class="intel-count rev2" style="padding-bottom:8px;">16 PYTHON MODULES · 11 INTEL SOURCES · 4 STRATEGIES</div>
+  </div>
+  <div style="padding:32px 48px;overflow-x:auto;" class="rev2">
+    <div class="pipeline" id="pipeline">
+      <div class="pipe-node" data-idx="0">INGEST<div class="pipe-data">11 sources</div></div>
+      <div class="pipe-connector"></div>
+      <div class="pipe-node" data-idx="1">NORMALIZE<div class="pipe-data">score 0–1</div></div>
+      <div class="pipe-connector"></div>
+      <div class="pipe-node" data-idx="2">CORRELATE<div class="pipe-data">multi-signal</div></div>
+      <div class="pipe-connector"></div>
+      <div class="pipe-node" data-idx="3">DECIDE<div class="pipe-data">threshold gate</div></div>
+      <div class="pipe-connector"></div>
+      <div class="pipe-node" data-idx="4">EXECUTE<div class="pipe-data">0.4ms avg</div></div>
+      <div class="pipe-connector"></div>
+      <div class="pipe-node" data-idx="5">MONITOR<div class="pipe-data">24/7 loop</div></div>
+    </div>
+  </div>
+  <div class="intel-grid rev2">
+    <div class="intel-card"><div class="intel-card-icon">◈ scanner.py</div><div class="intel-card-name">Market Scanner</div><div class="intel-card-desc">Indexes all active Polymarket markets, filters by liquidity and volume thresholds.</div></div>
+    <div class="intel-card"><div class="intel-card-icon">◈ news.py</div><div class="intel-card-name">News Velocity</div><div class="intel-card-desc">Bloomberg, Reuters, AP — real-time article velocity scoring per market topic.</div></div>
+    <div class="intel-card"><div class="intel-card-icon">◈ whale.py</div><div class="intel-card-name">Whale Tracker</div><div class="intel-card-desc">On-chain monitoring of large wallet movements on Polygon mainnet.</div></div>
+    <div class="intel-card"><div class="intel-card-icon">◈ monitor.py</div><div class="intel-card-name">Wallet Mirror</div><div class="intel-card-desc">Mirrors high-Sharpe human wallets. Bot accounts filtered via quadrant analysis.</div></div>
+    <div class="intel-card"><div class="intel-card-icon">◈ gdelt.py</div><div class="intel-card-name">GDELT Events</div><div class="intel-card-desc">Global events database — geopolitical signals from 250+ news sources in 100 languages.</div></div>
+    <div class="intel-card"><div class="intel-card-icon">◈ acled.py</div><div class="intel-card-name">ACLED Conflict</div><div class="intel-card-desc">Armed conflict and protest data for geopolitical market correlation.</div></div>
+    <div class="intel-card"><div class="intel-card-icon">◈ rss_intel.py</div><div class="intel-card-name">RSS Intelligence</div><div class="intel-card-desc">Curated RSS feeds from policy think tanks, government agencies, central banks.</div></div>
+    <div class="intel-card"><div class="intel-card-icon">◈ unsc.py</div><div class="intel-card-name">UN Security Council</div><div class="intel-card-desc">Monitors UNSC resolutions and voting patterns for geopolitical market impact.</div></div>
+    <div class="intel-card"><div class="intel-card-icon">◈ kalshi_api.py</div><div class="intel-card-name">Kalshi Bridge</div><div class="intel-card-desc">Cross-platform arbitrage detection between Polymarket and Kalshi.</div></div>
+    <div class="intel-card"><div class="intel-card-icon">◈ swing.py</div><div class="intel-card-name">Swing Detector</div><div class="intel-card-desc">Identifies momentum shifts via price action analysis and volume patterns.</div></div>
+    <div class="intel-card"><div class="intel-card-icon">◈ researcher.py</div><div class="intel-card-name">Deep Researcher</div><div class="intel-card-desc">Multi-source research synthesis for complex market analysis and edge discovery.</div></div>
+    <div class="intel-card"><div class="intel-card-icon">◈ telegram_client.py</div><div class="intel-card-name">Telegram Alerts</div><div class="intel-card-desc">Real-time trade notifications, daily P&L summaries, and risk alerts.</div></div>
+  </div>
+</section>
+
+<div class="glow-sep"></div>
+
+<!-- SECTION 04 — LIVE MONITOR -->
+<section class="split" id="live-monitor">
+  <div class="st rev2">
+    <div class="snum">04 — Live monitor</div>
+    <h2>Watch your<br>agent trade.<br>In real time.</h2>
+    <p class="sb">Every signal, every trade, every P&L update — streamed to your dashboard and Telegram. Full transparency. Pause with one click.</p>
+    <div class="arch-grid" style="margin-top:24px;">
+      <div class="arch-module"><div class="arch-module-name">Signal Engine</div><div class="arch-module-desc">Multi-source correlation</div><div class="arch-module-file">scanner.py + news.py</div></div>
+      <div class="arch-module"><div class="arch-module-name">Risk Manager</div><div class="arch-module-desc">Position limits & drawdown</div><div class="arch-module-file">config.py</div></div>
+      <div class="arch-module"><div class="arch-module-name">Execution Layer</div><div class="arch-module-desc">CLOB API + FOK orders</div><div class="arch-module-file">polymarket_api.py</div></div>
+      <div class="arch-module"><div class="arch-module-name">Portfolio Store</div><div class="arch-module-desc">State & P&L tracking</div><div class="arch-module-file">portfolio_store.py</div></div>
+    </div>
+  </div>
+  <div class="sv">
+    <div class="data-monitor rev2">
+      <div class="dm-header">
+        <div class="dm-header-left">Active positions</div>
+        <div class="dm-live"><span class="dm-live-dot"></span> LIVE</div>
+      </div>
+      <div class="dm-row header"><span>MARKET</span><span>ENTRY</span><span>CURRENT</span><span>P&L</span></div>
+      <div id="dm-rows"></div>
+    </div>
+    <div class="run-term" data-term="monitor" style="margin-top:16px;">
+      <div class="rt-header">
+        <div class="rt-dots"><span class="rt-dot"></span><span class="rt-dot"></span><span class="rt-dot active"></span></div>
+        <span style="margin-left:10px;">polytragent — monitor.log</span>
+      </div>
+      <div class="rt-body"></div>
+    </div>
+  </div>
+</section>
+
+<div class="glow-sep"></div>
+
+<!-- SECTION 05 — SETUP -->
+<section class="split" id="how-it-works">
+  <div class="st rev2">
+    <div class="snum">05 — Setup</div>
+    <h2>Live in three<br>steps. Running<br>in minutes.</h2>
+    <p class="sb">No infrastructure. No models to train. Polytragent connects via the official Polymarket CLOB API — non-custodially. Your keys never leave your device.</p>
+    <div class="sl2">
+      <div class="si"><div class="sn">01</div><div class="sb2"><h3>Connect your wallet</h3><p>Link via the official CLOB API. Polytragent derives credentials from your private key at startup. Keys never stored. EOA mode — your wallet, always your rules.</p></div></div>
+      <div class="si"><div class="sn">02</div><div class="sb2"><h3>Choose your strategy profile</h3><p>Pick Aggressive, Balanced, or Conservative. Set position size limits, max drawdown, and market category filters. Two minutes. Adjustable any time.</p></div></div>
+      <div class="si"><div class="sn">03</div><div class="sb2"><h3>Agent runs 24/7</h3><p>Monitors markets, detects signals, places orders, manages open positions. Live dashboard and Telegram alerts included. Pause instantly in one click.</p></div></div>
+    </div>
+  </div>
+  <div class="sv">
+    <div class="run-term" data-term="setup">
+      <div class="rt-header">
+        <div class="rt-dots"><span class="rt-dot"></span><span class="rt-dot"></span><span class="rt-dot active"></span></div>
+        <span style="margin-left:10px;">polytragent — setup.log</span>
+      </div>
+      <div class="rt-body"></div>
+    </div>
+  </div>
+</section>
+
+<div class="glow-sep"></div>
+
+<!-- SECTION 06 — PRICING -->
+<section class="pricing-section" id="pricing">
+  <div class="ph rev2">
+    <div class="snum" style="text-align:center;margin-bottom:12px;">06 — Pricing</div>
+    <h2>Try today.<br>Own monthly.</h2>
+    <p>Day Pass for testing the edge. Monthly for serious alpha. No lock-in.</p>
+  </div>
+  <div class="pg">
+    <div class="pc rev2">
+      <div class="pname">Day Pass</div>
+      <div class="pprice">$24<span style="font-size:26px;font-weight:400;">.99</span></div>
+      <div class="pper">per day · no commitment</div>
+      <span class="panc">Billed daily · cancel any time</span>
+      <ul class="pf">
+        <li><span class="pck">✓</span> Full autonomous trading</li>
+        <li><span class="pck">✓</span> All 4 strategy modes</li>
+        <li><span class="pck">✓</span> 10 concurrent markets</li>
+        <li><span class="pck">✓</span> Smart wallet mirroring</li>
+        <li><span class="pck">✓</span> Telegram alerts</li>
+        <li><span class="pck">✓</span> Risk controls</li>
+      </ul>
+      <a href="#" class="pc-sec">Buy Day Pass →</a>
+    </div>
+    <div class="pc feat rev2">
+      <div class="pbadge">Best value — save 67%</div>
+      <div class="pname">Monthly</div>
+      <div class="pprice">$99</div>
+      <div class="pper">per month · cancel any time</div>
+      <span class="panc">vs $749/mo at daily rate</span>
+      <ul class="pf">
+        <li><span class="pck">✓</span> Everything in Day Pass</li>
+        <li><span class="pck">✓</span> Unlimited concurrent markets</li>
+        <li><span class="pck">✓</span> Priority execution queue</li>
+        <li><span class="pck">✓</span> Advanced risk configuration</li>
+        <li><span class="pck">✓</span> Performance analytics</li>
+        <li><span class="pck">✓</span> Multi-wallet dashboard</li>
+      </ul>
+      <a href="#" class="pc-main">Start monthly — $99 →</a>
+    </div>
+    <div class="pc rev2">
+      <div class="pname">Institutional</div>
+      <div class="pprice" style="font-size:34px;letter-spacing:-1px;">Custom</div>
+      <div class="pper">volume pricing available</div>
+      <span class="panc" style="visibility:hidden;">placeholder</span>
+      <ul class="pf">
+        <li><span class="pck">✓</span> Everything in Monthly</li>
+        <li><span class="pck">✓</span> API access</li>
+        <li><span class="pck">✓</span> Custom strategy dev</li>
+        <li><span class="pck">✓</span> White-label options</li>
+        <li><span class="pck">✓</span> Dedicated support</li>
+        <li><span class="pck">✓</span> SLA guarantee</li>
+      </ul>
+      <a href="#" class="pc-sec">Contact sales →</a>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 07 — FAQ -->
+<section class="faq-section" id="faq">
+  <div class="fl2 rev2">
+    <div class="snum">07 — FAQ</div>
+    <h2>Common<br>questions.</h2>
+    <p style="font-size:15px;color:var(--gray);font-weight:300;line-height:1.7;max-width:300px;margin-top:14px;">Everything you need to know before connecting your wallet and running your first trade.</p>
+  </div>
+  <div class="fr">
+    <div class="fqi rev2"><div class="fqq">Is my wallet safe with Polytragent?</div><div class="fqa">Yes. Polytragent is fully non-custodial — we operate via the official Polymarket CLOB API and never hold your funds, store your private key, or control your wallet. Revoke access instantly from Polymarket settings at any time.</div></div>
+    <div class="fqi rev2"><div class="fqq">What's the minimum capital to start?</div><div class="fqa">You can start with as little as $50 USDC on the Day Pass. For a diversified multi-market strategy we recommend $500+. Market making requires at least $200 per market for meaningful spread capture.</div></div>
+    <div class="fqi rev2"><div class="fqq">What returns can I realistically expect?</div><div class="fqa">Market making targets 0.5–2% monthly with under 1% drawdown. Momentum strategies target 3–8% monthly with moderate volatility. These are benchmarks from 6 months of orderbook analysis — not guarantees. Results vary by market conditions, capital, and configuration.</div></div>
+    <div class="fqi rev2"><div class="fqq">Does Polytragent work across all Polymarket markets?</div><div class="fqa">Yes — politics, sports, crypto, economics, and any active Polymarket market. The agent filters for minimum liquidity before entering any position, so it only trades markets where execution risk is low.</div></div>
+    <div class="fqi rev2"><div class="fqq">Can I pause the agent at any time?</div><div class="fqa">Yes, immediately. Pausing halts all new order placement. Open positions are held until market resolution or manual close. No penalties, no lock-in on either plan.</div></div>
+    <div class="fqi rev2"><div class="fqq">Is automated trading on Polymarket allowed?</div><div class="fqa">Yes. The Polymarket CLOB API is public and bot trading is explicitly permitted. Polytragent fully complies with Polymarket's terms of service. Users are responsible for compliance with their own local regulations.</div></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="ctas">
+  <div class="ctl rev2">
+    <div class="snum" style="margin-bottom:20px;">Join beta</div>
+    <h2>Stop being<br>exit liquidity.<br>Start being<br>the algorithm.</h2>
+    <p style="font-size:15px;color:var(--gray);font-weight:300;line-height:1.7;margin:24px 0 32px;max-width:360px;">Limited beta open now. Connect your wallet and your first trade runs in minutes. No credit card required to start.</p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+      <a href="#pricing" class="btn-sl">Join beta — free to start →</a>
+    </div>
+    <div class="trnote">
+      <span>Non-custodial</span>
+      <span>Cancel anytime</span>
+      <span>Your keys always yours</span>
+    </div>
+  </div>
+  <div class="ctr" aria-hidden="true">
+    <div class="run-term" data-term="cta">
+      <div class="rt-header">
+        <div class="rt-dots"><span class="rt-dot"></span><span class="rt-dot"></span><span class="rt-dot active"></span></div>
+        <span style="margin-left:10px;">polytragent — connect.log</span>
+      </div>
+      <div class="rt-body"></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div>
+    <svg height="20" viewBox="0 0 340 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:.35;">
+      <path d="M4 33 L20 5 L36 33" stroke="white" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <text x="52" y="29" font-family="Inter,sans-serif" font-size="19" font-weight="600" letter-spacing="4" fill="white">POLYTRAGENT</text>
+    </svg>
+    <div class="fcopy" style="margin-top:8px;">© 2026 Polytragent. Built for Polymarket.</div>
+  </div>
+  <ul class="flinks">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#">Docs</a></li>
+    <li><a href="#">X / Twitter</a></li>
+  </ul>
+</footer>
+<div class="disc">
+  <p>Risk Disclaimer: Prediction market trading involves significant financial risk. Automated trading does not guarantee profits. Past performance is not indicative of future results. Polytragent is a software tool, not a financial advisor. Only trade capital you can afford to lose. This website does not constitute financial advice.</p>
+</div>
+
+<script>
+// ============================================================
+// GRID CANVAS
+// ============================================================
+(function(){
+  const c=document.getElementById('gridCanvas');if(!c)return;
+  const ctx=c.getContext('2d');let w,h;
+  function resize(){w=c.width=window.innerWidth;h=c.height=window.innerHeight*4;}
+  resize();window.addEventListener('resize',()=>{resize();draw();});
+  const sp=60;
+  function draw(){
+    ctx.clearRect(0,0,w,h);ctx.strokeStyle='rgba(255,255,255,.018)';ctx.lineWidth=.5;
+    for(let x=0;x<w;x+=sp){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke();}
+    for(let y=0;y<h;y+=sp){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();}
+    ctx.fillStyle='rgba(255,255,255,.03)';
+    for(let x=0;x<w;x+=sp){for(let y=0;y<h;y+=sp){ctx.beginPath();ctx.arc(x,y,1,0,Math.PI*2);ctx.fill();}}
+  }
+  draw();
+})();
+
+// ============================================================
+// HERO CODE STREAM (scrolling background code)
+// ============================================================
+const SD=[
+  ['09:14:03','BOOT','cgr','Polytragent v2.1 initialized — 4 strategies active'],
+  ['09:14:04','SCAN','cbl','Indexing 847 active Polymarket markets...'],
+  ['09:14:05','WATCH','cyl','Monitoring 12 smart wallets (Sharpe > 1.5)'],
+  ['09:14:05','FILT','cg','Filtering bot accounts via quadrant analysis'],
+  ['09:14:06','OK  ','cgr','8 human traders confirmed — mirroring active'],
+  ['09:14:07','NEWS','cyl','Bloomberg: ECB rate decision — velocity +420%'],
+  ['09:14:07','SIG ','cgr','Signal: "ECB holds rates in March" confirmed'],
+  ['09:14:07','PROB','cbl','Market: 40% → True estimate: 68% — edge +28%'],
+  ['09:14:08','ORDER','cgr','BUY YES @ $0.38 — 25 USDC — FOK mode'],
+  ['09:14:08','EXEC','cgr','Filled in 0.4ms ✓ — position open'],
+  ['09:14:09','MM  ','cyl','"BTC $100k EOY" — market making both sides'],
+  ['09:14:09','BID ','cbl','BID $0.497 / ASK $0.509 — spread 1.2¢'],
+  ['09:14:10','RISK','cg','Exposure: $247 / $1000 session limit — OK'],
+  ['09:14:11','COPY','cbl','0x3f...a2 placed BUY YES — mirroring...'],
+  ['09:14:11','ORDER','cgr','BUY YES @ $0.41 — "Trump 2026 midterms"'],
+  ['09:14:12','EXEC','cgr','Filled — position open — 18 USDC ✓'],
+  ['09:14:14','ARB ','cyl','Kalshi/Poly spread detected — "Ukraine Q2"'],
+  ['09:14:14','DELTA','cbl','Poly: $0.520 / Kalshi: $0.489 — $0.031 delta'],
+  ['09:14:14','ORDER','cgr','Cross-arb executing — both legs...'],
+  ['09:14:15','EXEC','cgr','Both legs filled — $0.028 profit locked ✓'],
+  ['09:14:22','CLOSE','cgr','Position closed: +$4.20 (+16.8%) ✓'],
+  ['09:14:23','P&L ','cgr','Session: +$18.41 — drawdown: 0.00%'],
+  ['09:14:24','SCAN','cbl','Scanning next opportunity...'],
+  ['09:14:25','IDLE','cg','No qualifying signals — holding positions'],
+  ['09:14:30','WATCH','cyl','On-chain: whale activity — new wallet pattern'],
+  ['09:14:31','SIG ','cgr','Momentum: "Nvidia Q2 earnings miss" — BUY NO'],
+  ['09:14:31','ORDER','cgr','BUY NO @ $0.61 — 30 USDC — executing'],
+  ['09:14:32','EXEC','cgr','Filled in 0.6ms ✓'],
+  ['09:14:35','ALERT','cyl','Telegram alert sent: trade opened'],
+  ['09:14:40','SCAN','cbl','Next cycle — monitoring 847 markets'],
+  ['09:14:41','MM  ','cyl','Spread collected: $0.0094 — "ECB decision"'],
+  ['09:14:42','RISK','cg','Portfolio: 4 markets / $10k limit — 2.5%'],
+  ['09:14:45','COPY','cbl','0x7a...b3 — win rate 71% — below threshold'],
+  ['09:14:45','FILT','cg','Skip. Minimum Sharpe not met.'],
+  ['09:14:50','SIG ','cyl','Social: "Fed minutes leak" — velocity +280%'],
+  ['09:14:51','ORDER','cgr','BUY YES @ $0.34 — "Fed dovish June" — 20U'],
+  ['09:14:51','EXEC','cgr','Filled — monitoring resolution ✓'],
+  ['09:15:01','SCAN','cbl','Cycle complete — all systems nominal'],
+  ['09:15:02','STAT','cgr','Uptime: 99.97% — Trades: 23 — Win: 18/23'],
+  ['09:15:03','IDLE','cg','Standing by for next signal...'],
+];
+const ALL=[...SD,...SD,...SD];
+function buildStream(){
+  const el=document.getElementById('stream');if(!el)return;
+  const col=document.createElement('div');col.className='scol';
+  ALL.forEach(([ts,tag,cls,msg])=>{
+    const d=document.createElement('div');d.className='cl';
+    d.innerHTML=`<span class="cg" style="flex-shrink:0">${ts}</span><span class="${cls}" style="flex-shrink:0;width:60px;font-size:9.5px;font-weight:500">[${tag.trim()}]</span><span class="cw">${msg}</span>`;
+    col.appendChild(d);
+  });
+  el.appendChild(col);
+}
+buildStream();
+
+// ============================================================
+// RUNNING TERMINAL ENGINE — scroll-triggered, replays each time
+// ============================================================
+const TERM_DATA = {
+  boot: [
+    ['09:14:03','BOOT','#4a7c59','Polytragent v2.1 initialized — 4 strategies active'],
+    ['09:14:04','SCAN','#4a6080','Indexing 847 active Polymarket markets...'],
+    ['09:14:05','WATCH','#7c6a3a','Monitoring 12 smart wallets (Sharpe > 1.5)'],
+    ['09:14:05','FILT','#333','Filtering bot accounts via quadrant analysis'],
+    ['09:14:06','OK','#4a7c59','8 human traders confirmed — mirroring active'],
+    ['09:14:07','NEWS','#7c6a3a','Bloomberg: ECB rate decision — velocity +420%'],
+    ['09:14:07','SIG','#4a7c59','Signal: "ECB holds rates in March" confirmed'],
+    ['09:14:07','PROB','#4a6080','Market: 40% → True estimate: 68% — edge +28%'],
+    ['09:14:08','ORDER','#4a7c59','BUY YES @ $0.38 — 25 USDC — FOK mode'],
+    ['09:14:08','EXEC','#4a7c59','Filled in 0.4ms ✓ — position open'],
+    ['09:14:09','MM','#7c6a3a','"BTC $100k EOY" — market making both sides'],
+    ['09:14:09','BID','#4a6080','BID $0.497 / ASK $0.509 — spread 1.2¢'],
+    ['09:14:10','RISK','#333','Exposure: $247 / $1000 session limit — OK'],
+    ['09:14:11','COPY','#4a6080','0x3f...a2 placed BUY YES — mirroring...'],
+    ['09:14:11','ORDER','#4a7c59','BUY YES @ $0.41 — "Trump 2026 midterms"'],
+    ['09:14:12','EXEC','#4a7c59','Filled — position open — 18 USDC ✓'],
+    ['09:14:14','ARB','#7c6a3a','Kalshi/Poly spread detected — "Ukraine Q2"'],
+    ['09:14:14','DELTA','#4a6080','Poly: $0.520 / Kalshi: $0.489 — $0.031 delta'],
+    ['09:14:14','ORDER','#4a7c59','Cross-arb executing — both legs...'],
+    ['09:14:15','EXEC','#4a7c59','Both legs filled — $0.028 profit locked ✓'],
+    ['09:14:22','CLOSE','#4a7c59','Position closed: +$4.20 (+16.8%) ✓'],
+    ['09:14:23','P&L','#4a7c59','Session: +$18.41 — drawdown: 0.00%'],
+    ['09:14:24','SCAN','#4a6080','Scanning next opportunity...'],
+    ['09:14:25','IDLE','#333','No qualifying signals — holding positions'],
+    ['09:14:30','WATCH','#7c6a3a','On-chain: whale activity — new wallet pattern'],
+    ['09:14:31','SIG','#4a7c59','Momentum: "Nvidia Q2 earnings miss" — BUY NO'],
+    ['09:14:31','ORDER','#4a7c59','BUY NO @ $0.61 — 30 USDC — executing'],
+    ['09:14:32','EXEC','#4a7c59','Filled in 0.6ms ✓'],
+    ['09:14:35','ALERT','#7c6a3a','Telegram alert sent: trade opened'],
+    ['09:14:40','SCAN','#4a6080','Next cycle — monitoring 847 markets'],
+  ],
+  trading: [
+    ['09:14:41','MM','#7c6a3a','Spread collected: $0.0094 — "ECB decision"'],
+    ['09:14:42','RISK','#333','Portfolio: 4 markets / $10k limit — 2.5%'],
+    ['09:14:45','COPY','#4a6080','0x7a...b3 — win rate 71% — below threshold'],
+    ['09:14:45','FILT','#333','Skip. Minimum Sharpe not met.'],
+    ['09:14:50','SIG','#7c6a3a','Social: "Fed minutes leak" — velocity +280%'],
+    ['09:14:51','ORDER','#4a7c59','BUY YES @ $0.34 — "Fed dovish June" — 20U'],
+    ['09:14:51','EXEC','#4a7c59','Filled — monitoring resolution ✓'],
+    ['09:15:01','SCAN','#4a6080','Cycle complete — all systems nominal'],
+    ['09:15:02','STAT','#4a7c59','Uptime: 99.97% — Trades: 23 — Win: 18/23'],
+    ['09:15:03','IDLE','#333','Standing by for next signal...'],
+    ['09:15:10','WATCH','#7c6a3a','On-chain: whale 0xab...f1 — $50k movement'],
+    ['09:15:11','SIG','#4a7c59','Whale correlated with "BTC $100k" market'],
+    ['09:15:12','PROB','#4a6080','Edge: 0.18 — above threshold 0.15'],
+    ['09:15:12','ORDER','#4a7c59','BUY YES @ $0.51 — 40 USDC — FOK'],
+    ['09:15:13','EXEC','#4a7c59','Filled in 0.3ms ✓'],
+    ['09:15:20','MM','#7c6a3a','Rebalancing "ECB March" — BID/ASK updated'],
+    ['09:15:21','BID','#4a6080','BID $0.65 / ASK $0.68 — spread 3.0¢'],
+    ['09:15:30','ARB','#7c6a3a','Kalshi delta expanding — "AI regulation"'],
+    ['09:15:30','DELTA','#4a6080','Poly: $0.41 / Kalshi: $0.38 — $0.030 delta'],
+    ['09:15:31','ORDER','#4a7c59','Cross-arb executing — both legs...'],
+    ['09:15:32','EXEC','#4a7c59','Both legs filled — $0.025 locked ✓'],
+    ['09:15:40','RISK','#333','Session exposure: $387 / $1000 — 38.7%'],
+    ['09:15:41','P&L','#4a7c59','Running P&L: +$22.84 — no drawdown'],
+    ['09:15:50','SCAN','#4a6080','847 markets — 12 pass liquidity filter'],
+    ['09:15:55','COPY','#4a6080','0x3f...a2 — BUY NO "Trump trial" @ $0.72'],
+    ['09:15:56','ORDER','#4a7c59','Mirroring — BUY NO @ $0.72 — 15 USDC'],
+    ['09:15:56','EXEC','#4a7c59','Filled ✓ — position open'],
+    ['09:16:01','STAT','#4a7c59','Active: 6 positions — Win rate: 78%'],
+    ['09:16:05','IDLE','#333','Cycle complete. Waiting for next signal...'],
+  ],
+  monitor: [
+    ['09:14:08','EXEC','#4a7c59','BUY YES "ECB holds March" filled — $0.38'],
+    ['09:14:09','ALERT','#7c6a3a','Telegram: New position opened'],
+    ['09:14:12','EXEC','#4a7c59','BUY YES "Trump midterms" filled — $0.41'],
+    ['09:14:15','EXEC','#4a7c59','ARB both legs filled — locked $0.028'],
+    ['09:14:22','CLOSE','#4a7c59','Position closed: +$4.20 (+16.8%) ✓'],
+    ['09:14:23','P&L','#4a7c59','Session: +$18.41 — drawdown: 0.00%'],
+    ['09:14:25','RISK','#333','All positions within risk limits'],
+    ['09:14:30','WATCH','#7c6a3a','Whale 0xab...f1 activity detected'],
+    ['09:14:32','EXEC','#4a7c59','BUY NO "Nvidia Q2" filled — $0.61'],
+    ['09:14:35','ALERT','#7c6a3a','Telegram: 3 active positions'],
+    ['09:14:40','MM','#7c6a3a','Spread: $0.009 collected — "ECB decision"'],
+    ['09:14:42','RISK','#333','Drawdown: 0.0% — session limit: OK'],
+    ['09:14:50','SIG','#4a7c59','New signal: "Fed minutes" — velocity +280%'],
+    ['09:14:51','EXEC','#4a7c59','BUY YES "Fed dovish" filled — $0.34'],
+    ['09:14:52','ALERT','#7c6a3a','Telegram: Position #4 opened'],
+    ['09:15:01','STAT','#4a7c59','Session: 5 trades — 4 wins — 1 pending'],
+    ['09:15:10','P&L','#4a7c59','Running P&L: +$22.84 across 5 positions'],
+    ['09:15:15','RISK','#333','Max position: $40 / $100 limit — compliant'],
+    ['09:15:20','MM','#7c6a3a','Spread rebalance complete — 3 markets'],
+    ['09:15:30','ARB','#7c6a3a','New arb detected — Poly/Kalshi delta $0.03'],
+    ['09:15:32','EXEC','#4a7c59','Arb filled — $0.025 profit locked ✓'],
+    ['09:15:40','ALERT','#7c6a3a','Telegram: Daily digest sent'],
+    ['09:15:50','STAT','#4a7c59','Win rate: 78% — 18/23 lifetime trades'],
+    ['09:15:55','COPY','#4a6080','Mirror trade: 0x3f...a2 BUY NO $0.72'],
+    ['09:15:56','EXEC','#4a7c59','Mirror filled ✓ — 6 active positions'],
+  ],
+  setup: [
+    ['09:14:00','SYS','#333','$ polytragent connect --wallet 0x3f...a2'],
+    ['09:14:01','AUTH','#4a6080','Deriving API credentials from private key...'],
+    ['09:14:01','AUTH','#4a7c59','Credentials derived. Session: ptg_8f2a***'],
+    ['09:14:02','API','#4a7c59','Connected to Polymarket CLOB API ✓'],
+    ['09:14:02','CONF','#333','Loading config: strategy=balanced'],
+    ['09:14:02','RISK','#333','max_drawdown=10% max_pos=$100'],
+    ['09:14:03','CONF','#7c6a3a','Allocation: momentum 40% | MM 30% | copy 20% | arb 10%'],
+    ['09:14:03','INIT','#4a6080','Initializing signal engine...'],
+    ['09:14:04','NEWS','#4a7c59','Bloomberg, Reuters, AP — active ✓'],
+    ['09:14:04','CHAIN','#4a7c59','Polygon mainnet — active ✓'],
+    ['09:14:04','SOC','#4a7c59','X, Telegram — active ✓'],
+    ['09:14:05','WATCH','#7c6a3a','Smart wallets: 12 loaded — filtering...'],
+    ['09:14:05','FILT','#333','4 bot accounts removed'],
+    ['09:14:06','OK','#4a7c59','8 human traders confirmed ✓'],
+    ['09:14:06','MM','#7c6a3a','Market making: 3 markets configured'],
+    ['09:14:06','SYS','#4a7c59','All systems nominal.'],
+    ['09:14:07','SYS','#fff','$ Agent started. Monitoring 847 markets.'],
+    ['09:14:08','SIG','#4a6080','First signal in 4 seconds...'],
+    ['09:14:12','SIG','#7c6a3a','[BUY] "ECB holds March" — executing...'],
+    ['09:14:12','EXEC','#4a7c59','Filled in 0.4ms ✓ — position open'],
+    ['09:14:15','ALERT','#7c6a3a','Telegram alert sent: first trade'],
+    ['09:14:20','SCAN','#4a6080','Scanning 847 markets...'],
+    ['09:14:25','STAT','#4a7c59','Status: 1 position — $0.38 entry — monitoring'],
+    ['09:14:30','SIG','#7c6a3a','New signal detected — processing...'],
+  ],
+  cta: [
+    ['','$','#fff','polytragent connect --wallet 0x3f...a2'],
+    ['','SYS','#444','Deriving API credentials...'],
+    ['','SYS','#555','Credentials derived. Session: ptg_***'],
+    ['','API','#4a7c59','Connected to Polymarket CLOB API ✓'],
+    ['','CONF','#444','Loading strategy: balanced'],
+    ['','RISK','#444','max_drawdown=10% max_pos=$100'],
+    ['','INIT','#444','Initializing signal engine...'],
+    ['','NEWS','#555','Bloomberg, Reuters, AP — active'],
+    ['','CHAIN','#555','Polygon mainnet — active'],
+    ['','SOC','#555','X, Telegram — active'],
+    ['','WATCH','#444','Smart wallets: 12 loaded — filtering...'],
+    ['','FILT','#444','4 bot accounts removed'],
+    ['','OK','#4a7c59','8 human traders confirmed ✓'],
+    ['','MM','#555','Market making: 3 markets configured'],
+    ['','SYS','#666','All systems nominal.'],
+    ['','','#333',''],
+    ['','$','#fff','Agent started. Monitoring 847 markets.'],
+    ['','SIG','#444','First signal in 4 seconds...'],
+    ['','ORDER','#555','[BUY] "ECB holds March" — executing...'],
+    ['','EXEC','#6ee7b7','Filled in 0.4ms ✓ — position open'],
+  ],
+};
+
+// Terminal runner class — manages one terminal instance
+class TermRunner {
+  constructor(el, dataKey) {
+    this.el = el;
+    this.body = el.querySelector('.rt-body');
+    this.data = TERM_DATA[dataKey] || TERM_DATA.boot;
+    this.idx = 0;
+    this.timer = null;
+    this.running = false;
+    this.maxLines = 22;
+  }
+  start() {
+    if (this.running) return;
+    this.running = true;
+    this.idx = 0;
+    this.body.innerHTML = '';
+    this._addCursor();
+    this._tick();
+  }
+  stop() {
+    this.running = false;
+    if (this.timer) { clearTimeout(this.timer); this.timer = null; }
+  }
+  reset() {
+    this.stop();
+    this.start();
+  }
+  _addCursor() {
+    let cur = this.body.querySelector('.rt-cursor-line');
+    if (!cur) {
+      cur = document.createElement('div');
+      cur.className = 'rt-cursor-line';
+      cur.innerHTML = '<span class="rt-cursor"></span>';
+      cur.style.cssText = 'padding:3px 16px;';
+      this.body.appendChild(cur);
+    }
+  }
+  _tick() {
+    if (!this.running) return;
+    if (this.idx >= this.data.length) {
+      // Loop — restart after pause
+      this.timer = setTimeout(() => {
+        this.idx = 0;
+        this.body.innerHTML = '';
+        this._addCursor();
+        this._tick();
+      }, 2000);
+      return;
+    }
+    const [ts, tag, color, msg] = this.data[this.idx];
+    const line = document.createElement('div');
+    line.className = 'rt-line';
+    const tsHtml = ts ? `<span class="rt-ts">${ts}</span>` : '<span class="rt-ts"></span>';
+    const tagHtml = tag ? `<span class="rt-tag" style="color:${color}">[${tag}]</span>` : '<span class="rt-tag"></span>';
+    const msgColor = color === '#fff' || color === '#6ee7b7' ? color : '#555';
+    line.innerHTML = `${tsHtml}${tagHtml}<span class="rt-msg" style="color:${msgColor}">${msg}</span>`;
+    // Insert before cursor
+    const cursor = this.body.querySelector('.rt-cursor-line');
+    if (cursor) {
+      this.body.insertBefore(line, cursor);
+    } else {
+      this.body.appendChild(line);
+    }
+    // Remove old lines
+    const lines = this.body.querySelectorAll('.rt-line');
+    if (lines.length > this.maxLines) {
+      lines[0].remove();
+    }
+    // Auto scroll
+    this.body.scrollTop = this.body.scrollHeight;
+    this.idx++;
+    const delay = 120 + Math.random() * 180;
+    this.timer = setTimeout(() => this._tick(), delay);
+  }
+}
+
+// ============================================================
+// SCROLL-TRIGGERED TERMINAL SYSTEM
+// ============================================================
+const terminals = [];
+document.querySelectorAll('.run-term').forEach(el => {
+  const key = el.getAttribute('data-term');
+  const runner = new TermRunner(el, key);
+  terminals.push({ el, runner, wasVisible: false });
+});
+
+// IntersectionObserver: start on enter, reset on re-enter after leaving
+const termObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    const t = terminals.find(t => t.el === entry.target);
+    if (!t) return;
+    if (entry.isIntersecting) {
+      // Reset and replay every time it enters viewport
+      t.runner.reset();
+      t.wasVisible = true;
+    } else {
+      // Stop when out of view to save resources
+      if (t.wasVisible) {
+        t.runner.stop();
+        t.wasVisible = false;
+      }
+    }
+  });
+}, { threshold: 0.15 });
+
+terminals.forEach(t => termObserver.observe(t.el));
+
+// ============================================================
+// LIVE DATA MONITOR
+// ============================================================
+const MARKETS=[
+  {name:'ECB holds March',entry:'$0.38',current:'$0.52',pnl:'+36.8%',cls:'dm-pos'},
+  {name:'Trump 2026 midterms',entry:'$0.41',current:'$0.44',pnl:'+7.3%',cls:'dm-pos'},
+  {name:'BTC $100k EOY',entry:'$0.50',current:'$0.49',pnl:'-2.0%',cls:'dm-neg'},
+  {name:'Fed dovish June',entry:'$0.34',current:'$0.39',pnl:'+14.7%',cls:'dm-pos'},
+  {name:'Nvidia Q2 miss (NO)',entry:'$0.61',current:'$0.64',pnl:'+4.9%',cls:'dm-pos'},
+  {name:'Ukraine ceasefire Q2',entry:'$0.52',current:'$0.51',pnl:'-1.9%',cls:'dm-neg'},
+];
+const dmEl=document.getElementById('dm-rows');
+function buildMonitor(){
+  if(!dmEl)return;
+  MARKETS.forEach(m=>{
+    const row=document.createElement('div');row.className='dm-row';
+    row.innerHTML=`<span class="dm-market">${m.name}</span><span class="dm-neutral">${m.entry}</span><span class="dm-neutral">${m.current}</span><span class="${m.cls}">${m.pnl}</span>`;
+    dmEl.appendChild(row);
+  });
+}
+buildMonitor();
+setInterval(()=>{
+  if(!dmEl)return;
+  const rows=dmEl.querySelectorAll('.dm-row');
+  const idx=Math.floor(Math.random()*rows.length);
+  const row=rows[idx];if(!row)return;
+  const cells=row.children;
+  const delta=(Math.random()-.45)*0.03;
+  const base=parseFloat(cells[2].textContent.replace('$',''));
+  const np=Math.max(0.01,base+delta).toFixed(2);
+  const entry=parseFloat(cells[1].textContent.replace('$',''));
+  const pnl=((np-entry)/entry*100).toFixed(1);
+  cells[2].textContent='$'+np;
+  cells[3].textContent=(pnl>=0?'+':'')+pnl+'%';
+  cells[3].className=pnl>=0?'dm-pos':'dm-neg';
+  row.style.background='rgba(255,255,255,.02)';
+  setTimeout(()=>{row.style.background='';},300);
+},2000);
+
+// ============================================================
+// PIPELINE STEPPING
+// ============================================================
+(function(){
+  const nodes=document.querySelectorAll('.pipe-node');
+  let idx=0;
+  function step(){
+    nodes.forEach(n=>n.classList.remove('active'));
+    if(nodes[idx])nodes[idx].classList.add('active');
+    idx=(idx+1)%nodes.length;
+    setTimeout(step,1200);
+  }
+  step();
+})();
+
+// ============================================================
+// REVEAL ON SCROLL
+// ============================================================
+const obs=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});
+},{threshold:0.08});
+document.querySelectorAll('.rev2').forEach(el=>obs.observe(el));
+
+// ============================================================
+// SMOOTH SCROLL
+// ============================================================
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}
+  });
+});
+</script>
+</body>
+</html>
