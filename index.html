@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Polytragent","applicationCategory":"FinanceApplication","description":"AI-powered research agent for Polymarket prediction markets. Analyzes millions of data points to find edge and mispriced markets.","offers":{"@type":"AggregateOffer","lowPrice":"24.99","highPrice":"99","priceCurrency":"USD"}}
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Polytragent","applicationCategory":"FinanceApplication","description":"AI-powered research agent for Polymarket prediction markets. Analyzes millions of data points to find edge and mispriced markets.","offers":{"@type":"Offer","price":"99","priceCurrency":"USD","billingIncrement":"P1M","description":"Monthly subscription — full access"}}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What does Polytragent actually do?","acceptedAnswer":{"@type":"Answer","text":"Polytragent is an AI research agent. You send it a Polymarket event URL and it instantly analyzes all sub-markets, cross-references forecasters, checks its own past accuracy, and gives you an edge-scored recommendation — BUY YES, BUY NO, or HOLD."}},{"@type":"Question","name":"How many data sources does it use?","acceptedAnswer":{"@type":"Answer","text":"Millions. Every Polymarket sub-market (including expired ones for context), Manifold Markets forecasts, its own prediction history with win/loss tracking, news velocity data, and on-chain signals — all synthesized by Claude AI in seconds."}},{"@type":"Question","name":"Does it learn from its mistakes?","acceptedAnswer":{"@type":"Answer","text":"Yes. Every prediction is logged with the market price at that moment. A background resolver checks outcomes every 6 hours. The AI sees its full accuracy history — win rate, calibration biases, strong/weak topics — and adjusts future predictions accordingly."}}]}
@@ -161,20 +161,22 @@ h3{font-size:15px;font-weight:500;letter-spacing:-.3px;margin-bottom:6px;}
 .ph{max-width:460px;margin:0 auto 80px;text-align:center;}
 .ph h2{margin-bottom:16px;}
 .ph p{font-size:15px;color:var(--gray);font-weight:300;}
-.pg{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);max-width:960px;margin:0 auto;}
-.pc{background:#000;padding:44px 32px;position:relative;overflow:hidden;}
-.pc.feat{background:#080808;}
-.pc.feat::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);}
-.pbadge{font-family:var(--font-mono);font-size:9px;color:#000;background:#fff;display:inline-block;padding:3px 10px;letter-spacing:1px;text-transform:uppercase;margin-bottom:16px;}
+.pg{display:flex;justify-content:center;max-width:720px;margin:0 auto;}
+.pc{background:transparent;padding:0;position:relative;overflow:hidden;width:100%;}
+.pc.feat{background:transparent;}
+.pc.feat::before{display:none;}
+.pc-hz{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--border);max-width:720px;margin:0 auto;}
+.pc-hz-left{padding:56px 48px;display:flex;flex-direction:column;justify-content:center;border-right:1px solid var(--border);}
+.pc-hz-right{padding:56px 48px;display:flex;flex-direction:column;justify-content:center;}
+.pbadge{font-family:var(--font-mono);font-size:9px;color:#000;background:#fff;display:inline-block;padding:3px 10px;letter-spacing:1px;text-transform:uppercase;margin-bottom:16px;width:fit-content;}
 .pname{font-family:var(--font-mono);font-size:10px;color:var(--gray);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;}
-.pprice{font-size:48px;font-weight:600;letter-spacing:-2px;line-height:1;margin-bottom:4px;}
-.pper{font-size:12px;color:var(--gray);margin-bottom:6px;font-weight:300;}
-.panc{font-family:var(--font-mono);font-size:10px;color:var(--gray2);text-decoration:line-through;margin-bottom:32px;display:block;}
-.pf{list-style:none;margin-bottom:36px;}
-.pf li{font-size:13px;color:var(--gray);padding:9px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;font-weight:300;}
-.pf li:last-child{border-bottom:none;}
+.pprice{font-size:56px;font-weight:600;letter-spacing:-2px;line-height:1;margin-bottom:6px;}
+.pper{font-size:13px;color:var(--gray);margin-bottom:8px;font-weight:300;}
+.panc{font-family:var(--font-mono);font-size:10px;color:var(--gray);margin-bottom:32px;display:block;text-decoration:none;}
+.pf{list-style:none;margin-bottom:0;}
+.pf li{font-size:13px;color:var(--gray);padding:7px 0;display:flex;align-items:center;gap:10px;font-weight:300;}
 .pck{font-family:var(--font-mono);font-size:10px;color:#fff;}
-.pc-main{width:100%;padding:13px;background:#fff;color:#000;font-size:13px;font-weight:500;font-family:var(--font-sans);border:none;cursor:pointer;transition:opacity .15s;text-align:center;display:block;}
+.pc-main{width:100%;padding:14px;background:#fff;color:#000;font-size:14px;font-weight:500;font-family:var(--font-sans);border:none;cursor:pointer;transition:opacity .15s;text-align:center;display:block;margin-top:32px;}
 .pc-main:hover{opacity:.85;}
 .pc-sec{width:100%;padding:12px;background:transparent;color:#fff;font-size:13px;font-family:var(--font-sans);border:1px dashed var(--gray2);cursor:pointer;transition:border-color .15s;text-align:center;display:block;}
 .pc-sec:hover{border-color:#fff;}
@@ -223,6 +225,9 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
   nav{padding:0 20px;}
   .hero-left,.st,.sv,.fl2,.fr,.ctl,.ctr,.pricing-section{padding:60px 24px;}
   .pg{grid-template-columns:1fr;}
+  .pc-hz{grid-template-columns:1fr;}
+  .pc-hz-left{border-right:none;border-bottom:1px solid var(--border);padding:40px 24px;}
+  .pc-hz-right{padding:40px 24px;}
   .mg{grid-template-columns:1fr;}
   .hero-right{height:260px;}
   .nav-links{display:none;}
@@ -297,7 +302,7 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
     <li><a href="#faq">FAQ</a></li>
   </ul>
   <div class="nav-ctas">
-    <a href="#pricing" class="btn-outline">See plans</a>
+    <a href="#pricing" class="btn-outline">See pricing</a>
     <a href="https://t.me/bmpolybot" target="_blank" class="btn-solid">Get started →</a>
   </div>
 </nav>
@@ -325,7 +330,7 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
     <h1>The AI agent<br>that finds edge<br>on Polymarket<br>for you.</h1>
     <p class="hero-sub">Send a Polymarket link. Get instant AI research — every sub-market analyzed, cross-referenced with forecasters, scored against millions of data points. Spot the edge. Enter the trade. Profit.</p>
     <div class="hero-ctas">
-      <a href="https://t.me/bmpolybot" target="_blank" class="btn-sl">Start researching — $24.99/day →</a>
+      <a href="https://t.me/bmpolybot" target="_blank" class="btn-sl">Start researching — $99/mo →</a>
       <a href="#how-it-works" class="btn-ol">See how it works</a>
     </div>
     <div class="hero-stats">
@@ -501,15 +506,19 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
 <section class="pricing-section" id="pricing">
   <div class="ph rev2">
     <div class="snum" style="text-align:center;margin-bottom:12px;">06 — Pricing</div>
-    <h2>Try today.<br>Own monthly.</h2>
-    <p>Day Pass to test the edge. Monthly for serious researchers. No lock-in.</p>
+    <h2>One plan.<br>Full access.</h2>
+    <p>Everything you need to find edge on Polymarket. No tiers, no limits.</p>
   </div>
-  <div class="pg">
-    <div class="pc rev2">
-      <div class="pname">Day Pass</div>
-      <div class="pprice">$24<span style="font-size:26px;font-weight:400;">.99</span></div>
-      <div class="pper">per day · no commitment</div>
-      <span class="panc">Billed daily · cancel any time</span>
+  <div class="pc-hz rev2">
+    <div class="pc-hz-left">
+      <div class="pbadge">Full access</div>
+      <div class="pname">Monthly</div>
+      <div class="pprice">$99</div>
+      <div class="pper">per month · cancel any time</div>
+      <span class="panc">Unlimited research · all features included</span>
+      <a href="https://t.me/bmpolybot" target="_blank" class="pc-main">Start now — $99/mo →</a>
+    </div>
+    <div class="pc-hz-right">
       <ul class="pf">
         <li><span class="pck">✓</span> Unlimited /research queries</li>
         <li><span class="pck">✓</span> Full AI analysis with edge scores</li>
@@ -517,39 +526,12 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
         <li><span class="pck">✓</span> Prediction tracking</li>
         <li><span class="pck">✓</span> Telegram delivery</li>
         <li><span class="pck">✓</span> Direct trade links</li>
-      </ul>
-      <a href="https://t.me/bmpolybot" target="_blank" class="pc-sec">Buy Day Pass →</a>
-    </div>
-    <div class="pc feat rev2">
-      <div class="pbadge">Best value — save 67%</div>
-      <div class="pname">Monthly</div>
-      <div class="pprice">$99</div>
-      <div class="pper">per month · cancel any time</div>
-      <span class="panc">vs $749/mo at daily rate</span>
-      <ul class="pf">
-        <li><span class="pck">✓</span> Everything in Day Pass</li>
         <li><span class="pck">✓</span> Full accuracy dashboard</li>
         <li><span class="pck">✓</span> Calibration bias reports</li>
         <li><span class="pck">✓</span> Topic-level win rates</li>
         <li><span class="pck">✓</span> Historical P&L tracking</li>
         <li><span class="pck">✓</span> Priority AI processing</li>
       </ul>
-      <a href="https://t.me/bmpolybot" target="_blank" class="pc-main">Start monthly — $99 →</a>
-    </div>
-    <div class="pc rev2">
-      <div class="pname">Institutional</div>
-      <div class="pprice" style="font-size:34px;letter-spacing:-1px;">Custom</div>
-      <div class="pper">volume pricing available</div>
-      <span class="panc" style="visibility:hidden;">placeholder</span>
-      <ul class="pf">
-        <li><span class="pck">✓</span> Everything in Monthly</li>
-        <li><span class="pck">✓</span> API access</li>
-        <li><span class="pck">✓</span> Custom research pipelines</li>
-        <li><span class="pck">✓</span> White-label options</li>
-        <li><span class="pck">✓</span> Dedicated support</li>
-        <li><span class="pck">✓</span> SLA guarantee</li>
-      </ul>
-      <a href="https://t.me/bmpolybot" target="_blank" class="pc-sec">Contact sales →</a>
     </div>
   </div>
 </section>
