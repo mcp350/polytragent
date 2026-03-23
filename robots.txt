@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.polytragent.com/sitemap.xml
+Sitemap: https://polytragent.com/sitemap.xml
