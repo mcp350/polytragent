@@ -55,9 +55,9 @@
 ## CTA (40–50 seconds)
 **[Face to camera, direct eye contact]**
 
-> "It's 99 bucks a month, full access, no tiers, no BS. If you're trading on Polymarket without this, you're flying blind. Link in bio — polytragent.com. Go try it before this blows up."
+> "It's 79.99 bucks a month, full access, no tiers, no BS. If you're trading on Polymarket without this, you're flying blind. Link in bio — polytragent.com. Go try it before this blows up."
 
-*[Text overlay: "$99/mo — full access → polytragent.com"]*
+*[Text overlay: "$79.99/mo — full access → polytragent.com"]*
 
 ---
 
@@ -75,7 +75,7 @@
 - **Thumbnail**: Split screen — confused face looking at Polymarket vs. confident face with Polytragent results
 - **Caption**: "Found a Polymarket bot that does AI research in 10 seconds... the edge scores are insane 🤯 #polymarket #crypto #trading #ai #prediction"
 - **Hashtags**: #polymarket #crypto #trading #predictionmarket #ai #tradingbot #cryptotok #polymarketbot
-- **Pin comment**: "Link to the bot is in my bio — polytragent.com. $99/mo, no free tier, but worth every penny if you're actually trading."
+- **Pin comment**: "Link to the bot is in my bio — polytragent.com. $79.99/mo, no free tier, but worth every penny if you're actually trading."
 
 ---
 
