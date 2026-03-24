@@ -3,6 +3,13 @@
   "outputDirectory": ".",
   "cleanUrls": true,
   "trailingSlash": false,
+  "rewrites": [
+    { "source": "/resources/profit-calculator", "destination": "/resources/profit-calculator.html" },
+    { "source": "/resources/:slug", "destination": "/resources/:slug.html" },
+    { "source": "/compare/:slug", "destination": "/compare/:slug.html" },
+    { "source": "/features/:slug", "destination": "/features/:slug.html" },
+    { "source": "/blog/:slug", "destination": "/blog/:slug.html" }
+  ],
   "redirects": [
     {
       "source": "/:path*",
