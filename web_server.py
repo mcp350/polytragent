@@ -1,69 +1,50 @@
 import os
-import base64
-import mimetypes
+from datetime import timedelta
 from pathlib import Path
-from flask import Flask, send_file, send_from_directory, abort, request, Response
 
-app = Flask(__name__, static_folder=None)
+from flask import Flask, abort, send_file
+
+from models import db
 
 BASE_DIR = Path(__file__).parent
 
-# Admin Basic Auth credentials — set via environment variables on Railway
-ADMIN_USER = os.environ.get("ADMIN_USER", "admin")
-ADMIN_PASS = os.environ.get("ADMIN_PASS", "changeme")
+app = Flask(__name__, static_folder=None, template_folder=str(BASE_DIR / "templates"))
+
+# ── Database ──────────────────────────────────────────────────────────────────
+database_url = os.environ.get("DATABASE_URL", f"sqlite:///{BASE_DIR}/polytragent.db")
+# Railway Postgres URLs start with postgres:// — SQLAlchemy needs postgresql://
+if database_url.startswith("postgres://"):
+    database_url = database_url.replace("postgres://", "postgresql://", 1)
+
+app.config["SQLALCHEMY_DATABASE_URI"] = database_url
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "polytragent-admin-secret-change-me")
+app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(days=30)
+
+db.init_app(app)
 
 
-def check_basic_auth():
-    auth = request.headers.get("Authorization", "")
-    if not auth.startswith("Basic "):
-        return False
-    try:
-        decoded = base64.b64decode(auth[6:]).decode("utf-8")
-        username, password = decoded.split(":", 1)
-        return username == ADMIN_USER and password == ADMIN_PASS
-    except Exception:
-        return False
+@app.context_processor
+def inject_now():
+    from datetime import datetime
+    return {"now": datetime.utcnow()}
 
 
-def require_basic_auth():
-    return Response(
-        "Unauthorized",
-        401,
-        {"WWW-Authenticate": 'Basic realm="Admin"'},
-    )
+# ── Admin blueprint ───────────────────────────────────────────────────────────
+from admin_routes import admin_bp  # noqa: E402
 
+app.register_blueprint(admin_bp)
+
+# ── Create tables on startup ──────────────────────────────────────────────────
+with app.app_context():
+    db.create_all()
+
+
+# ── Marketing site routes ─────────────────────────────────────────────────────
 
 @app.route("/")
 def index():
     return send_file(BASE_DIR / "index.html")
-
-
-@app.route("/admin")
-@app.route("/admin/")
-def admin():
-    if not check_basic_auth():
-        return require_basic_auth()
-    # Admin dashboard placeholder — extend as needed
-    return Response(
-        """<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Polytragent Admin</title>
-  <style>
-    body { background: #0a0a0a; color: #6ee7b7; font-family: 'JetBrains Mono', monospace; padding: 40px; }
-    h1 { font-size: 1.5rem; margin-bottom: 1rem; }
-    p { color: #888; }
-  </style>
-</head>
-<body>
-  <h1>$ polytragent admin</h1>
-  <p>Dashboard loaded successfully.</p>
-</body>
-</html>""",
-        200,
-        {"Content-Type": "text/html"},
-    )
 
 
 @app.route("/features")
@@ -74,7 +55,6 @@ def features_index():
 
 @app.route("/features/<path:filename>")
 def features_file(filename):
-    # Support clean URLs: /features/edge-detection -> features/edge-detection.html
     filepath = BASE_DIR / "features" / filename
     if filepath.is_file():
         return send_file(filepath)
@@ -155,7 +135,6 @@ def static_files(filename):
     filepath = BASE_DIR / filename
     if filepath.is_file():
         return send_file(filepath)
-    # Try appending .html for clean URLs
     html_path = BASE_DIR / (filename + ".html")
     if html_path.is_file():
         return send_file(html_path)
