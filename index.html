@@ -199,8 +199,16 @@ h3{font-size:15px;font-weight:500;letter-spacing:-.3px;margin-bottom:6px;}
 .pck{font-family:var(--font-mono);font-size:10px;color:#fff;}
 .pc-main{width:100%;padding:14px;background:#fff;color:#000;font-size:14px;font-weight:500;font-family:var(--font-sans);border:none;cursor:pointer;transition:opacity .15s;text-align:center;display:block;margin-top:32px;}
 .pc-main:hover{opacity:.85;}
+.pc-main:disabled{opacity:.5;cursor:not-allowed;}
+.pc-free{width:100%;padding:14px;background:transparent;color:#fff;font-size:14px;font-weight:500;font-family:var(--font-sans);border:1px solid var(--border);cursor:pointer;transition:border-color .15s;text-align:center;display:block;margin-top:32px;text-decoration:none;}
+.pc-free:hover{border-color:#fff;}
 .pc-sec{width:100%;padding:12px;background:transparent;color:#fff;font-size:13px;font-family:var(--font-sans);border:1px dashed var(--gray2);cursor:pointer;transition:border-color .15s;text-align:center;display:block;}
 .pc-sec:hover{border-color:#fff;}
+/* Two-column pricing cards */
+.pc-two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:860px;margin:0 auto;}
+.pc-card{border:1px solid var(--border);padding:48px 40px;display:flex;flex-direction:column;}
+.pc-card-featured{border-color:rgba(255,255,255,.35);position:relative;}
+.pc-card-featured::before{content:'MOST POPULAR';font-family:var(--font-mono);font-size:9px;letter-spacing:1.5px;color:#000;background:#fff;padding:3px 10px;position:absolute;top:-1px;right:24px;}
 
 .faq-section{border-top:1px solid var(--border);display:grid;grid-template-columns:44% 56%;position:relative;z-index:1;}
 .fl2{padding:100px 48px;border-right:1px solid var(--border);display:flex;flex-direction:column;justify-content:flex-start;}
@@ -249,6 +257,8 @@ footer{border-top:1px solid var(--border);padding:28px 48px;display:flex;align-i
   .pc-hz{grid-template-columns:1fr;}
   .pc-hz-left{border-right:none;border-bottom:1px solid var(--border);padding:40px 24px;}
   .pc-hz-right{padding:40px 24px;}
+  .pc-two-col{grid-template-columns:1fr;}
+  .pc-card{padding:36px 24px;}
   .mg{grid-template-columns:1fr;}
   .hero-right{height:260px;}
   .nav-links{display:none;}
@@ -348,6 +358,7 @@ input[type="range"]:active::-webkit-slider-thumb{background:var(--green);cursor:
   .tc{width:300px;padding:22px 24px;}
 }
 </style>
+<script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
 
@@ -656,20 +667,39 @@ input[type="range"]:active::-webkit-slider-thumb{background:var(--green);cursor:
 <section class="pricing-section" id="pricing">
   <div class="ph rev2">
     <div class="snum" style="text-align:center;margin-bottom:12px;">06 — Pricing</div>
-    <h2>One plan.<br>Full access.</h2>
-    <p>Everything you need to find edge on Polymarket. No tiers, no limits.</p>
+    <h2>Start free.<br>Go Degen.</h2>
+    <p>Free for up to 20 wallets. Upgrade to Degen Mode for unlimited access.</p>
   </div>
-  <div class="pc-hz rev2">
-    <div class="pc-hz-left">
-      <div class="pbadge">Full access</div>
+  <div class="pc-two-col rev2">
+    <!-- Free tier -->
+    <div class="pc-card">
+      <div class="pbadge" style="background:rgba(255,255,255,.07);color:#aaa;border-color:rgba(255,255,255,.12);">Free</div>
+      <div class="pname">Starter</div>
+      <div class="pprice">$0</div>
+      <div class="pper">forever · no credit card</div>
+      <span class="panc">Up to 20 wallets tracked</span>
+      <a href="https://t.me/bmpolybot" target="_blank" class="pc-free">Start free on Telegram →</a>
+      <ul class="pf" style="margin-top:24px;">
+        <li><span class="pck">✓</span> Up to 20 wallets</li>
+        <li><span class="pck">✓</span> /research queries</li>
+        <li><span class="pck">✓</span> AI edge scores</li>
+        <li><span class="pck">✓</span> Prediction tracking</li>
+        <li><span class="pck">✓</span> Telegram delivery</li>
+        <li style="color:#555;"><span style="margin-right:8px;">✕</span> Unlimited wallets</li>
+        <li style="color:#555;"><span style="margin-right:8px;">✕</span> Priority AI processing</li>
+        <li style="color:#555;"><span style="margin-right:8px;">✕</span> Calibration bias reports</li>
+      </ul>
+    </div>
+    <!-- Degen Mode -->
+    <div class="pc-card pc-card-featured">
+      <div class="pbadge">Degen Mode</div>
       <div class="pname">Monthly</div>
       <div class="pprice">$79.99</div>
       <div class="pper">per month · cancel any time</div>
-      <span class="panc">Unlimited research · all features included</span>
-      <a href="https://t.me/bmpolybot" target="_blank" class="pc-main">Start now — $79.99/mo →</a>
-    </div>
-    <div class="pc-hz-right">
-      <ul class="pf">
+      <span class="panc">Unlimited wallets · all features</span>
+      <button onclick="startCheckout()" class="pc-main" id="degenBtn">Go Degen — $79.99/mo →</button>
+      <ul class="pf" style="margin-top:24px;">
+        <li><span class="pck">✓</span> <strong>Unlimited</strong> wallets</li>
         <li><span class="pck">✓</span> Unlimited /research queries</li>
         <li><span class="pck">✓</span> Full AI analysis with edge scores</li>
         <li><span class="pck">✓</span> Manifold cross-reference</li>
@@ -833,6 +863,27 @@ input[type="range"]:active::-webkit-slider-thumb{background:var(--green);cursor:
 </div>
 
 <script>
+// ============================================================
+// STRIPE CHECKOUT
+// ============================================================
+async function startCheckout() {
+  const btn = document.getElementById('degenBtn');
+  if (btn) { btn.disabled = true; btn.textContent = 'Redirecting…'; }
+  try {
+    const res = await fetch('/create-checkout-session', { method: 'POST', headers: { 'Content-Type': 'application/json' } });
+    const data = await res.json();
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      alert(data.error || 'Could not start checkout. Please try again.');
+      if (btn) { btn.disabled = false; btn.textContent = 'Go Degen — $79.99/mo →'; }
+    }
+  } catch (e) {
+    alert('Could not connect to checkout. Please try again.');
+    if (btn) { btn.disabled = false; btn.textContent = 'Go Degen — $79.99/mo →'; }
+  }
+}
+
 // ============================================================
 // GRID CANVAS
 // ============================================================

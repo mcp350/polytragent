@@ -19,6 +19,9 @@ class User(db.Model):
     subscription_end = db.Column(db.DateTime, nullable=True)
     monthly_price = db.Column(db.Float, default=79.99, nullable=False)
     notes = db.Column(db.Text, nullable=True)
+    stripe_customer_id = db.Column(db.String(64), nullable=True, unique=True)
+    stripe_subscription_id = db.Column(db.String(64), nullable=True)
+    stripe_subscription_status = db.Column(db.String(32), nullable=True)  # active, canceled, past_due, etc.
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     last_seen_at = db.Column(db.DateTime, nullable=True)
 
