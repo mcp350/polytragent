@@ -4,29 +4,51 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/resources/profit-calculator", "destination": "/resources/profit-calculator.html" },
-    { "source": "/resources/:slug", "destination": "/resources/:slug.html" },
-    { "source": "/compare/:slug", "destination": "/compare/:slug.html" },
-    { "source": "/features/:slug", "destination": "/features/:slug.html" },
-    { "source": "/blog/:slug", "destination": "/blog/:slug.html" }
-  ],
-  "redirects": [
     {
-      "source": "/:path*",
-      "has": [{ "type": "host", "value": "www.polytragent.com" }],
-      "destination": "https://polytragent.com/:path*",
-      "permanent": true
+      "source": "/resources/profit-calculator",
+      "destination": "/resources/profit-calculator.html"
+    },
+    {
+      "source": "/resources/:slug",
+      "destination": "/resources/:slug.html"
+    },
+    {
+      "source": "/compare/:slug",
+      "destination": "/compare/:slug.html"
+    },
+    {
+      "source": "/features/:slug",
+      "destination": "/features/:slug.html"
+    },
+    {
+      "source": "/blog/:slug",
+      "destination": "/blog/:slug.html"
     }
   ],
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "DENY" },
-        { "key": "X-XSS-Protection", "value": "1; mode=block" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "Cache-Control", "value": "public, max-age=3600, s-maxage=86400" }
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, s-maxage=86400"
+        }
       ]
     }
   ]
