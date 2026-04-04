@@ -1348,5 +1348,40 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
   cCalc();
 })();
 </script>
+
+<!-- Google Ads Conversion Tracking for Polytragent -->
+<script>
+(function() {
+  'use strict';
+  document.addEventListener('click', function(e) {
+    var link = e.target.closest('a[href*="t.me/bmpolybot"]');
+    if (link) {
+      if (typeof gtag === 'function') {
+        gtag('event', 'conversion', {
+          'send_to': 'AW-18059020402/tQePCKn1q5QcEPKQm6ND',
+          'value': 1.0,
+          'currency': 'EUR'
+        });
+      }
+      console.log('[Polytragent] Conversion event fired: Free tier CTA click');
+    }
+  });
+  var originalStartCheckout = window.startCheckout;
+  if (typeof originalStartCheckout === 'function') {
+    window.startCheckout = function() {
+      if (typeof gtag === 'function') {
+        gtag('event', 'conversion', {
+          'send_to': 'AW-18059020402/tQePCKn1q5QcEPKQm6ND',
+          'value': 79.99,
+          'currency': 'EUR'
+        });
+      }
+      console.log('[Polytragent] Conversion event fired: Paid checkout click');
+      return originalStartCheckout.apply(this, arguments);
+    };
+  }
+  console.log('[Polytragent] Google Ads conversion tracking initialized');
+})();
+</script>
 </body>
 </html>
